@@ -10,7 +10,7 @@ from app.main.forms import EditProfileForm, PostForm, \
 from app.models import User, Post
 from app.translate import translate
 from app.main import bp
-from app.main.helpers import generate_word_search, word_search_handler, path_exists, \
+from app.main.helpers import path_exists, \
     random_edges, build_graph
 
 @bp.before_app_request

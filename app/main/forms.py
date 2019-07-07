@@ -4,11 +4,8 @@ from wtforms import StringField, SubmitField, TextAreaField, BooleanField, Integ
 from wtforms.validators import ValidationError, DataRequired, Length
 from flask_babel import _, lazy_gettext as _l
 from app.models import User
-import boto3
-from markupsafe import Markup
+//from markupsafe import Markup
 
-dynamodb = boto3.resource("dynamodb")
-rhyme_table = dynamodb.Table("Rhyme")
 
 class EditProfileForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
