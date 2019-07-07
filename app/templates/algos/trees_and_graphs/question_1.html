@@ -1,0 +1,183 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Path Existance
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to find whether there exists a path between two nodes in a graph
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>This algorithm can be used to check whether or not two people are connected in
+    a social network. <br><br>
+        For example, in the undirected graph below, edges represent whether two
+        people (represented by different colors) know each other. Select two people to check if
+        they know people in common or not.</p>
+
+
+<canvas id="canvas" width="500" height="200" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<p><a href="{{url_for('main.algos_trees_and_graphs', q_num=1)}}">Refresh graph</a></p>
+
+<form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{form.p1.label}}
+        {{form.p1}}
+        <br>
+        {{form.p2.label}}
+        {{form.p2}}
+        <br>
+        {% for error in form.p1.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+        {{form.submit}}
+        <span style="display:none">{{form.curr_graph(value=edges)}}</span>
+
+</form>
+
+{%if path_bool != -1%}
+{%if path_bool%}
+<p style="color:green">The selected people are friends</p>
+{%else%}
+<p style="color:red">They are not friends</p>
+{%endif%}
+{%endif%}
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>We perform a Breadth First Search (BFS) in the graph starting at one of the given nodes
+    and stop either when the other node is found, returning <span class="code">True</span>.
+    Or when the BFS is completed, returning <span class="code">False</span> if the other node
+    was not found.</p>
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> This is the base case. If the end node is the same
+as the start node, the path is trivial. We return <span class="code">True</span>.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/4b4ce103c71e1241d1278966c3e6e6e3.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Now we perform a slightly modified version of BFS. The only difference is that
+    for each node we visit, we check if we reach our destination node. If so, we return <span class="code">True</span> to
+    indicate a path was found. If you need help understanding BFS, please visit <a href="#">here</a>.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/ca26e5a3ec6ba4ceb19ea04f6310a57e.js"></script>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    <p>The time complexity for this code is <span class="code">O(n)</span>, where <span class="code">
+        n</span> is the number of nodes in graph. The space complexity is <span class="code">O(1)</span>.</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/21ecba52e7a587e9eb6098c41c1fdad4.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+    //dimensions of canvas 500 by 200
+
+    var c = document.getElementById("canvas");
+    var ctx = c.getContext("2d");
+
+
+    var edges = {{edges_vec}}
+
+
+    var c = 0
+
+    //1-2, 2-3, 3-4
+    for (var i = 1; i < 4; i ++){
+
+        if (edges[c] == 1){
+            ctx.beginPath();
+            ctx.moveTo((i*1.8 + i)*41, 41);
+            ctx.lineTo(((i+1)*1.8 + (i-1))*41, 41);
+            ctx.stroke();
+        }
+        c ++;
+    }
+
+    //5-6, 6-7, 7-8
+    for (var i = 1; i < 4; i ++){
+        if (edges[c] == 1){
+            ctx.beginPath();
+            ctx.moveTo((i*1.8 + i)*41, 3.8*41);
+            ctx.lineTo(((i+1)*1.8 + (i-1))*41, 3.8*41);
+            ctx.stroke();
+        }
+        c ++;
+    }
+
+    //1-5, 2-6, 3-7, 4-8
+    for (var i = 1; i < 5; i ++){
+        if (edges[c] == 1){
+            ctx.beginPath();
+            ctx.moveTo((i*1.8 + i - 1)*41, 2*41);
+            ctx.lineTo((i*1.8 + i - 1)*41, 2.8*41);
+            ctx.stroke();
+        }
+        c ++;
+    }
+
+    //diagonals 1-6,  2-7, 3-8
+    for (var i = 1; i < 4; i ++){
+        if (edges[c] == 1){
+            ctx.beginPath();
+            ctx.moveTo((i*1.8 + 0.9 + i - 1)*41, (2 -0.707)*41);
+            ctx.lineTo(((i + 1)*1.8 -0.9 + (i+1) - 1)*41, (2.8 + 0.707)*41);
+            ctx.stroke();
+        }
+        c++;
+    }
+
+    var names = ['Angela', 'Joao', 'Elvira', 'Ringo', 'Pedro',
+    'Carol', 'Sofia', 'Jude']
+    //upper row of nodes
+    for (var i = 1; i < 5; i ++){
+        ctx.beginPath();
+        var offset = (i-1) + 1.8*i
+        ctx.font = "20px Georgia";
+        ctx.fillText(names[i-1],(offset-0.6)*41 , 41 + 5);
+        ctx.arc(offset*41, 41, 40, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+
+    //lower row of nodes
+    for (var i = 1; i < 5; i ++){
+        ctx.beginPath();
+        var offset = (i-1) + 1.8*i
+        ctx.font = "20px Georgia";
+        ctx.fillText(names[i+3],(offset-0.6)*41 , 3.8*41 + 5);
+        ctx.arc(offset*41, 3.8*41, 40, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+
+    </script>
+
+
+{%endblock%}

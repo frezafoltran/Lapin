@@ -1,0 +1,295 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Binary Search Tree from Array
+{%endblock%}
+
+{%block question_explanation%}
+    Given a sorted array, write an algorithm to produce a balanced Binary Search Tree (BST).
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>A cool application of this algorithm is to generate random balanced BST. For this, it suffices to produce a random ordered
+array and then apply the algorithm below to produce the BST. You can test this below.</p>
+<br>
+
+<button onclick="newTree()" id="new_tree_button">Get new Random Tree</button>
+<br><br>
+
+<!-- 2 layers -->
+<canvas id="canvas_2" width="200" height="150" style="display:none;"></canvas>
+
+<!-- 3 layers -->
+<canvas id="canvas_3" width="500" height="200" style="display:none;"></canvas>
+
+<!-- 4 layers -->
+<canvas id="canvas_4" width="700" height="250" style="display:none;"></canvas>
+
+{%endblock%}
+
+{%block code_intuition%}
+ <p>Consider the array <span class="code">[1,2,3]</span>. The only possible balanced BST from it is:
+    <span class="code">root: 2</span>, <span class="code">root.left: 1</span> and <span class="code">root.right: 3</span>.
+    Notice that we picked the middle element to be the root, the element in the first half to be the left
+    sub-tree and the ones in the second half to be the right subtree. The algorithm below applies this idea recursively.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We define a recursive function that takes as inputs the
+    <span class="code">start</span> and <span class="code">end</span> of the subarray we are looking at. </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/b2502f15e85adc2304737dc3f9f6b21d.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> The recursive step consists of identifying the middle point of the current
+subarray. We create a new parent node with this data, then recurse through the left and right subarrays to add child nodes.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/3662f771b8c8333df1df2e2f6cbd7e18.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> The base case for the recursion is when the subarray
+is empty (i.e. <span class="code">start</span> > <span class="code">end</span>).</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/cafd2ba46d60849c63b31b286717ba8c.js"></script>
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+<p>This code has time complexity O(n), where n is the length of the array. Space complexity if O(1).</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/27eac3207d50c774019f06babf819968.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        var c2 = document.getElementById("canvas_2");
+        var c3 = document.getElementById("canvas_3");
+        var c4 = document.getElementById("canvas_4");
+
+        const ctx2 = c2.getContext('2d');
+        const ctx3 = c3.getContext('2d');
+        const ctx4 = c4.getContext('2d');
+
+
+        var Node = function (data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+
+        //get tree from array
+        function getMinTreeHelper(array, start, end){
+
+            if (start > end){
+              return null;
+            }
+
+            var mid = Math.floor((end + start) / 2);
+
+            var newNode = new Node(array[mid]);
+
+            newNode.left = getMinTreeHelper (array, start, mid - 1);
+            newNode.right = getMinTreeHelper (array, mid + 1, end);
+
+            return newNode
+          }
+
+          function getMinTree (array){
+            return getMinTreeHelper(array, 0, array.length - 1);
+          }
+
+        //get linked list at each level of BST
+          function createLevelLinkedListHelper(root, lists, level){
+
+            if (!root){
+              return;
+            }
+
+            var list;
+            if (lists.length == level){
+              list = [];
+              lists.push (list);
+            }
+            else{
+              list = lists[level];
+            }
+
+            list.push (root);
+            createLevelLinkedListHelper(root.left, lists, level + 1);
+            createLevelLinkedListHelper(root.right, lists, level + 1);
+          }
+
+          function createLevelLinkedList(root){
+            var lists = [];
+            createLevelLinkedListHelper(root, lists, 0);
+            return lists;
+          }
+
+        function getRandArray(){
+
+            var posSizes = [3, 7, 15];
+            var size = posSizes[Math.floor(Math.random() * 3)];
+            var out = [];
+            for (var i = 0; i < size; i ++){
+                var min = out.length > 0 ? out[i-1] : 1;
+                var max = min + 10;
+                var currVal = Math.floor(Math.random() * (max - min)) + min;
+                out.push(currVal);
+            }
+
+            return out;
+        }
+
+
+        function getXPos(numNodes, middle){
+
+            //var middle = c.width/2;
+            if (numNodes == 1){
+
+                return [middle];
+            }
+
+            var out = [];
+            var middles = [];
+
+            for (var i = 0; i < numNodes/2; i ++){
+
+                var coeff = (2*i+1)/(numNodes/2)
+                middles.push(coeff * middle);
+            }
+
+            for (var k = 0; k < middles.length; k ++){
+
+                    var offSet = middles[0]/Math.pow(2, (1));
+                    out.push(middles[k] - offSet);
+                    out.push(middles[k] + offSet);
+                }
+
+            return out;
+
+        }
+
+        function createCanvas(len, levelLists){
+
+            //case of 2 layers
+            if (len <= 3){
+                var c = c2;
+                var numLayers = 2;
+            }
+            else if (len > 3 && len <= 7){
+                var c = c3;
+                var numLayers = 3;
+            }
+
+            else if (len > 7 && len <= 15){
+                var c = c4;
+                var numLayers = 4;
+            }
+
+            c.style.display = 'inline';
+            var ctx = c.getContext("2d");
+
+            var rad = 30;
+            var maxHorNodes = Math.floor(c.width/(2*rad));
+            var xPos = [];
+            var count = rad;
+
+            for (var i = 0; i < maxHorNodes; i ++){
+                xPos.push(count);
+                count += 2 * rad;
+            }
+
+
+            //delete some elements of last layer
+            var temp = [];
+            for (var i = 0; i < levelLists[numLayers-1].length; i ++){
+                var coin = Math.random();
+                if (coin <= 0.3){
+                    temp.push(0);
+                }
+                else{
+                    temp.push(1);
+                }
+            }
+
+            for (var i = numLayers-1; i >= 0; i --){
+
+                var yOffset = (2 * i + 1)*(rad + 1);
+                var numNodes = Math.pow(2, i);
+
+                var currXPos = getXPos(numNodes, c.width/2);
+
+                for (var j = 0; j < numNodes; j ++){
+
+                    if ( i == (numLayers - 1)){
+
+                        if (temp[j] == 1){
+                            ctx.beginPath();
+                            ctx.font = "20px Georgia";
+                            ctx.fillText(levelLists[i][j].data, currXPos[j] - 5, yOffset + 5);
+                            ctx.arc(currXPos[j], yOffset, rad, 0, 2 * Math.PI);
+                            ctx.stroke();
+                        }
+                        continue;
+                    }
+                    ctx.beginPath();
+                    ctx.font = "20px Georgia";
+                    ctx.fillText(levelLists[i][j].data, currXPos[j] - 5, yOffset + 5);
+                    ctx.arc(currXPos[j], yOffset, rad, 0, 2 * Math.PI);
+                    ctx.stroke();
+
+
+                }
+            }
+
+        }
+
+        function newTree(){
+            var array = getRandArray();
+
+            //clear existing canvas
+            c2.style.display = 'none';
+            c3.style.display = 'none';
+            c4.style.display = 'none';
+
+            ctx2.clearRect(0, 0, c2.width, c2.height);
+            ctx3.clearRect(0, 0, c3.width, c3.height);
+            ctx4.clearRect(0, 0, c4.width, c4.height);
+
+            var root = getMinTree(array);
+            var levelLists = createLevelLinkedList(root);
+
+            createCanvas(array.length, levelLists);
+
+        }
+
+        newTree();
+
+
+    </script>
+
+{%endblock%}

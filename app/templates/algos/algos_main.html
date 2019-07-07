@@ -1,0 +1,50 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-offset-3">
+                <h2>Topics<br></h2>
+
+                <h4><a href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}"> Arrays and Strings<img
+                        style="width:100px; height:50px;" src="{{ url_for('static', filename='images/array.png') }}">
+                </a></h4>
+
+                <h4><a href = "{{ url_for('main.algos_linked_lists', q_num=0) }}"> LinkedLists<img
+                        style="width:100px; height:50px;" src="{{ url_for('static', filename='images/linked_list.png') }}"></a></h4>
+
+                <h4><a href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}"> Stacks and Queues<img
+                        style="width:50px; height:100px;" src="{{ url_for('static', filename='images/stack.png') }}">
+                </a></h4>
+
+                <h4><a href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}"> Trees and Graphs<img
+                        style="width:120px; height:100px;" src="{{ url_for('static', filename='images/binary_tree.png') }}"></a></h4>
+
+                <h4><a href = "{{ url_for('main.algos_math', q_num=0) }}"> Math<img
+                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+
+                <h4><a href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}"> Object Oriented Design<img
+                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    </script>
+{%endblock%}

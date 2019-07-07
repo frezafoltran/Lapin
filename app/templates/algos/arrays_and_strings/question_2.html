@@ -1,0 +1,331 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Check Permutation
+{%endblock%}
+
+{%block question_explanation%}
+    Given two strings, write a method to decide if one is a permutation of the other.
+{%endblock%}
+
+{%block question_source%}
+    Source of question: Cracking the Coding Interview
+{%endblock%}
+
+{%block code_application%}
+    <p>This algorithm can be used to create a version of the <span>word search</span> game.
+
+            <br>
+
+            <table id="table" align="center"></table>
+
+            <br>
+            <button onclick="refresh()" id="refresh">Refresh</button>
+
+            <br><br>
+            <form>
+              Word to search:<br>
+              <input type="text" name="word" id="word_input">
+                <br>
+                <input type="button" value="Search" onclick="permInMatrix()"/>
+            </form>
+
+            <p id="result"></p>
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Note that if two strings have different sizes, they cannot possibly be permutations of one another.
+            In that case, return <span class="code">false</span>.</p>
+            <section>
+                <div class="code-lines">
+                    <script src="https://gist.github.com/frezafoltran/a41cdc1a5a71c704c11e238fb5eb69b0.js"></script>
+                </div>
+            </section>
+
+            <p><span class="step">Step 2</span> Now we assume the strings are
+                encoded using <span class="code">ASCII</span>. This means that we have at most 128 distinct characters.
+                We then count the number of occurrences of each character in the first word.</p>
+            <section>
+                <div class="code-lines">
+                    <script src="https://gist.github.com/frezafoltran/69e8c7024a5e57f0d1981bedc2721187.js"></script>
+                </div>
+            </section>
+
+            <p><span class="note">Note: </span> If we wished to use another encoding, such as <span class="code">UTF-8
+            </span>, the reasoning above would apply, though we would need more space allocated in the
+                array to account for the larger number of characters in UTF-8 encoding. </p>
+
+            <p><span class="step">Step 3</span> We then iterate through the second word and decrement the number of occurences of
+            each character from the <span class="code">counter</span> array. If the count becomes negative, the second word has
+            more of a given character than the first word. Thus we return <span>false</span>.</p>
+
+            <section>
+                <div class="code-lines">
+                    <script src="https://gist.github.com/frezafoltran/4ded8efa843f9a5a710013e7213eb356.js"></script>
+                </div>
+            </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/803596a8e4735732d48e1c4ce76cf671.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+<script>
+
+  var charac = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'y', 'z', 'w', 'm', 'n'];
+  var fixedWordRows = [0,1,2,3,4,5,6,7];
+  var words = [['p', 'o', 't', 'a', 't', 'o'], ['m', 'o', 'n', 'k', 'e', 'y'], ['c', 'r', 'a', 'z', 'y']];
+  var rowLen = 8;
+  var numRows = 6;
+
+  var zeros = [0, 0, 0, 0, 0, 0, 0, 0];
+  var curMat = [];
+  var resMat = [];
+
+  function fillWordRow (word){
+    var random = Math.floor(Math.random() * (rowLen - word.length));
+    var out = []
+    var index = 0;
+
+    for (var i = 0; i < rowLen; i ++){
+
+        if (i >= random && i < (random + word.length)){
+            out.push(word[index++]);
+        }
+        else{
+            var j = Math.floor(Math.random() * (charac.length));
+            out.push(charac[j]);
+        }
+    }
+    return out;
+  }
+
+  function shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
+  }
+
+  function addCell(tr, val) {
+    var td = document.createElement('td');
+
+    td.innerHTML = val;
+    td.style.padding = "5px";
+
+    tr.appendChild(td)
+  }
+
+
+  function addRow(tbl, vals) {
+    var tr = document.createElement('tr');
+
+    for (var i = 0; i < vals.length; i ++){
+        addCell(tr, vals[i]);
+    }
+
+    tbl.appendChild(tr)
+  }
+
+  function addCellFound(tr, val, mark) {
+    var td = document.createElement('td');
+
+    td.innerHTML = val;
+    td.style.padding = "5px";
+
+    if (mark){
+        td.style.color = "red";
+    }
+    else{
+        td.style.color = "black";
+    }
+
+    tr.appendChild(td)
+  }
+
+
+  function addRowFound(tbl, vals, flags) {
+    var tr = document.createElement('tr');
+
+    for (var i = 0; i < vals.length; i ++){
+        addCellFound(tr, vals[i], flags[i]);
+    }
+
+    tbl.appendChild(tr)
+  }
+
+  function refresh() {
+    tbl = document.getElementById('table');
+
+    //clear current content
+    tbl.innerHTML = '';
+    curMat = [];
+
+    shuffle(fixedWordRows);
+    var temp = fixedWordRows.slice(0,words.length);
+    var counter = 0;
+
+    for (var k = 0; k < numRows; k ++){
+
+        resMat.push(zeros);
+        if (temp.includes(k)){
+            shuffle(words[counter]);
+            var newRow = fillWordRow(words[counter++]);
+            addRow(tbl, newRow);
+            curMat.push(newRow);
+        }
+        else{
+            shuffle(charac);
+            addRow(tbl, charac.slice(0,rowLen));
+            curMat.push(charac.slice(0,rowLen));
+        }
+    }
+  }
+
+  function isPerm(word, wordArray){
+
+    //convert wordArray to string
+    s = '';
+    for (var i = 0; i < wordArray.length; i ++){
+        s += wordArray[i];
+    }
+
+    var counter = new Array(128).fill(0);
+    var currLetter;
+
+    for (var i = 0; i < s.length; i ++){
+
+        currLetter = s[i].charCodeAt(0) - 'A'.charCodeAt(0);
+        counter[currLetter] ++;
+   }
+
+    for (var i = 0; i < s.length; i ++){
+
+        currLetter = word[i].charCodeAt(0) - 'A'.charCodeAt(0);
+        counter[currLetter] --;
+
+        if (counter[currLetter] < 0){
+            return false;
+        }
+    }
+    return true;
+
+  }
+
+
+   function updateMat(){
+        tbl = document.getElementById('table');
+
+        //clear current content
+        tbl.innerHTML = '';
+
+        for (var k = 0; k < numRows; k ++){
+            addRowFound(tbl, curMat[k], resMat[k]);
+        }
+    }
+
+    function permInMatrix(){
+
+        var res = document.getElementById('result');
+
+        if (permInMatrixHelper()){
+            res.innerHTML = 'Found';
+            res.style.color = 'green';
+            updateMat();
+        }
+        else{
+            res.innerHTML = 'Not Found';
+            res.style.color = 'red';
+        }
+    }
+
+    function getRes(i, j, jPlus, vert){
+
+        var out = [];
+
+        for (var g = 0; g < numRows; g ++){
+
+            var temp = [];
+            for (var f = 0; f < rowLen; f ++){
+
+                if (vert){
+                    if (f == i && g >= j && g < jPlus){
+                        temp.push(1)
+                    }
+                    else{
+                        temp.push(0);
+                    }
+
+                }
+                else{
+                    if (g == i && f >= j && f < jPlus){
+                        temp.push(1)
+                    }
+                    else{
+                        temp.push(0);
+                    }
+                }
+            }
+            out.push(temp);
+        }
+
+        return out;
+    }
+
+    function permInMatrixHelper(){
+            var word = document.getElementById("word_input").value;
+
+            if (word.length > rowLen){
+                return false;
+            }
+
+            //check horizontaly
+            for (var i = 0; i < numRows; i ++){
+                for (var j = 0; j < (rowLen - word.length + 1); j ++){
+
+                    if (isPerm(word, curMat[i].slice(j, j + word.length))){
+
+                        resMat = getRes(i, j, j + word.length, false);
+                        return true;
+                    }
+                }
+            }
+
+            //check vertically
+            for (var i = 0; i < rowLen; i ++){
+                for (var j = 0; j < (numRows - word.length + 1); j ++){
+
+                    var temp = [];
+                    for (var k = j; k < j + word.length; k ++){
+                        temp.push (curMat[k][i]);
+                    }
+
+                    if (isPerm(word, temp)){
+
+                        resMat = getRes(i, j, j + word.length, true);
+
+                        return true;
+                    }
+                }
+            }
+            return false;
+
+        }
+
+  refresh();
+
+
+  </script>
+
+
+{%endblock%}

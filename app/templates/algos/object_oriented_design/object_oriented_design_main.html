@@ -1,0 +1,44 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+        <h2>Learn about object oriented design.</h2>
+
+        <h3><a href = "{{ url_for('main.algos_object_oriented_design', q_num = 0) }}">
+        TODO</a></h3>
+        <h4>TODO</h4>
+
+        <h3><a href = "{{ url_for('main.algos_object_oriented_design', q_num = 0) }}">
+        TODO</a></h3>
+        <h4>TODO</h4>
+
+        <h3><a href = "{{ url_for('main.algos_object_oriented_design', q_num = 0) }}">
+        TODO</a></h3>
+        <h4>TODO</h4>
+
+        <h3><a href = "{{ url_for('main.algos_object_oriented_design', q_num = 0) }}">
+        TODO</a></h3>
+        <h4>TODO</h4>
+
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}

@@ -1,0 +1,181 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    List of Primes
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm that produces all prime numbers is a given range.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can test an efficient way of retrieving all primes within a given range.
+    The algorithm producing these results is explained below.</p>
+
+    <br>
+
+    <form>
+      <p>From
+      <input id="from_range" type="text" value="0" style="width:50px;">
+          </p>
+        <p>To
+        <input id="to_range" type="text" value="100" style="width:50px;"/>
+        </p>
+
+        <input type="button" value="Get Primes!" onclick="getPrimes()">
+        <input type="button" value="Clear all" onclick="clearPrimes()">
+
+    </form>
+    <br>
+    <span>Primes:</span>
+    <p class="" id="tempo"></p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+
+    <p>The key is to realize that any non-prime number is divisible by a prime
+    numbers. We start at the lowest prime number in the range and eliminate all number
+    that are divisible by it. Then we apply the same reasoning with the next number that
+    was not marked as non-prime.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <p>TODO</p>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/e0d8c5cf31ba011a8263a8d3da72c9f5.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        var tempo = document.getElementById('tempo');
+
+        function displayPrimes(flags, min){
+
+            tempo.innerHTML = '';
+
+            //find index of last prime
+            for (var i = flags.length; i >= 0; i --){
+                if (flags[i]){
+                    var lastPrimeIndex = i;
+                    break;
+                }
+            }
+
+            for (var i = 0; i < flags.length; i ++){
+
+                if (flags[i]){
+
+                    var spanElem = document.createElement("span");
+                    spanElem.style.fontWeight = 'bold';
+
+                    if (i == lastPrimeIndex){
+                        tempo.appendChild(spanElem).appendChild(
+                        document.createTextNode((i + min) + '.'));
+                    }
+                    else{
+                        tempo.appendChild(spanElem).appendChild(
+                        document.createTextNode((i + min) + ', '));
+                    }
+                }
+            }
+
+        }
+
+
+        function crossOff(flags, prime){
+
+            for (var i = prime * prime; i < flags.length; i += prime){
+                flags[i] = false;
+            }
+        }
+
+        function getNextPrime(flags, prime){
+
+            var next = prime + 1;
+            while (next < flags.length && !flags[next]){
+                next ++;
+            }
+            return next;
+        }
+
+        function init(flags){
+
+            flags[0] = false;
+            flags[1] = false;
+            for (var i = 2; i < flags.length; i ++){
+                flags[i] = true
+            }
+        }
+
+        //sieveOfEratosthenes method
+        function getPrimes(){
+
+            var max = parseInt(document.getElementById('to_range').value, 10);
+            var min = parseInt(document.getElementById('from_range').value, 10);
+
+            if (max < min){
+                tempo.innerHTML = '';
+                var errorMsg = document.createElement("p");
+                errorMsg.style.color = 'red';
+                tempo.appendChild(errorMsg).appendChild(
+                        document.createTextNode('Invalid Range'));
+                return;
+            }
+
+            var flags = new Array(max+1);
+            var count = 0;
+
+            init(flags);
+            var prime = 2;
+
+            while (prime <= Math.sqrt(max)){
+
+                crossOff(flags, prime);
+                prime = getNextPrime (flags, prime);
+            }
+
+            displayPrimes(flags.slice(min, max+1), min);
+
+            //return flags;
+        }
+
+        function clearPrimes(){
+            tempo.innerHTML = '';
+        }
+
+        getPrimes();
+
+
+
+    </script>
+
+
+{%endblock%}

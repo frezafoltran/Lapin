@@ -1,0 +1,79 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Best Game Option
+{%endblock%}
+
+{%block question_explanation%}
+
+    You are given a soccer ball and two options of games to play. In the first option, you are given one
+    opportunity to kick a penalty to score a point. In the second option, you are given three opportunities to
+    kick a penalty, but must score twice to score a point.
+
+    <br>If <span class="code">p</span> is the probability
+    that you score each goal, for each values of <span class="code">p</span> should you choose
+    option <span class="code">1</span> or <span class="code">2</span>?
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>TODO</p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+
+    <p>To make a decision, we first calculate the probability of winning a point in each game based on <span class="code">p</span>.
+
+        <br>For the first option, the probability of winning a point is given in the question
+        and equals to <span class="code">p</span>.
+
+        <br>For the second option, the probability of winning a point equals the probability that you score
+        <span class="code">2</span> goals added to probability you score
+        <span class="code">3</span> goals. That is, it equals to <span class="code">p^3 + (1-p)*p*p*3 = -2*p^3 + 3*p^2</span>.
+
+        <br>We wish to find the values of <span class="code">p</span> for which <span class="code">-2*p^3 + 3*p^2 > p</span>.
+        Or <span class="code">-2*p^3 + 3*p^2 - p > 0</span>. Assuming <span class="code">p != 0</span>, that is equivalent to:
+        <span class="code">-2*p^2 + 3*p - 1 > 0</span>. This has roots at <span class="code">p = 1, 1/2</span>. Thus, for any
+        value of <span class="code">1 > p > 1/2</span>, the second option is the best option. Else, the first option is best.
+
+    </p>
+{%endblock%}
+
+{%block code_digest%}
+    <p>This is a math question with no coding.</p>
+{%endblock%}
+
+{%block code_complexity%}
+    <p>This is a math question with no coding.</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <p>This is a math question with no coding.</p>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

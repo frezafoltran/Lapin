@@ -1,0 +1,73 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    URL Converter
+{%endblock%}
+
+{%block question_explanation%}
+    Given a string stored in array, convert the white spaces in string to "<span style="font-weight:bold;
+            font-style:italic">%20</span>"<br><br>
+
+    <span style="color:rgb(0,0,0); font-style:italic;">Assumptions:</span>
+            Assume you are given the number of non-white space characters in string. Also assume the string has
+            enough white spaces to add all needed "<span style="font-weight:bold;font-style:italic">%20</span>".
+{%endblock%}
+
+{%block question_source%}
+    Source of question: Cracking the Coding Interview
+{%endblock%}
+
+{%block code_application%}
+
+            <p>This can be used to construct a search query for a given website. Type a string below to get a
+            search query for <span class="code">google.com</span></p>
+            <p><span class="note">Note:</span> Some websites also use the '+' to encode spaces. Google accepts both encodings.</p>
+
+            <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    {{form.word(size=16)}}
+                    <br>
+                    {% for error in form.word.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    {{form.submit}}
+
+            </form>
+{%endblock%}
+
+{%block code_digest%}
+<h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Code Digest</h3>
+
+            <p><span class="step">Step 1</span> We calculate the number of spaces in the string that actually has content.</p>
+            <section>
+                <div class="code-lines">
+                    <script src="https://gist.github.com/frezafoltran/bd112266192ac97a357c794de8ef67f9.js"></script>
+                </div>
+            </section>
+
+            <p><span class="step">Step 2</span> Then</p>
+            <section>
+                <div class="code-lines">
+                    <script src="https://gist.github.com/frezafoltran/ce35a3b4a78ad34c646d3680f260a48c.js"></script>
+                </div>
+            </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/40c7b0fb3d387e6fd740679eddf1632a.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+
+{%endblock%}

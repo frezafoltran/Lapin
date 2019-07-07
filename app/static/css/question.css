@@ -1,0 +1,28 @@
+.code {
+color:rgb(169,169,169);
+font-style:italic;
+}
+
+.step {
+color:rgb(204,204,0);
+}
+
+.note {
+color:rgb(255,102,102);
+}
+
+.code-lines{
+width:60%;
+margin:0 auto;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 5px;
+  color: #fff;
+  line-height: 50px;
+  text-align: center;
+  background: #000
+}

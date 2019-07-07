@@ -1,0 +1,48 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+        <h2>Learn about stacks and queues.</h2>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 1) }}">
+        Three in One (TODO)</a></h3>
+        <h4>Use a single array to implement three stacks</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 2) }}">
+        Stack Minimum</a></h3>
+        <h4>Retrieve the minimum element of stack in O(1) time</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 3) }}">
+        Split Stacks</a></h3>
+        <h4>Handle multiple stacks as a single stack</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 4) }}">
+        Queue via stacks (TODO)</a></h3>
+        <h4>Implement queue structure with two stacks</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 5) }}">
+        Sort Stack (TODO)</a></h3>
+        <h4>Sort a stack by using only one additional stack <br> as data structure.</h4>
+
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}

@@ -1,0 +1,44 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+        <h2>Learn about arrays and strings.</h2>
+
+        <h3><a href = "{{ url_for('main.algos_arrays_and_strings', q_num = 1) }}">
+        Unique Characters (TODO)</a></h3>
+        <h4>Check is a string does not contain repetitive characters</h4>
+
+        <h3><a href = "{{ url_for('main.algos_arrays_and_strings', q_num = 2) }}">
+        Check Permutation</a></h3>
+        <h4>Check is two strings are permutation of one another</h4>
+
+        <h3><a href = "{{ url_for('main.algos_arrays_and_strings', q_num = 3) }}">
+        URL Converter (TODO)</a></h3>
+        <h4>Convert a string to its URL form</h4>
+
+        <h3><a href = "{{ url_for('main.algos_arrays_and_strings', q_num = 4) }}">
+        Palindrome Permutation (TODO)</a></h3>
+        <h4>Given a string, check if it is the permutation of a palindrome</h4>
+
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}

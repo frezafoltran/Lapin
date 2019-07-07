@@ -1,0 +1,291 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Queue via stacks
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to produce the behaviour of a queue by using two stacks
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Queues are useful in situations where tasks need to be executed at a First in First out (FIFO)
+    order. For example, consider a queue that stores the songs to be played sequentially.
+    </p>
+
+    <br>
+    <div class="container row">
+
+            <figure class="col-sm-2 col-sm-offset-1">
+                <a onclick="addSong('Taxman')" style="margin:5px;cursor:pointer;">
+                <img src="{{url_for('static', filename='images/revolver_album.jpg')}}" style="width:70px;height:70px;">
+                <figcaption>Taxman</figcaption></a>
+            </figure>
+
+            <figure class="col-sm-2">
+                <a onclick="addSong('Helter Skelter')" style="margin:5px;cursor:pointer;">
+                <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+                    <figcaption>Helter Skelter</figcaption>
+                </a>
+            </figure>
+
+            <figure class="col-sm-2">
+                <a onclick="addSong('Revolution')" style="margin:5px;cursor:pointer;">
+                <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+                <figcaption>Revolution</figcaption></a>
+            </figure>
+
+            <figure class="col-sm-2">
+                <a onclick="addSong('Yellow Submarine')" style="margin:5px;cursor:pointer;">
+                <img src="{{url_for('static', filename='images/revolver_album.jpg')}}" style="width:70px;height:70px;">
+                <figcaption> Yellow Submarine</figcaption>
+                    </a>
+            </figure>
+
+
+            <figure class="col-sm-2">
+                <a onclick="addSong('Glass Onion')" style="margin:5px;cursor:pointer;">
+                <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+                    <figcaption>Glass Onion</figcaption>
+                </a>
+            </figure>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h4>Old Stack</h4>
+
+        </div>
+
+        <div class="col-md-4">
+
+
+        </div>
+
+
+        <div class="col-md-4">
+            <h4>New Stack</h4>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="left_stack" class="col-md-4">
+        </div>
+
+        <div style="display:none;" id="current" class="col-md-4">
+            <img src="{{url_for('static', filename='images/spinning_vynil.gif')}}" style="width:70px;height:70px;">
+            <figcaption id="current_name"></figcaption>
+
+        </div>
+
+
+        <div id="right_stack" class="col-md-4">
+        </div>
+    </div>
+
+    <br>
+
+    <button onclick="playNext()">Go to next song</button>
+    <button onclick="clearAll()">Clear all</button>
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>One stack stores the elements in inverse order for correct extraction.
+ The second stack only contains elements after .add and before .remove or .peek are called, ???
+  for efficiency.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <p>TODO</p>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/bfa5332b2e969c170dee2d96a8e77c29.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        // ============================ Stack structure
+      var Stack = function (){
+         this.top = null;
+         this.size = 0;
+      }
+
+      var Node = function (data){
+        this.data = data;
+        this.previous = null;
+      }
+
+      Stack.prototype.push = function (data){
+        var node = new Node (data);
+
+        node.previous = this.top;
+        this.top = node;
+        this.size ++;
+
+        return this.top;
+      }
+
+      Stack.prototype.pop = function (){
+
+        var popped = this.top;
+        if (popped){
+          this.top = this.top.previous;
+        }
+        this.size --;
+
+        return popped;
+      }
+
+      Stack.prototype.peek = function (){
+        return this.top;
+      }
+
+      Stack.prototype.isEmpty = function (){
+        return (this.top == null);
+      }
+
+      //============================================================ Queue
+
+        var Queue = function (){
+            this.oldStack = new Stack ();
+            this.newStack = new Stack ();
+          }
+
+        Queue.prototype.add = function (value){
+           this.newStack.push(value);
+        }
+
+          Queue.prototype.size = function (){
+            return this.oldStack.size + this.newStack.size;
+          }
+
+          Queue.prototype.sync = function (){
+
+            if (this.oldStack.isEmpty()){
+
+              while(!this.newStack.isEmpty()){
+                this.oldStack.push(this.newStack.pop().data);
+              }
+            }
+          }
+
+          Queue.prototype.peek = function (){
+            this.sync();
+            return this.oldStack.peek();
+          }
+
+          Queue.prototype.remove = function (){
+            this.sync();
+            return this.oldStack.pop();
+          }
+
+        var songQueue = new Queue();
+        var curr_div = document.getElementById('current');
+        var curr_name = document.getElementById('current_name');
+
+        function updateStackDisplay(oldStack, newStack){
+
+            var leftStack = document.getElementById('left_stack');
+            var rightStack = document.getElementById('right_stack');
+
+            var curr_left = oldStack.top;
+            var curr_right = newStack.top;
+
+            if (!curr_left && !curr_right){
+                curr_div.style.display='none';
+            }
+
+            leftStack.innerHTML = '';
+            rightStack.innerHTML = '';
+            var curr = true;
+
+            while (curr_left){
+
+                if (curr){
+
+                    curr_name.innerHTML = curr_left.data;
+                    curr_div.style.display = 'inline';
+
+                    curr_left = curr_left.previous;
+                    curr = false;
+                    continue;
+                }
+                leftStack.appendChild(document.createElement("span")).appendChild(
+                document.createTextNode(curr_left.data));
+                leftStack.appendChild(document.createElement("br"))
+                curr_left = curr_left.previous;
+            }
+
+            curr = oldStack.top ? false : true;
+
+            while (curr_right){
+
+                if (curr && curr_right.previous == null){
+
+                    curr_name.innerHTML = curr_right.data;
+                    curr_div.style.display = 'inline';
+
+                    curr_right = curr_right.previous;
+                    curr = false;
+                    continue;
+                }
+
+                rightStack.appendChild(document.createElement("span")).appendChild(
+                document.createTextNode(curr_right.data));
+                rightStack.appendChild(document.createElement("br"))
+                curr_right = curr_right.previous;
+            }
+
+
+          }
+
+        function addSong(songName){
+
+          songQueue.add(songName);
+          updateStackDisplay(songQueue.oldStack, songQueue.newStack);
+        }
+
+        function playNext(){
+            var temp = songQueue.remove();
+            updateStackDisplay(songQueue.oldStack, songQueue.newStack);
+        }
+
+        function clearAll(){
+            songQueue = new Queue();
+            document.getElementById('left_stack').innerHTML = '';
+            document.getElementById('right_stack').innerHTML = '';
+        }
+
+    </script>
+
+
+{%endblock%}

@@ -1,0 +1,55 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Sort Stack
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to sort a stack by using no data structure other than
+    an additional stack.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>TODO</p>
+{%endblock%}
+
+{%block code_intuition%}
+
+    <p>Store top of stack in temp. Continuously pop top from sortedStack and push it to
+        stack until value is smaller then temp. push temp into sortedStack.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <p>TODO</p>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/cfb00d0172e266aed4ef670ae7093570.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+
+{%endblock%}

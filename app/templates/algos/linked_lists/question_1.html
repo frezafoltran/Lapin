@@ -1,0 +1,60 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Remove Duplicates
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to remove all duplicate values from a linked list using O(1) space.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Imagine the nodes in a linked list represent ...</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> The idea is to use
+two pointers to sweep the elements of the linked list.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/7240448c1b1c38855792fefafef5aa3a.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> The <span class="code">slower</span> pointer stays staionary while the
+<span class="code">runner</span> pointer sweeps the rest of the linked list. If the value referenced
+by the <span class="code">runner</span> equals that referenced by the <span class="code">slower</span>,
+we delete that element. </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/ba12edc67c379ee822fc38259a6ea6c5.js"></script>
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>The time complexity is O(n*n) as we need to iterate through entire linked list with both pointers.
+    The space complexity is O(1).</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/b7f089c72a801426b2cae86ac5a8b04c.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+
+{%endblock%}

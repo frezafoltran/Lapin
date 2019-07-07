@@ -1,0 +1,30 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+
+<section>
+    <h3 style="font-family:sans-serif; text-align:center; margin:30px;">Algos below</h3>
+    <div style="width:40%; margin:0 auto;">
+        <script
+                src="https://gist.github.com/frezafoltran/c1cd356af32f080fda4bab6d5931966b.js">
+        </script>
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}

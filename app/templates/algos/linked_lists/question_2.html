@@ -1,0 +1,70 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    k-th to last element
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to return the k-th to last element in linked list
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>TODO</p>
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to recursively reach the last node of the linked list, then keep
+a counter while we move back to the beginning of the list, stopping when the
+    desired index is achieved.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We reach the end of the list by recursively
+calling a helper function with the next node. Our base case is the end of the list,
+in which case, we return <span class="code">0</span>. Below,
+    <span class="code">idx</span> keeps track of how far from the end of the list we are.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/72c14c2a2f3ad7657f5f6f0f543a4435.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 1</span> Since <span class="code">idx</span> is initialized to zero
+    (see the <a style="cursor:pointer;" onclick="goToFullCode();">full code</a>), we increment it at each
+    recursive call to keep track of how far we are from the end of linked list. When <span class="code">idx</span>
+    reaches <span class="code">k</span>, we return the current node and pass it along the stack.
+
+</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e33d795ad70fa2981ff45e8b5157afe0.js"></script>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+<p>The time complexity is O(n), where n is length of the linked list. The space complexity
+is O(1).</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/7a0ea4e6cf4ceb22bab837f55d070c80.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+
+{%endblock%}

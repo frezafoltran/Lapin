@@ -1,0 +1,43 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+        <h2>Learn about math questions.</h2>
+
+        <h3><a href = "{{ url_for('main.algos_math', q_num = 1) }}">
+        Generating Primes</a></h3>
+        <h4>Efficiently generate all prime numbers within a given range.</h4>
+
+        <h3><a href = "{{ url_for('main.algos_math', q_num = 2) }}">
+        Heaviest Box</a></h3>
+        <h4>Identify the heaviest of 10 candy boxes by <br>
+        using a balance only once.</h4>
+
+        <h3><a href = "{{ url_for('main.algos_math', q_num = 3) }}">
+        Penalty Kicks</a></h3>
+        <h4>Find the best option to gain a point in a penalty kick game.</h4>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}

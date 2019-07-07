@@ -1,0 +1,186 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Stack Minimum
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to find the minimum element in a stack in O(1)
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>An interesting application of stacks is to keep track of changes in a document,
+    while allowing the user to undo these changes. By implementing a method to retrieve the
+        minimum element in a stack we can efficiently keep track of information of the tasks
+        user performed.<br><br>
+
+        For example, a task could be adding numbers to an existing number. Below, elements in the stack
+        are the numbers added at each step. You can test the undo function while keeping track of the current minimum.
+    </p>
+
+<br>
+<select id="add_select">
+    {%for i in range(1,10)%}
+        <option value={{i}}>{{i}}</option>
+    {%endfor%}
+</select>
+<br>
+<button onclick="delLast()" id="undo_last">Undo last addition</button>
+<button onclick="add()" id="add">Add</button>
+
+<p><span class="code">Stack: </span>
+<span id="stack"></span>
+</p>
+
+<p><span class="code">Stack of minimums: </span>
+<span id="min_stack"></span>
+</p>
+
+<p><span class="code">Sum: </span>
+<span id="stack_sum"></span>
+</p>
+
+{%endblock%}
+
+{%block code_intuition%}
+
+<p>The idea is to keep a stack of minimum elements. We update the min stack
+  whenever the element added to the main stack is smaller than current minimum.
+  when popping an element, if element popped is the current minimum we also pop
+  that from the min stack.</p>
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <p>TODO</p>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/b7f089c72a801426b2cae86ac5a8b04c.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+<script>
+
+    var stack = document.getElementById("stack");
+    var stack_sum = document.getElementById("stack_sum");
+    var min_stack = document.getElementById("min_stack");
+    var stackVals = [];
+    var minStackVals = [];
+    var curr_sum = 0;
+
+
+    function stack_min(){
+
+        if (minStackVals.length == 0){
+            return (10);
+        }
+        return (minStackVals[minStackVals.length - 1]);
+    }
+
+    function add(){
+
+        var selector = document.getElementById("add_select");
+
+        var valToAdd = selector[selector.selectedIndex].text;
+
+        stackVals.push(valToAdd);
+        stack.appendChild(document.createElement("span")).appendChild(
+            document.createTextNode(valToAdd + ' - '));
+
+        curr_sum += parseInt(valToAdd, 10);
+        stack_sum.innerHTML = curr_sum;
+
+        //possibly add element to minStack
+        if (parseInt(valToAdd, 10) <= stack_min()){
+
+            minStackVals.push(parseInt(valToAdd));
+            min_stack.appendChild(document.createElement("span")).appendChild(
+            document.createTextNode(valToAdd + ' - '));
+        }
+    }
+
+    function delMin(){
+            var stack = document.getElementById("stack");
+
+        }
+
+    function delLast(){
+
+        if (stackVals.length > 0){
+            var toDel = stackVals[stackVals.length-1];
+            curr_sum -= toDel;
+        }
+        else{
+           curr_sum = null;
+        }
+
+        if (stackVals.length > 2){
+            stackVals = stackVals.slice(0, stackVals.length - 1);
+        }
+        else if (stackVals.length == 2){
+            stackVals = [stackVals[0]]
+        }
+        else{
+            stackVals = []
+        }
+
+        var newStack = ''
+        for (var i = 0; i < stackVals.length; i ++){
+          newStack += stackVals[i].toString() + ' - ';
+        }
+        stack.innerHTML = newStack;
+        stack_sum.innerHTML = curr_sum;
+
+        //possibly delete from stackMin
+        if (toDel == stack_min()){
+            if (minStackVals.length > 2){
+            minStackVals = minStackVals.slice(0, minStackVals.length - 1);
+            }
+            else if (minStackVals.length == 2){
+                minStackVals = [minStackVals[0]]
+            }
+            else{
+                minStackVals = []
+            }
+
+            var newMinStack = ''
+            for (var i = 0; i < minStackVals.length; i ++){
+                newMinStack += minStackVals[i].toString() + ' - ';
+            }
+            min_stack.innerHTML = newMinStack;
+        }
+
+    }
+
+
+
+
+
+</script>
+
+
+{%endblock%}

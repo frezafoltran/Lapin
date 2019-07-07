@@ -1,0 +1,108 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Heaviest Candy Box
+{%endblock%}
+
+{%block question_explanation%}
+    You are given 10 candy boxes. 9 of them contain candies each with weight <span class="code">x</span>.
+    One of them has contains candies each with weight <span>x + 1</span>. You are given a scale. Write an algorithm to
+    find out which candy box is the heaviest using the scale only once. Assume that each candy box has at least 10 candies.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>TODO</p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+
+    <p>TODO</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <p>TODO</p>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+    TODO
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/e0d8c5cf31ba011a8263a8d3da72c9f5.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        function init (boxes){
+
+            var heavyBoxIndex = Math.floor (Math.random() * boxes.length);
+
+            var x = 1;
+            var xArray = [];
+            var xPlusArray = [];
+
+            for (var i = 0; i < boxes.length; i ++){
+
+                xArray.push(x);
+                xPlusArray.push(x + 1);
+            }
+
+            for (var i = 0; i < boxes.length; i ++){
+                if (i == heavyBoxIndex){
+                    boxes[i] = xPlusArray;
+                    continue;
+                }
+                boxes[i] = xArray;
+            }
+
+        }
+
+        function findHeavyBox(){
+
+            //generate random array of bottle weights. Our goal is to find the index of
+            // heaviest bottle
+            var boxes = Array(10);
+            init(boxes);
+
+            var toWeight = 0;
+            var totalWeight = (10 * 11)/2;
+
+            for (var i = 0; i < boxes.length; i ++){
+
+                toWeight += (i+1) * boxes[i][0];
+            }
+
+            window.alert(boxes[heavyBoxIndex-1]);
+
+        }
+
+        findHeavyBox();
+
+
+
+    </script>
+
+
+{%endblock%}

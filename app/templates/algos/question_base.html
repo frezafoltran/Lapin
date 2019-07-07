@@ -1,0 +1,104 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/question.css') }}">
+    </head>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-offset-2">
+
+            <!-- QUESTION STATEMENT -->
+            <h2><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point.png')}}">
+            {%block question_name%} {%endblock%}
+            </h2>
+
+            <h3 style="color:rgb(169,169,169)">
+                {%block question_explanation%}{%endblock%}
+            </h3>
+
+            <h5 style="color:rgb(0,0,0)">{%block question_source%}{%endblock%}</h5>
+            <hr style="border-color:rgb(150,150,150);">
+
+            <!-- APPLICATION -->
+            <h3 id="app"><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Application</h3>
+            {%block code_application%}{%endblock%}
+
+            <!-- QUICK INTUITION -->
+            <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Intuition of Code</h3>
+            {%block code_intuition%}{%endblock%}
+
+            <!-- CODE DIGEST -->
+            <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Code Digest</h3>
+            {%block code_digest%}{%endblock%}
+
+
+
+            <!-- COMPLEXITY -->
+            <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Time and Space Complexity</h3>
+            <p>{%block code_complexity%}{%endblock%}</p>
+
+
+            <!-- FULL CODE -->
+            <p class="full-code">Click <a style="cursor:pointer" onclick=toggleFullCode();>here</a> to see the full code</p>
+            <p class="full-code" style="display:none;">Click <a style="cursor:pointer" onclick=toggleFullCode();>here</a>
+                to hide the full code</p>
+
+            <section id="f_code" class="full-code" style="display:none;">
+                <div class="code-lines">
+                    {%block full_code_gist%}{%endblock%}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+        function toggleFullCode() {
+
+          var x = document.getElementsByClassName("full-code");
+          for (var i = 0; i < x.length; i ++){
+              if (x[i].style.display === "none") {
+                x[i].style.display = "block";
+                if (i == 2){
+                    document.getElementById('f_code').scrollIntoView();
+                }
+              } else {
+                x[i].style.display = "none";
+              }
+          }
+
+        }
+
+        function goToFullCode(){
+            var x = document.getElementsByClassName("full-code");
+            for (var i = 0; i < x.length; i ++){
+              if (x[i].style.display === "none") {
+                x[i].style.display = "block";
+              } else {
+              }
+          }
+          x[0].style.display = "none";
+          document.getElementById('f_code').scrollIntoView();
+
+        }
+
+    {%if anchored%}
+    var app = document.getElementById("app");
+    app.scrollIntoView();
+    {%endif%}
+    </script>
+
+{%endblock%}

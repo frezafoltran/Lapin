@@ -1,0 +1,44 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+    <head>
+
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+    </head>
+
+<div class="row">
+    <div class="col-lg-6 col-md-offset-3">
+        <h2>Learn about trees and graphs.</h2>
+
+        <h3><a href = "{{ url_for('main.algos_trees_and_graphs', q_num = 1) }}">
+        Path Existance (TODO)</a></h3>
+        <h4>Find whether there is a path between two nodes of a graph</h4>
+
+        <h3><a href = "{{ url_for('main.algos_trees_and_graphs', q_num = 2) }}">
+        Balanced BST from array</a></h3>
+        <h4>Produce a balanced Binary Search Tree given a sorted array.</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 3) }}">
+        ---</a></h3>
+        <h4>---</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 4) }}">
+        ---</a></h3>
+        <h4>---</h4>
+
+
+    </div>
+</div>
+
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+{%endblock%}
