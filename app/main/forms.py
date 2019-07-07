@@ -4,7 +4,7 @@ from wtforms import StringField, SubmitField, TextAreaField, BooleanField, Integ
 from wtforms.validators import ValidationError, DataRequired, Length
 from flask_babel import _, lazy_gettext as _l
 from app.models import User
-//from markupsafe import Markup
+#from markupsafe import Markup
 
 
 class EditProfileForm(FlaskForm):
