@@ -6,16 +6,14 @@
 {%endblock%}
 
 {%block question_explanation%}
-    Given a string stored in array, convert the white spaces in string to "<span style="font-weight:bold;
-            font-style:italic">%20</span>"<br><br>
+    Given a string stored in array, convert the white spaces in string to "<span class="code">%20</span>"<br><br>
 
     <span style="color:rgb(0,0,0); font-style:italic;">Assumptions:</span>
             Assume you are given the number of non-white space characters in string. Also assume the string has
-            enough white spaces to add all needed "<span style="font-weight:bold;font-style:italic">%20</span>".
+            enough white spaces to add all needed "<span class="code">%20</span>".
 {%endblock%}
 
 {%block question_source%}
-    Source of question: Cracking the Coding Interview
 {%endblock%}
 
 {%block code_application%}
@@ -24,38 +22,47 @@
             search query for <span class="code">google.com</span></p>
             <p><span class="note">Note:</span> Some websites also use the '+' to encode spaces. Google accepts both encodings.</p>
 
-            <form action="" method="post">
-                    {{ form.hidden_tag() }}
-                    {{form.word(size=16)}}
-                    <br>
-                    {% for error in form.word.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
-                    {% endfor %}
-                    {{form.submit}}
-
+            <form>
+                <p>Enter a phrase:</p>
+                <input type="text" id="search_request" value="how to make soap">
             </form>
+            <button onclick="getSearchQuery()">Get Search query</button>
+
+            <p id="query_result"></p>
+{%endblock%}
+
+{%block code_intuition%}
+
 {%endblock%}
 
 {%block code_digest%}
-<h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Code Digest</h3>
+    <p><span class="step">Step 1</span> We calculate the number of spaces in the string that actually has content.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/bd112266192ac97a357c794de8ef67f9.js"></script>
+        </div>
+    </section>
 
-            <p><span class="step">Step 1</span> We calculate the number of spaces in the string that actually has content.</p>
-            <section>
-                <div class="code-lines">
-                    <script src="https://gist.github.com/frezafoltran/bd112266192ac97a357c794de8ef67f9.js"></script>
-                </div>
-            </section>
+<p><span class="step">Step 2</span> Then we move a <span class="code">counter</span> variable to the end of the string.
+Why is next step needed?</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/ce35a3b4a78ad34c646d3680f260a48c.js"></script>
+        </div>
+    </section>
 
-            <p><span class="step">Step 2</span> Then</p>
-            <section>
-                <div class="code-lines">
-                    <script src="https://gist.github.com/frezafoltran/ce35a3b4a78ad34c646d3680f260a48c.js"></script>
-                </div>
-            </section>
+<p><span class="step">Step 3</span> Then</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/9ff86fdf67e7599121f61ffae8c723c1.js"></script>
+        </div>
+    </section>
 {%endblock%}
 
 {%block code_complexity%}
-    TODO
+    The time complexity is <span class="code">O(n)</span>, where <span class="code">n</span> is the length of
+    the true string. Space complexity is <span class="code">O(1)</span> since operation is
+    done in place.
 {%endblock%}
 
 {%block full_code_gist%}
@@ -68,6 +75,67 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+
+    <script>
+
+function URLfy(str, trueLen){
+
+  var numSpaces = 0;
+  for (var i = 0; i < trueLen; i ++){
+    if (str[i] == ' '){
+      numSpaces ++;
+    }
+  }
+
+  var counter = trueLen + numSpaces * 2;
+
+  if (trueLen < str.length){
+    str[trueLen] = '0';
+  }
+
+  for (var i = trueLen - 1; i >= 0; i --){
+
+    if (str[i] == ' '){
+      str[--counter] = '0';
+      str[--counter] = '2';
+      str[--counter] = '%';
+    }
+    else{
+      str[--counter] = str[i];
+    }
+  }
+}
+
+var toSearch = document.getElementById('search_request');
+var queryId = document.getElementById('query_result')
+
+function getSearchQuery(){
+
+    var text = toSearch.value.trim().split('');
+
+    var trueLen = text.length;
+
+    for (var i = 0; i < trueLen; i ++){
+
+
+        if (text[i] == ' '){
+            text.push(' ');
+        }
+    }
+    URLfy(text, trueLen);
+
+    var linkStr = 'https://www.google.com/search?q=';
+
+    for (var i = 0; i < text.length; i ++){
+        linkStr += text[i];
+    }
+
+
+    queryId.innerHTML = linkStr.link(linkStr);
+
+}
+
+    </script>
 
 
 {%endblock%}

@@ -311,5 +311,5 @@ def algos_object_oriented_design(q_num):
         return render_template('algos/object_oriented_design/object_oriented_design_main.html')
 
     else:
-        return render_template('algos/algos_object_oriented_design/question_' + str(q_num) + '.html')
+        return render_template('algos/object_oriented_design/question_' + str(q_num) + '.html')
 

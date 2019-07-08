@@ -1,0 +1,250 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block question_name%}
+    Call Center
+{%endblock%}
+
+{%block question_explanation%}
+    Implement the data structures to simulate a call center. Assume there are three types of
+    employees: respondents, managers and director. Build the call center such that calls are escalated
+    from respondent to manager to director depending on availability of employees.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+<p>Test call center below.</p>
+
+<button onclick="makeCall(10000);">Make 10s call</button>
+<button onclick="makeCall(5000);">Make 5s call</button>
+<button onclick="makeCall(3000);">Make 3s call</button>
+
+<div class="row">
+
+    <div class="col-md-2 col-md-offset-3" id="director"><h4>Directors</h4>
+
+        <h5>director 1: <span id="director_0" style="color:green; font-weight:bold;">available</span></h5>
+
+    </div>
+    <div class="col-md-2" id="manager"><h4>Managers</h4>
+
+        <h5>manager 1: <span id="manager_0" style="color:green; font-weight:bold;">available</span></h5>
+        <h5>manager 2: <span id="manager_1" style="color:green; font-weight:bold;">available</span></h5>
+    </div>
+    <div class="col-md-2" id="respondent"><h4>Respondents</h4>
+
+        <h5>respondent 1: <span id="respondent_0" style="color:green; font-weight:bold;">available</span></h5>
+        <h5>respondent 2: <span id="respondent_1" style="color:green; font-weight:bold;">available</span></h5>
+        <h5>respondent 3: <span id="respondent_2" style="color:green; font-weight:bold;">available</span></h5>
+    </div>
+
+</div>
+
+<p id="no_employees_msg" style="color:red;display:none;">No one is available to take more calls.</p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> TODO</p>
+    <section>
+        <div class="code-lines">
+
+        </div>
+    </section>
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>TODO</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/9679ea6af4812fce7fc11495912ec9ea.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+var LinkedList = function(value) {
+  this.value = value;
+  this.next = null;
+};
+
+var Queue = function() {
+  this.front = null;
+  this.back = null;
+};
+
+Queue.prototype.add = function(value) {
+  var node = new LinkedList(value);
+  if (this.front === null) {
+    this.front = node;
+    this.back = node;
+  } else {
+    var prevBack = this.back;
+    this.back = node;
+    prevBack.next = this.back;
+  }
+};
+
+Queue.prototype.remove = function() {
+  var removed = this.front;
+  if (this.front === this.back) {
+    this.front = null;
+    this.back = null;
+  } else {
+    this.front = this.front.next;
+  }
+  return removed !== null ? removed.value : null;
+};
+
+Queue.prototype.peek = function() {
+  return this.front !== null ? this.front.value : null;
+};
+
+Queue.prototype.isEmpty = function() {
+  return this.front === null;
+};
+
+// ================================================================================
+
+
+var Employee = function(name) {
+  this.name = name;
+};
+
+Employee.prototype.dispatch = function(call, queue) {
+  var ctx = this;
+
+  setTimeout(function() {
+    queue.add(ctx);
+
+  }, call.time);
+};
+
+
+var Call = function(time) {
+  this.time = time; //length of each call in ms.
+};
+
+
+var CallCenter = function() {
+  this.respondentQueue = new Queue();
+  this.managerQueue = new Queue();
+  this.directorQueue = new Queue();
+  this.open = false;
+  this.init = false;
+};
+
+CallCenter.prototype.start = function() {
+
+  if (this.init) {
+    return;
+  }
+
+  // Add more employes than managers. And more managers than
+  // directors for realistic call center.
+  for (var i = 0; i < 3; i++) {
+    this.respondentQueue.add(new Employee(`respondent_${i}`));
+    if (i < 2){
+      this.managerQueue.add(new Employee(`manager_${i}`));
+    }
+    if (i < 1){
+    this.directorQueue.add(new Employee(`director_${i}`));
+    }
+  }
+
+  this.init = true;
+};
+
+CallCenter.prototype.dispatchCall = function(call) {
+  var employee;
+  if (!this.respondentQueue.isEmpty()) {
+    employee = this.respondentQueue.remove();
+    employee.dispatch(call, this.respondentQueue);
+  }
+  else if (!this.managerQueue.isEmpty()) {
+    employee = this.managerQueue.remove();
+    employee.dispatch(call, this.managerQueue);
+  }
+  else if (!this.directorQueue.isEmpty()) {
+    employee = this.directorQueue.remove();
+    employee.dispatch(call, this.directorQueue);
+  }
+  else {
+    return -1;
+  }
+  return employee;
+};
+
+var cc = new CallCenter();
+cc.start();
+
+
+
+function updateEmployeeDisplay(employeeName, callLen){
+
+    var toUpdate = document.getElementById(employeeName);
+
+    var seconds = callLen/1000;
+    var x = setInterval(function() {
+
+      toUpdate.style.color = 'red';
+      toUpdate.innerHTML = "busy. " + seconds + "s left in call";
+      seconds--;
+
+      if (seconds < 0) {
+        clearInterval(x);
+
+        toUpdate.style.color = 'green';
+        toUpdate.innerHTML = 'available';
+      }
+    }, 1000);
+
+
+}
+
+
+function makeCall(callLen){
+
+    callLen = parseInt(callLen);
+    var employee = cc.dispatchCall(new Call(callLen));
+
+    if (employee == -1){
+
+        document.getElementById('no_employees_msg').style.display = 'inline';
+        return;
+    }
+    document.getElementById('no_employees_msg').style.display = 'none';
+    updateEmployeeDisplay(employee.name, callLen);
+
+}
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
