@@ -1,6 +1,10 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block back_to%}
+        <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
 {%block question_name%}
     Unique Characters
 {%endblock%}
@@ -15,7 +19,31 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>This algorithm can be used to check if a string (or array) has repeated
+        elements is a very space efficient way. </p>
+
+        <p>For example, if we restrict ourselves to
+        strings that contain characters encoded in <span>UTF-8</span>, it is enough
+        to use two integers to store the data. </p>
+
+            <p>Below, you can explore how much space is needed
+        when implementing this method when compared to a brute-force method of storing each
+        character's count as an element of an array.
+        </p>
+    <form>
+        <span>Alphabet Size</span>
+        <input type="text">
+    </form>
+
+    <span>bit vector method results</span><br>
+    <span>regular array method results</span>
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to keep a variable to keep track of
+all characters we see as we iterate through the string.
+If we see a character that's already present in the counter,
+we return <span class="code">false</span>.</p>
 {%endblock%}
 
 {%block code_digest%}

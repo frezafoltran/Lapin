@@ -1,6 +1,10 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block back_to%}
+        <a href="{{url_for('main.algos_math', q_num=0)}}" >Back to Math</a>
+{%endblock%}
+
 {%block question_name%}
     Heaviest Candy Box
 {%endblock%}

@@ -10,6 +10,12 @@
 <div class="row">
     <a href="{{url_for('main.algos')}}" >Back to Algos</a>
     <div class="col-lg-6 col-md-offset-3">
+
+        <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
+             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+                    </div>
+        <br>
+
         <h2>Learn about stacks and queues.</h2>
 
         <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 1) }}">
@@ -21,16 +27,20 @@
         <h4>Retrieve the minimum element of stack in O(1) time</h4>
 
         <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 3) }}">
-        Split Stacks</a></h3>
+        Split Stacks (TODO)</a></h3>
         <h4>Handle multiple stacks as a single stack</h4>
 
         <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 4) }}">
-        Queue via stacks (TODO)</a></h3>
+        Queue via stacks</a></h3>
         <h4>Implement queue structure with two stacks</h4>
 
         <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 5) }}">
         Sort Stack (TODO)</a></h3>
         <h4>Sort a stack by using only one additional stack <br> as data structure.</h4>
+
+        <h3><a href = "{{ url_for('main.algos_stacks_and_queues', q_num = 0) }}">
+        TODO</a></h3>
+        <h4>---</h4>
 
 
     </div>
@@ -45,5 +55,20 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+<script>
+
+    var progressBar = document.getElementById('progress_bar');
+    var numQuestions = 6;
+    var numCompleted = 0;
+    var numAppCompleted = 2;
+
+    //questions completed contribute with 1/numQuestions
+    //questions with app completed contribute 1/(2*numQuestions)
+    var currProgress = (numCompleted / numQuestions + numAppCompleted / (2*numQuestions)) * 100;
+
+    progressBar.style.width = currProgress.toString() + '%';
+    progressBar.innerHTML = parseInt(currProgress).toString() + '%';
+
+</script>
 
 {%endblock%}

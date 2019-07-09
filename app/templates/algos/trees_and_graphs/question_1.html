@@ -1,6 +1,10 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block back_to%}
+        <a href="{{url_for('main.algos_trees_and_graphs', q_num=0)}}" >Back to Trees and Graphs</a>
+{%endblock%}
+
 {%block question_name%}
     Path Existance
 {%endblock%}

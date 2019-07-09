@@ -1,6 +1,10 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block back_to%}
+        <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
 {%block question_name%}
     Palindrome Permutation
 {%endblock%}
