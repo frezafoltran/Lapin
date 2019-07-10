@@ -1,0 +1,111 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block question_name%}
+    One Edit Away
+{%endblock%}
+
+{%block question_explanation%}
+Given two strings, write an algorithm to identify whether they are one (or zero) edits aways from each other. One edit is
+defined as: replacement, removal or insertion of a character.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>This algorithm is a simplified model of a spelling check algorithm. For this demo, we present a
+    slightly more generalized version of the <span class="code">One Edit Away</span> algorithm. We use this idea of
+    how many edits one word is away from another to build a word prediction demo. </p>
+
+    <p>The algorithm below works by
+    finding a list of words that are few edits away from a word that has a typo. For example, if the typo word is:
+    <span>ginding</span>, a possible outcome would be: [finding, minding, linking, ...]</p>
+
+<p>The idea behind this demo closely follow the <a href="https://en.wikipedia.org/wiki/Edit_distance">Minimum Edit Distance</a> algorithm.</p>
+
+<div class="row">
+
+    <div class="col-md-2 col-md-offset-3">
+        <h4 style="font-weight:bold;">rotato</h4>
+
+        <span>potato</span><br>
+        <span>tomato</span><br>
+        <span>rotate</span><br>
+
+
+    </div>
+
+    <div class="col-md-2">
+        <h4 style="font-weight:bold;">potenta</h4>
+
+        <span>potent</span><br>
+        <span>polenta</span><br>
+
+    </div>
+
+    <div class="col-md-2">
+        <h4>---</h4>
+
+        <span></span><br>
+        <span></span><br>
+    </div>
+
+
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> It's important to notice that if the length oif both words differ
+by more than 1, then we can immediately return <span class="code">false</span>, since none of the edits would allow you
+to transform one word to the other. Else, we initialize the variables
+    <span class="code">small</span> and <span class="code">large</span> as below.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/2581eca0171eb565fd9f7bc9546dd07f.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 1</span> Now we iterate through both words while checking if each character is the same.
+    We keep separate counters <span class="code">i, j</span> for each word. In case there's a difference, we advance
+only the counter for longer word. We return <span class="code">false</span> if a second difference is found.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/1eb94a38eb643fc8c0f78cf37e602d98.js"></script>
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+    Time complexity is O(n) where n is the length of shortest string. Space complexity is O(1).
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/febb247e31b87b06cf0b21e80b1a36e0.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+
+    </script>
+
+
+{%endblock%}

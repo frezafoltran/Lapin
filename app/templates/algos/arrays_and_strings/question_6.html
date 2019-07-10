@@ -1,0 +1,67 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block question_name%}
+    String Compression
+{%endblock%}
+
+{%block question_explanation%}
+Compress a string by reducing the size of sequentially repeated characters. For example, the string "pooooooootato"
+would become "p8otato", i.e. we only replace the sequence of repeated characters by a number followed by a
+letter if the sequence is longer than 1.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>This algorithm could be used to efficiently store the Fast Fourier Transform (FFT) of small audio samples. FFTs
+is a mathematical tool to retrieve the frequency components of an audio sample. Consider storing a simplified FFT of an
+    audio sample in an array such that each index of the array corresponds to the FFT value at a point in time.
+</p>
+    <p>Since many audio samples have constant frequency spectrum for a given period (guitar notes, absence of sound ...),
+    it is likely that our array will contain sequentially repeated values. You can see a demo of this below:</p>
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/7215eafad60535a18fb44d119f3d11b9.js"></script>
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+    Time complexity is O(n) where n is the length of string. Space complexity is O(1).
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/48ce6c9bfe46da148e15cd5c9e97732d.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+
+    </script>
+
+
+{%endblock%}

@@ -18,7 +18,15 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>Imagine the nodes in a linked list represent ...</p>
+    <p>Imagine a linked list is used to store a polynomial. The nodes store the coefficients for the polynomial. Assume
+        the <span class="code">head</span> of the linked list stores the coefficient for the term with degree 0,
+        <span class="code">head.next</span> the coefficient for the term with degree 1, and so forth. The algorithm
+    in this question can be used to ensure a polynomial does not have any terms with the same coefficients.</p>
+
+    <button onclick="getPoly()">Get Random Polynomial</button>
+
+    <div id="poly_display" class="row"></div>
+    <div id="poly_display_clean" class="row"></div>
 {%endblock%}
 
 {%block code_digest%}
@@ -59,6 +67,114 @@ we delete that element. </p>
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+    <script>
+
+        var LinkedList = function(value, coef) {
+          this.value = value;
+          this.next = null;
+          this.coef = coef;
+        };
+
+        function delDuplicateNoBuffer(root){
+
+          var runner;
+          var slower = root;
+          var delIndex = [];
+          var i1 = 0, i2 = 0;
+
+          while (slower){
+
+            runner = slower;
+            while (runner.next){
+
+              if (runner.next.value == slower.value){
+                runner.next = runner.next.next;
+                delIndex.push(i2);
+                i2 += 2;
+              }
+              else{
+                runner = runner.next;
+                i2++;
+              }
+            }
+            slower = slower.next;
+            i1++;
+            i2 = i1;
+
+          }
+          return delIndex;
+        }
+
+        function displayPoly(root, cleanBool){
+
+            var cur = root;
+            var polyDisplay = cleanBool ? document.getElementById('poly_display_clean') : document.getElementById('poly_display');
+            polyDisplay.innerHTML = '';
+            var index = 0;
+
+            if (cleanBool){
+                polyDisplay.appendChild(document.createElement('h4')).appendChild(document.createTextNode('Clean Polynomial'));
+              }
+
+            while (cur){
+
+              var pow = cur.coef.toString();
+              if (pow == 0){
+                var coefStr = cur.next ? ' + ' : '';
+              }
+              else if (pow == 1){
+                var coefStr = cur.next ? 'x' +  ' + ' : 'x';
+              }
+              else{
+                var coefStr = cur.next ? 'x^' + pow + ' + ' : 'x^' + pow;
+              }
+
+              var span1 = document.createElement('span');
+              var span2 = document.createElement('span');
+              span1.style.fontWeight = 'bold';
+              span1.style.fontSize = '25px';
+
+              span2.style.color = 'gray';
+              span2.style.fontSize = '20px';
+
+
+              polyDisplay.appendChild(span1).
+                          appendChild(document.createTextNode(cur.value.toString()));
+              polyDisplay.appendChild(span2).
+                          appendChild(document.createTextNode(coefStr));
+
+              cur = cur.next;
+
+            }
+
+        }
+
+
+        function getPoly(){
+
+            var degree = Math.floor(Math.random() * (10 - 2)) + 2;
+
+            var rootVal = Math.floor(Math.random()*(5 - 2)) + 2;
+            var root = new LinkedList(rootVal, 0);
+
+            var cur = root;
+            for (var i = 0; i < degree; i ++){
+
+                var val = Math.floor(Math.random()*(5 - 2)) + 2;
+                cur.next = new LinkedList(val, i + 1);
+                cur = cur.next;
+
+            }
+
+
+            displayPoly(root, false);
+
+            delDuplicateNoBuffer(root);
+            displayPoly(root, true);
+
+        }
+
+    </script>
 
 
 {%endblock%}

@@ -19,7 +19,23 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>Following the example from <a href="{{ url_for('main.algos_linked_lists', q_num = 1) }}">
+        removing duplicates from linked list</a>, we show a demo to retrieve the coefficient of the
+    k-th highest power term in a coefficient.</p>
+
+
+
+    <a onclick="showAnswer(1);" style="cursor:pointer;"><p><img src="{{url_for('static', filename='images/question.png')}}" class="question_img" style="width:50px;height:50px;">
+        <span style="color:rgb(255,56,0);">Why implement polynomials using linked lists instead of arrays?</span>
+    </p></a>
+    <p id="answ1" style="display:none;"><img style="width:48px; height:60px;margin-bottom:10px;" src="{{ url_for('static', filename='images/rabbit.png') }}">
+    The main point in which linked lists have advantages when compared to arrays to implement polynomials
+    is when performing arithmetic operations as you can read in <a href="#">?</a>. So it is useful to know
+    how to perform actions such as the one in the demo below.</p>
+
+
+
+
 {%endblock%}
 
 {%block code_intuition%}
@@ -69,6 +85,11 @@ is O(1).</p>
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+    <script>
+        function showAnswer(num){
+            document.getElementById('answ' + num.toString()).style.display = 'inline';
+        }
+    </script>
 
 
 {%endblock%}

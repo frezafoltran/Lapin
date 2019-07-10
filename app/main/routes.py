@@ -197,23 +197,9 @@ def algos_arrays_and_strings(q_num):
     if q_num == '0':
         return render_template('algos/arrays_and_strings/arrays_and_strings_main.html')
 
-    elif q_num == '1':
+    else:
         return render_template('algos/arrays_and_strings/question_' + str(q_num) + '.html')
 
-    elif q_num == '2':
-        return render_template('algos/arrays_and_strings/question_' + str(q_num) + '.html')
-
-    elif q_num == '3':
-        form = URLfyForm()
-
-        if form.validate_on_submit():
-
-            return render_template('algos/arrays_and_strings/question_' + str(q_num) + '.html', form=form)
-
-        return render_template('algos/arrays_and_strings/question_' + str(q_num) + '.html', form=form)
-
-    elif q_num == '4':
-        return render_template('algos/arrays_and_strings/question_' + str(q_num) + '.html')
 
 
 @bp.route('/algos/linked_lists/<q_num>', methods=['GET', 'POST'])

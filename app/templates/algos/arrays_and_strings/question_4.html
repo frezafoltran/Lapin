@@ -23,20 +23,85 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>Imagine you are about to meet some Beatles impersonators. There are many impersonators for John, Paul, Ringo and
+        George in line in a street. You need to organize the line such that no matter which way you enter the street you
+    will meet the impersonator for each artist in the same order.</p>
+
+    <p> The algorithm below allows you to achieve this goal. </p>
+
+    <button onclick="getRandArray();">Get Another Array</button>
+    <br><br>
+    <div class="row">
+        <img id="img1" src="" style="width:80px;height:80px;display:none;">
+        <img id="img2" src="" style="width:80px;height:80px;display:none;">
+        <img id="img3" src="" style="width:80px;height:80px;display:none;">
+        <img id="img4" src="" style="width:80px;height:80px;display:none;">
+        <img id="img5" src="" style="width:80px;height:80px;display:none;">
+        <img id="img6" src="" style="width:80px;height:80px;display:none;">
+        <img id="img7" src="" style="width:80px;height:80px;display:none;">
+    </div>
+
+    <h3 id="result"></h3>
+    <div class="row" id="result_imgs">
+        <img id="res1" src="" style="width:80px;height:80px;display:none;">
+        <img id="res2" src="" style="width:80px;height:80px;display:none;">
+        <img id="res3" src="" style="width:80px;height:80px;display:none;">
+        <img id="res4" src="" style="width:80px;height:80px;display:none;">
+        <img id="res5" src="" style="width:80px;height:80px;display:none;">
+        <img id="res6" src="" style="width:80px;height:80px;display:none;">
+        <img id="res7" src="" style="width:80px;height:80px;display:none;">
+    </div>
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to keep track of whether each character occurs an even or odd number of times.
+    For this we will keep a switch for each character. When the character occurs, we turn the switch on.
+    If it occurs again, we turn is off. At the end, only characters that occurred an odd number of times will have this switch on.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> We assume the string only has lowercase english letters. We also
+    assume the string is encoded in ASCII. For each letter, we build a unique
+    switch based on their ASCII code.</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/7215eafad60535a18fb44d119f3d11b9.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> If the switch for a given character is off (indicated by a zero at the
+    <span class="code">offset</span> bit of <span class="code">bitVector</span>), we turn it on (flip
+    <span class="code">offset</span> bit to one) with:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e61ca5558c8dd452ad5f9cbb367bfceb.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> Else, we turn the <span class="code">offset</span> bit off (flip it to zero) to
+    indicate the character has occured an even number of times, with: </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/3701f754dd0f94f7fa93fcf15e8c0e41.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 4</span> After building our bit vector of switches, we only need to check if there's at
+most one swith on. Think about it: if the string has even length, the only way to get a palindrome out of a permutation
+is if all characters occur an even number of times. if the string has odd length, we can have at most one character occuring an
+odd number of times. One of the odd occurring character will necessarily need to be placed in the middle of the string.</p>
+<p>We check if there are no odd occurring characters by checking if <span class="code">bitVector</span> equals to 0.
+We check if there's exactly one switch on with:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/813061bd11868c7b9393b98cbb61a111.js"></script>
         </div>
     </section>
 {%endblock%}
 
 {%block code_complexity%}
-    TODO
+    Time complexity is O(n) where n is the length of string. Space complexity is O(1).
 {%endblock%}
 
 {%block full_code_gist%}
@@ -49,6 +114,105 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+
+    <script>
+
+        function isPalindromePerm(array, counts){
+
+            numOdds = 0;
+            for (var i = 0; i < counts.length; i ++){
+
+                if (counts[i] % 2 != 0){
+
+                    if (numOdds > 0 || array.length % 2 == 0){
+                        return false;
+                    }
+                    numOdds ++;
+                }
+            }
+            return true;
+        }
+
+        function getTunnel(counts){
+
+            var out = [-1, -1, -1, -1, -1, -1, -1];
+            var remaining = counts[0] + counts[1] + counts[2] + counts[3];
+            var i = 0;
+
+            while (remaining > 0){
+
+                for (var j = 0; j < 4; j ++){
+
+                    if (counts[j] != 0 && counts[j] % 2 == 0){
+                        out[i] = j;
+                        out[out.length - 1 - i] = j;
+                        counts[j] -= 2;
+                        remaining -= 2;
+                        i ++
+                    }
+
+                    if (counts[j] % 2 != 0){
+                        out[(out.length - 1)/2] = j;
+                        counts[j] --;
+                        remaining -= 2;
+                    }
+                }
+            }
+            return out;
+        }
+
+
+        var imgs = ['{{url_for('static', filename='images/johnny.png')}}',
+                    '{{url_for('static', filename='images/paul.png')}}',
+                    '{{url_for('static', filename='images/george.png')}}',
+                    '{{url_for('static', filename='images/ringo.png')}}'];
+
+        var len = 7;
+        var imgsCodes = [-1, -1, -1, -1, -1, -1, -1];
+
+        function getRandArray(){
+
+            var counts = [0, 0, 0, 0];
+
+            for (var i = 1; i < len + 1; i ++){
+                var img = document.getElementById('img' + i.toString());
+
+                img.style.display = 'inline';
+                var rand = Math.floor(Math.random() * 4);
+                img.src = imgs[rand];
+
+                counts[rand] ++;
+                imgsCodes[i-1] = rand;
+            }
+
+            var canBuild = isPalindromePerm(imgsCodes, counts);
+
+            if (!canBuild){
+                document.getElementById('result').innerHTML = 'Cannot line the Beatles.';
+                document.getElementById('result').style.color = 'red';
+                for (var i = 1; i < len + 1; i ++){
+                    var img = document.getElementById('res' + i.toString());
+                    img.style.display = 'none';
+                }
+                return;
+            }
+
+            document.getElementById('result').innerHTML = 'Beatles are lined!';
+            document.getElementById('result').style.color = 'green';
+            indexes = getTunnel(counts);
+
+            for (var i = 1; i < len + 1; i ++){
+                var img = document.getElementById('res' + i.toString());
+
+                img.style.display = 'inline';
+                img.src = imgs[indexes[i-1]];
+            }
+        }
+
+        getRandArray();
+
+
+    </script>
 
 
 {%endblock%}

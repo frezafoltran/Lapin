@@ -20,23 +20,43 @@
 
 {%block code_application%}
     <p>This algorithm can be used to check if a string (or array) has repeated
-        elements is a very space efficient way. </p>
+        elements is a very space efficient way by using bit vectors. </p>
 
         <p>For example, if we restrict ourselves to
-        strings that contain characters encoded in <span>UTF-8</span>, it is enough
-        to use two integers to store the data. </p>
+        strings that contain only english letters encoded
+            in <span class="code">ASCII</span>,
+            it is enough to use two integer to store the data, as explained in
+            the <a href="#coding_digest">Coding Digest</a> section below.
+            <span class="code"></span></p>
 
-            <p>Below, you can explore how much space is needed
-        when implementing this method when compared to a brute-force method of storing each
-        character's count as an element of an array.
+            <p>Here, you can explore how much space is needed
+        when implementing the bit vector method when compared to a brute-force method of storing each
+        character's count as an element of an array. The Alphabet Size is how many different characters
+                can be present in the string. In the English alphabet case, that is <span class="code">2*26 = 52</span>.
         </p>
     <form>
         <span>Alphabet Size</span>
-        <input type="text">
+        <input id="alphabet_size" type="text" value="52">
     </form>
+<button onclick="plotDif()">See Difference</button>
 
-    <span>bit vector method results</span><br>
-    <span>regular array method results</span>
+    <div class="row">
+        <h4 class="results_title" style="display:none;">Space Complexities</h4>
+        <h4 style="color:green;" id="efficiency_dif"></h4>
+        <div class="col-md-5 col-md-offset-1">
+            <h4 class="results_title" style="display:none;">Bit vector method : <span id="bit_vector"></span></h4>
+
+        </div>
+
+        <div class="col-md-5">
+            <h4 class="results_title" style="display:none;">Array of length method: <span id="vector"></span></h4>
+
+        </div>
+
+    </div>
+
+
+
 {%endblock%}
 
 {%block code_intuition%}
@@ -47,16 +67,37 @@ we return <span class="code">false</span>.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> First we check if there are repeated upper case characters.
+We use a bit vector to keep track of the characters we have already seen. In javascript,
+    bit operations are performed in <span class="code">32</span> bit integers, so our bit vector
+<span class="code">flagUpper</span> is <span class="code">32</span> bits long.</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/ba63046add70a75970ba30effe511c2f.js"></script>
         </div>
     </section>
+
+
+<p><span class="step">Step 2</span> The bit vector now works like a switch. For example, if the character "B" is in string,
+we turn the "B" switch "on" by flipping the second bit of <span class="code">flagUpper</span> to 1.
+    If we see the character "B" again, the condition in line 6 below will return <span class="code">true</span> since the
+    "B" switch is still "on".
+</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/305035fca9e7ac8d01936fc09e61e283.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> We repeat the same reasoning in <span class="step">Step 1, 2</span> for the lowercase
+    case.
+</p>
+
 {%endblock%}
 
 {%block code_complexity%}
-    TODO
+    <p>Time complexity is O(n), where n is the length of word. The space complexity is O(1) as any character set has an upper bound
+    in its size.</p>
 {%endblock%}
 
 
@@ -71,6 +112,33 @@ we return <span class="code">false</span>.</p>
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+<script>
+
+    function plotDif(){
+
+        var input = parseInt(document.getElementById('alphabet_size').value);
+
+        var bitVectorsNeeded = Math.ceil(input/32);
+
+        var temp = document.getElementsByClassName("results_title");
+
+        temp[0].style.display = 'inline';
+        temp[1].style.display = 'inline';
+        temp[2].style.display = 'inline';
+
+
+        document.getElementById('bit_vector').innerHTML = "O(" + bitVectorsNeeded + ")";
+        document.getElementById('vector').innerHTML = "O(" + input + ")";
+
+        var dif = ((input - bitVectorsNeeded)* 100) / bitVectorsNeeded;
+        document.getElementById('efficiency_dif').innerHTML = "Bit Vector Method is " +
+            dif + "% more efficient";
+
+    }
+
+    plotDif();
+
+</script>
 
 
 {%endblock%}
