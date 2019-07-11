@@ -16,7 +16,10 @@ width:80%;
 margin:0 auto;
 }
 
-.question_img { filter: brightness(0.1); }
+.answer-div{
+background-color:rgb(200,376,228);
+border-radius:25px;
+}
 
 .circle {
   width: 50px;

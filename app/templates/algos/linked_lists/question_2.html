@@ -28,10 +28,28 @@
     <a onclick="showAnswer(1);" style="cursor:pointer;"><p><img src="{{url_for('static', filename='images/question.png')}}" class="question_img" style="width:50px;height:50px;">
         <span style="color:rgb(255,56,0);">Why implement polynomials using linked lists instead of arrays?</span>
     </p></a>
-    <p id="answ1" style="display:none;"><img style="width:48px; height:60px;margin-bottom:10px;" src="{{ url_for('static', filename='images/rabbit.png') }}">
-    The main point in which linked lists have advantages when compared to arrays to implement polynomials
-    is when performing arithmetic operations as you can read in <a href="#">?</a>. So it is useful to know
-    how to perform actions such as the one in the demo below.</p>
+
+    <div class="row answer-div" style="background-color:rgb(150,228,228);border-radius:35px;">
+    <p id="answer1" style="display:none;color:rgb(300,376,228);"><img style="width:48px; height:60px;" src="{{ url_for('static', filename='images/rabbit.png') }}">
+    The main reason is that performing arithmetic operations on polynomials stored as linked lists is easier
+        than in arrays.</p>
+        </div>
+
+    <br>
+
+    <button onclick="getPoly()">Get Random Polynomial</button>
+
+    <div id="poly_display" class="row"></div>
+
+    <br>
+    <div id="get-kth-div" style="display:none;">
+        <form>
+            <span>enter value of k</span>
+            <input id="k-val" type="text" value="2">
+        </form>
+        <button onclick="showKthToLast()">Get</button>
+    </div>
+    <div id="kth-node" class="row"></div>
 
 
 
@@ -87,8 +105,162 @@ is O(1).</p>
     {{moment.lang(g.locale)}}
     <script>
         function showAnswer(num){
-            document.getElementById('answ' + num.toString()).style.display = 'inline';
+
+            var answer = document.getElementById('answer' + num.toString());
+
+            answer.style.display = answer.style.display == 'none' ? 'inline' : 'none';
         }
+
+        var LinkedList = function(value, coef) {
+          this.value = value;
+          this.next = null;
+          this.coef = coef;
+        };
+
+        function helper(head, k, idx){
+
+          if (!head){
+            return 0;
+          }
+          var node = helper(head.next, k, idx);
+          idx.value ++;
+
+          if (idx.value == k){
+
+            return head;
+          }
+          return node;
+        }
+
+        function kthToLast (head, k){
+
+          var idx = {value: 0};
+          return helper(head, k, idx);
+        }
+
+
+        function displayPoly(root){
+
+            var cur = root;
+            var prev = root;
+            var flag = false;
+            var polyDisplay = document.getElementById('poly_display');
+            polyDisplay.innerHTML = '';
+            var index = 0;
+
+
+            while (cur){
+
+            if (cur.value == 0){
+                prev.next = prev.next.next;
+                cur = cur.next;
+                continue;
+            }
+
+              var pow = cur.coef.toString();
+              var bool = cur.next;
+              if (pow == 0){
+                var coefStr = bool ? ' + ' : '';
+              }
+              else if (pow == 1){
+                var coefStr = bool ? 'x' +  ' + ' : 'x';
+              }
+              else{
+                var coefStr = bool ? 'x^' + pow + ' + ' : 'x^' + pow;
+              }
+
+              var span1 = document.createElement('span');
+              var span2 = document.createElement('span');
+              span1.style.fontWeight = 'bold';
+              span1.style.fontSize = '25px';
+
+              span2.style.color = 'gray';
+              span2.style.fontSize = '20px';
+
+
+              polyDisplay.appendChild(span1).
+                          appendChild(document.createTextNode(cur.value.toString()));
+              polyDisplay.appendChild(span2).
+                          appendChild(document.createTextNode(coefStr));
+
+              if (flag){
+                prev = prev.next;
+              }
+              cur = cur.next;
+              flag = true;
+
+            }
+
+        }
+
+        var polyRoot;
+
+        function getPoly(){
+
+            document.getElementById('get-kth-div').style.display = 'inline';
+            var degree = Math.floor(Math.random() * (10 - 2)) + 2;
+
+            var rootVal = Math.floor(Math.random()*10);
+            var root = new LinkedList(rootVal, 0);
+
+            var cur = root;
+            for (var i = 0; i < degree; i ++){
+
+                var val = Math.floor(Math.random()*10);
+                cur.next = new LinkedList(val, i + 1);
+                cur = cur.next;
+
+            }
+
+
+            displayPoly(root);
+
+            polyRoot = root;
+        }
+
+
+        function showKthToLast(){
+
+            var k = parseInt(document.getElementById('k-val').value);
+            var node = kthToLast(polyRoot, k);
+
+            if (node == 0){
+                document.getElementById('kth-node').innerHTML = 'Invalid value of k';
+                document.getElementById('kth-node').style.color = 'red';
+                document.getElementById('kth-node').style.fontSize = '20px';
+            }
+
+            var span1 = document.createElement('span');
+            var span2 = document.createElement('span');
+            span1.style.fontWeight = 'bold';
+            span1.style.fontSize = '25px';
+            span1.style.color = 'black';
+
+            span2.style.color = 'gray';
+            span2.style.fontSize = '20px';
+
+            var coefStr;
+
+            if (node.coef == 0){
+                coefStr = node.coef.toString();
+            }
+
+            else if (node.coef == 1){
+                coefStr = 'x';
+            }
+            else{
+                coefStr = 'x^' + node.coef.toString();
+            }
+
+            document.getElementById('kth-node').innerHTML = '';
+            document.getElementById('kth-node').appendChild(span1).
+                          appendChild(document.createTextNode(node.value.toString()));
+            document.getElementById('kth-node').appendChild(span2).
+                          appendChild(document.createTextNode(coefStr));
+
+        }
+
+
     </script>
 
 

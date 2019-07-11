@@ -2,26 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/static/css/question.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/static/css/question.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/add.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/jinni_cropped.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/jinni_full.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/jinni_green.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/jinni_loading_lamp.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/jinni_loading_lamp_still.PNG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/images/load.gif" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_6.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_6.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/question_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/question_base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +20,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="40" column="115" lean-forward="true" selection-start-line="40" selection-start-column="115" selection-end-line="41" selection-end-column="118" />
+            <state relative-caret-position="285">
+              <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
               <folding>
                 <element signature="n#style#0;n#img#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -48,35 +34,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="89" column="59" selection-start-line="89" selection-start-column="59" selection-end-line="89" selection-end-column="59" />
+            <state relative-caret-position="271">
+              <caret line="162" column="7" selection-start-line="162" selection-start-column="7" selection-end-line="162" selection-end-column="7" />
               <folding>
-                <element signature="e#721#744#0" expanded="true" />
-                <element signature="e#781#812#0" expanded="true" />
-                <element signature="e#869#890#0" expanded="true" />
-                <element signature="e#1019#1040#0" expanded="true" />
-                <element signature="e#964#1015#0" expanded="true" />
+                <element signature="e#778#797#0" expanded="true" />
+                <element signature="e#652#679#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/static/css/question.css">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="74" />
+            <state relative-caret-position="-2658">
+              <caret line="6" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -91,6 +65,7 @@
       <find>e</find>
       <find>canvas</find>
       <find>cannot l</find>
+      <find>push</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -113,7 +88,6 @@
         <option value="$PROJECT_DIR$/app/main/forms.py" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_3.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/question_4.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/question_2.html" />
@@ -122,7 +96,6 @@
         <option value="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" />
@@ -139,10 +112,12 @@
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/question_1.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/algos_main.html" />
         <option value="$PROJECT_DIR$/app/static/css/question.css" />
         <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/algos_main.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" />
       </list>
     </option>
   </component>
@@ -159,7 +134,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,20 +184,13 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="linked_lists" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
               <item name="stacks_and_queues" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -286,8 +253,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1453" height="783" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16208598" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.023255814" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -307,13 +275,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/main/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -362,13 +323,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/math/question_2.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -384,41 +338,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="3" selection-start-line="3" selection-end-line="5" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="6" selection-start-line="6" selection-end-line="6" />
@@ -559,9 +478,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/images/john.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/images/john.png" />
     <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
@@ -583,13 +500,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="115" column="66" selection-start-line="115" selection-start-column="66" selection-end-line="115" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
@@ -597,16 +507,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="20" column="23" lean-forward="true" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="74" />
+        <state relative-caret-position="148">
+          <caret line="52" column="50" selection-start-line="52" selection-start-column="16" selection-end-line="52" selection-end-column="50" />
+          <folding>
+            <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/css/question.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="18" column="11" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/question_base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
+        <state relative-caret-position="720">
           <caret line="36" column="33" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
           <folding>
             <element signature="n#style#0;n#img#0;n#h2#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
@@ -619,17 +540,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/css/question.css">
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
+        <state relative-caret-position="160">
+          <caret line="8" column="16" lean-forward="true" selection-start-line="8" selection-start-column="16" selection-end-line="8" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="75" column="10" lean-forward="true" selection-start-line="75" selection-start-column="10" selection-end-line="75" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="113" column="8" lean-forward="true" selection-start-line="113" selection-start-column="8" selection-end-line="117" selection-end-column="10" />
+          <folding>
+            <element signature="e#1577#1598#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3738">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1440">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />
+          <folding>
+            <element signature="e#734#765#0" expanded="true" />
+            <element signature="e#1088#1138#0" expanded="true" />
+            <element signature="e#1209#1260#0" expanded="true" />
+            <element signature="e#1334#1384#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="68" column="24" selection-start-line="68" selection-start-column="24" selection-end-line="68" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="40" column="115" lean-forward="true" selection-start-line="40" selection-start-column="115" selection-end-line="41" selection-end-column="118" />
+        <state relative-caret-position="285">
+          <caret line="57" column="31" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="31" />
           <folding>
             <element signature="n#style#0;n#img#0;n#a#0;n#h4#0;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -640,16 +612,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="89" column="59" selection-start-line="89" selection-start-column="59" selection-end-line="89" selection-end-column="59" />
+        <state relative-caret-position="-2658">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="162" column="7" selection-start-line="162" selection-start-column="7" selection-end-line="162" selection-end-column="7" />
           <folding>
-            <element signature="e#721#744#0" expanded="true" />
-            <element signature="e#781#812#0" expanded="true" />
-            <element signature="e#869#890#0" expanded="true" />
-            <element signature="e#1019#1040#0" expanded="true" />
-            <element signature="e#964#1015#0" expanded="true" />
+            <element signature="e#778#797#0" expanded="true" />
+            <element signature="e#652#679#0" expanded="true" />
           </folding>
         </state>
       </provider>

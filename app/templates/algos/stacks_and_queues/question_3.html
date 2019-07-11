@@ -10,7 +10,7 @@
 {%endblock%}
 
 {%block question_explanation%}
-    Design a class with a stack of stacks structures to handle multiple stacks as one big stack
+    Design a class with a stack of stacks structures to handle multiple stacks as a unique stack
 {%endblock%}
 
 
@@ -19,7 +19,24 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>You can see the algorithm in action below.
+    </p>
+
+    <button onclick="pushToStack()">Push to Stack</button>
+    <button onclick="popFromStack()">Pop from Stack</button>
+    <button onclick="popFromStackAt()">Pop from Stack at:</button>
+    <form>
+    <input id="pop_val" type="text" value="0" style="width:30px;">
+    </form>
+
+    <div class="container">
+        <div id="stacks" class="row" style="text-align:center;">
+
+
+
+
+        </div>
+    </div>
 {%endblock%}
 
 {%block code_digest%}
@@ -37,7 +54,7 @@
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/b7f089c72a801426b2cae86ac5a8b04c.js"></script>
+    <script src="https://gist.github.com/frezafoltran/7ef3e202537bf5b908130df38dc2f375.js"></script>
 {%endblock%}
 
 
@@ -47,6 +64,172 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+
+    <script>
+
+  var Stack = function (){
+    this.top = null;
+    this.size = 0;
+  }
+
+  var Node = function (data){
+    this.data = data;
+    this.previous = null;
+  }
+
+  Stack.prototype.push = function (data){
+    var node = new Node (data);
+
+    node.previous = this.top;
+    this.top = node;
+    this.size ++;
+
+    return this.top;
+  }
+
+  Stack.prototype.pop = function (){
+
+    var popped = this.top;
+    if (popped){
+      this.top = this.top.previous;
+    }
+    this.size --;
+
+    return popped;
+  }
+
+  Stack.prototype.peek = function (){
+    return this.top;
+  }
+
+  Stack.prototype.isEmpty = function (){
+    return (this.top == null);
+  }
+  Stack.prototype.print = function (){
+    var curr = this.top;
+    while(curr){
+      console.log(curr.data);
+      curr = curr.previous;
+    }
+  }
+
+
+  var StackedStacks = function(maxSize){
+    this.stackArray = [];
+    this.maxSize = maxSize;
+  }
+
+  StackedStacks.prototype.push = function (data){
+
+    var stackIndex = this.stackArray.length - 1;
+    var currStack = this.stackArray[stackIndex];
+
+    if (stackIndex == -1 || (currStack.size >= this.maxSize)){
+      var stack = new Stack();
+      stack.push(data);
+      this.stackArray.push(stack);
+    }
+    else{
+      currStack.push(data);
+      this.stackArray[stackIndex] = currStack;
+    }
+  }
+
+  StackedStacks.prototype.pop = function() {
+
+      if (this.stackArray.length == 0) {
+        return null;
+      }
+      else if (this.stackArray[this.stackArray.length - 1].isEmpty()) {
+        this.stackArray = this.stackArray.slice(0, this.stackArray.length - 1);
+      }
+      return this.stackArray[this.stackArray.length - 1].pop();
+    };
+
+  StackedStacks.prototype.peek = function() {
+      var cur = this.stackArray[this.stackArray.length - 1];
+      return cur[cur.length - 1];
+    };
+
+  StackedStacks.prototype.isEmpty = function() {
+      return this.stackArray.length == 0;
+    };
+
+  StackedStacks.prototype.popAt = function(index) {
+      var popped = this.stackArray[index].pop();
+
+      for (var i = index + 1; i < this.stackArray.length; i ++){
+
+       
+      }
+
+      return popped;
+    };
+
+
+  //================================================ FOR APPLICATION
+
+
+  var maxSize = 5;
+  var setOfStacks = new StackedStacks(maxSize);
+  var stacks = document.getElementById('stacks');
+
+
+
+  function updateDisplay(){
+
+    stacks.innerHTML = '';
+
+    for (var i = 0; i < setOfStacks.stackArray.length; i ++){
+
+        var col = document.createElement('div');
+        col.class = "col-sm-2";
+        col.style.textAlign = "center";
+        col.style.float = "none";
+        col.style.display = "inline-block";
+        col.style.margin = '30px';
+
+        var span = document.createElement('span');
+        span.style.fontWeight = 'bold';
+
+        var cur = setOfStacks.stackArray[i].top;
+        while(cur){
+
+            span.appendChild(document.createTextNode(cur.data.toString()));
+            span.appendChild(document.createElement('br'));
+            cur = cur.previous;
+        }
+
+        stacks.appendChild(col).append(span);
+
+    }
+
+  }
+
+  function pushToStack(){
+    setOfStacks.push(Math.floor(Math.random() * 100));
+    updateDisplay();
+  }
+
+  function popFromStack(){
+    setOfStacks.pop();
+    updateDisplay();
+  }
+
+  function popFromStackAt(){
+
+    var numStacks = setOfStacks.stackArray.length;
+    if (val >= numStacks){
+        return false;
+    }
+
+    var val = document.getElementById('pop_val').value;
+    setOfStacks.popAt(parseInt(val));
+    updateDisplay();
+
+  }
+
+    </script>
 
 
 {%endblock%}

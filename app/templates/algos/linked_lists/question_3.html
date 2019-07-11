@@ -6,11 +6,11 @@
 {%endblock%}
 
 {%block question_name%}
-    Delete random middle node
+    Delete middle node
 {%endblock%}
 
 {%block question_explanation%}
-    Write an algorithm to remove a random middle node from a linkedList without accessing
+    Write an algorithm to remove a given middle node from a linked list without accessing
     any other node but the one being removed.
 {%endblock%}
 
@@ -20,20 +20,45 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>A good way to see why this algorithm is useful is to think of a linked list representing a chain structure.
+    For example, imagine each node represents a <span class="code">URL</span> address and
+        <span class="code">fool.next = bar</span> indicates that the
+        <span class="code">URL fool</span> has a link to the <span class="code">URL bar</span>.</p>
+
+    <div class="row"><img src="{{url_for('static', filename='images/urllink.png')}}" style="width:100px;height:100px">
+    <img src="{{url_for('static', filename='images/urllink_rot.png')}}" style="width:100px;height:100px;margin-left:-35px;">
+    <img src="{{url_for('static', filename='images/urllink.png')}}" style="width:100px;height:100px;margin-left:-35px;">
+    <img src="{{url_for('static', filename='images/urllink_rot.png')}}" style="width:100px;height:100px;margin-left:-35px;"></div>
+
+    <br>
+    <p>A reasonable assumption is that access to deleting a URL is limited. For example, ?. This algorithm is then useful
+    to delete a middle node in a chain of <span class="code">URLs</span> while maintaining the remaining links intact.</p>
+
+    <button onclick="getExample()">Get another example</button>
+
+    <br><br>
+    <div id="before"></div>
+    <br>
+    <div id="after"></div>
+{%endblock%}
+
+{%block code_intuition%}
+<p>See code digest below.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> The idea is very simple. Copy the data from the node following the node
+that will be removed (guarantee to not be <span class="code">null</span> since node to be removed is not last) to the
+node that will be removed. Then we simply delete the node following the node to be removed.</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/9af52478de8244af44b01de1221d1652.js"></script>
         </div>
     </section>
 {%endblock%}
 
 {%block code_complexity%}
-    TODO
+    <p>The time and space complexity are <span class="code">O(1)</span>.</p>
 {%endblock%}
 
 
@@ -48,6 +73,116 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+    <script>
+
+        var LinkedList = function(value) {
+          this.value = value;
+          this.next = null;
+        };
+
+
+        function delMiddleNode(node){
+
+            if (!node.next || !node){
+
+              return false;
+            }
+            node.value = node.next.value;
+            node.next = node.next.next;
+            return true;
+
+          }
+
+        function showExample(root){
+
+            var before = document.getElementById('before');
+            var after = document.getElementById('after');
+
+            //clear previous results
+            before.innerHTML = '';
+            after.innerHTML = '';
+
+            var cur = root;
+
+            while(cur){
+
+                var sp1 = document.createElement('span');
+                sp1.style.fontWeight = 'bold';
+                sp1.style.fontStyle = 'italic';
+                sp1.style.fontSize = '20px';
+                before.appendChild(sp1).
+                    appendChild(document.createTextNode(cur.value.toString()));
+
+                if (cur.next){
+                    var sp2 = document.createElement('span');
+                    sp2.style.fontWeight = 'bold';
+                    before.appendChild(sp2).
+                    appendChild(document.createTextNode(' \u2192 '));
+                }
+                cur = cur.next;
+            }
+
+            cur = root;
+            var i = 0;
+            var hide = Math.floor(Math.random() * (3 - 1)) + 1;
+
+            var p = document.createElement('p');
+            after.appendChild(p).
+                    appendChild(document.createTextNode('After removing link #' + hide.toString()));
+
+            while(cur){
+
+                if (i == hide){
+                    i ++;
+                    cur = cur.next;
+                    continue;
+                }
+
+                var sp1 = document.createElement('span');
+                sp1.style.fontWeight = 'bold';
+                sp1.style.fontStyle = 'italic';
+                sp1.style.fontSize = '20px';
+                sp1.style.color = 'green';
+                after.appendChild(sp1).
+                    appendChild(document.createTextNode(cur.value.toString()));
+
+                if (cur.next){
+                    var sp2 = document.createElement('span');
+                    sp2.style.fontWeight = 'bold';
+                    after.appendChild(sp2).
+                    appendChild(document.createTextNode(' \u2192 '));
+                }
+                cur = cur.next;
+                i ++;
+            }
+        }
+
+        function getExample(){
+
+            var numNodes = 4;
+            var nodes = [['someblog.com', 'stackoverflow.com'],
+                         ['smallnewspaper.com', 'localnews.com'],
+                         ['nytimes.com', 'washingtonpost.com', 'times.com'],
+                         ['wikipedia.com', 'allknowledge.com']
+                         ];
+
+
+            var root = new LinkedList(nodes[0][Math.floor(Math.random()*2)]);
+            var cur = root;
+
+            for (var i = 1; i < numNodes; i ++){
+
+                var temp = Math.floor (Math.random() * nodes[i].length);
+                var node = nodes[i][temp]
+                cur.next = new LinkedList(node);
+                cur = cur.next;
+            }
+
+            showExample(root);
+        }
+
+        getExample();
+    </script>
 
 
 {%endblock%}
