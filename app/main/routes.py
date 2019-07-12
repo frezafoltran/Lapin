@@ -270,14 +270,8 @@ def algos_trees_and_graphs(q_num):
         return render_template('algos/trees_and_graphs/question_' + str(q_num) + '.html', edges=edges,
                                edges_vec=edges_vec, form=form, path_bool=-1)
 
-    elif q_num == '2':
+    else:
         return render_template('algos/trees_and_graphs/question_' + str(q_num) + '.html')
-
-    elif q_num == '3':
-        return render_template('algos/stacks_and_queues/question_' + str(q_num) + '.html')
-
-    elif q_num == '4':
-        return render_template('algos/stacks_and_queues/question_' + str(q_num) + '.html')
 
 
 @bp.route('/algos/math/<q_num>', methods=['GET', 'POST'])

@@ -1,0 +1,394 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_trees_and_graphs', q_num=0)}}" >Back to Trees and Graphs</a>
+{%endblock%}
+
+{%block question_name%}
+    Employee Hierarchy
+{%endblock%}
+
+{%block question_explanation%}
+    Given a table with the employees and their respective managers, build a graph that represents the
+    company's hierarchical structure. Note that the graph can be disconnected or connected and each node
+    can have arbitrarily many edges.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>Here you can see what the algorithm looks like in action for some sample data. Click <span class="code">refresh</span>
+below to get new random sample data.</p>
+
+<button onclick="refreshDemo()">Refresh</button>
+
+<div id="table_data" class="row"></div>
+
+<canvas id="canvas_1" width="200" height="150" style="display:none;"></canvas>
+
+{%endblock%}
+
+{%block code_intuition%}
+ <p>The idea is to construct each level of the hierarchy iteratively, starting from the level of people that
+    do not manage anyone. </p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>  </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/b2502f15e85adc2304737dc3f9f6b21d.js"></script>
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p></p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/27eac3207d50c774019f06babf819968.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+         var Graph = function (){
+            this.nodes = [];
+          }
+
+          Graph.prototype.addNode = function (node){
+            this.nodes.push (node);
+          }
+
+          var GraphNode = function (data){
+            this.data = data;
+            this.children = [];
+            this.visited = false;
+          }
+
+          GraphNode.prototype.addChildren = function (node){
+            this.children.push (node);
+          }
+
+        // ========================================================== FOR DEMO
+
+        var tableData = document.getElementById('table_data');
+        var canvas_1 = document.getElementById('canvas_1');
+
+        var names = ['Ringo', 'John', 'Alfred', 'Angela', 'Julia',
+                    'Jude', 'Yolanda', 'Jude', 'Catarina', 'Sofia',
+                    'Potato', 'Pedro', 'Fiona', 'Cyrus', 'Olivia',
+                    'Cyrille', 'Xuehong', 'Elvira', 'Carol', 'Obama',
+                    'Usain', 'Flavio', 'Jeremy', 'Roberto', 'Daiki'];
+
+        var managers = names.slice(0, Math.floor(names.length/2));
+        var colSize = 5;
+
+
+        function canvasBfs(graph, start) {
+
+
+            for (var i = 0; i < graph.nodes.length; i ++){
+                graph.nodes[i].visited = false;
+            }
+
+            var fakeQueue = [start];
+            console.log(start.data);
+            start.visited = true;
+
+            while (fakeQueue.length > 0){
+
+
+              var curr = fakeQueue[0];
+              for (var i = 0; i < curr.children.length; i ++){
+
+                if (!curr.children[i].visited){
+
+                  curr.children[i].visited = true;
+                  fakeQueue.push(curr.children[i]);
+                  console.log(curr.children[i].data);
+                }
+              }
+
+              fakeQueue.shift();
+            }
+            console.log('----------------');
+
+        }
+
+        function updateGraphDisplay(graph, graphPieces){
+
+            canvas_1.innerHTML = '';
+            canvas_1.style.display = 'inline';
+            var ctx = canvas_1.getContext("2d");
+            var j = 10;
+            var yOffset = 10;
+
+            for (key in graphPieces){
+
+                var cur_root = graphPieces[key];
+
+                canvasBfs(graph, cur_root);
+
+                ctx.beginPath();
+                ctx.font = "20px Georgia";
+                ctx.fillText(key.toString(), j + 40, yOffset + 5);
+                ctx.arc(j + 40, yOffset, 40, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+
+
+        }
+
+        function updateTableDisplay(newTable){
+
+            var numCols = (newTable[0].length % colSize) == 0 ?
+                        newTable[0].length/colSize : Math.floor(newTable[0].length/colSize) + 1;
+
+            table_data.innerHTML = '';
+
+            for (var i = 0; i < numCols; i ++){
+
+                var col = document.createElement('div');
+                col.class = "col-sm-2";
+                col.style.textAlign = "left";
+                col.style.float = "none";
+                col.style.display = "inline-block";
+                col.style.margin = '10px';
+
+                var span = document.createElement('span');
+
+                for (var j = i * colSize; j < (i+1)*colSize; j ++){
+
+                    if (newTable[0][j] && newTable[1][j]){
+                        span.appendChild(document.createTextNode(newTable[0][j] + ' | ' + newTable[1][j]));
+                    }
+                    else{
+                        span.appendChild(document.createTextNode(''));
+                    }
+                    span.appendChild(document.createElement('br'));
+                }
+
+                table_data.appendChild(col).appendChild(span);
+            }
+        }
+
+
+
+
+
+        function getNewTable(numEmployees){
+
+            var newTable = [[],[]];
+
+            var getManager = {};
+            for (var i = 0; i < numEmployees; i ++){
+
+                var employee = names[i];
+
+                var index = Math.floor( Math.random() * managers.length);
+                var manager = managers[index];
+
+                var j = index + 1;
+
+                var curManager = manager;
+                var curEmployee = employee;
+                var hasLoopBool = (curEmployee == getManager[curManager]);
+
+                while(getManager[curManager]){
+                    curManager = getManager[curManager];
+                    curEmployee = getManager[curEmployee];
+                    hasLoopBool = hasLoopBool || (getManager[curManager] == curEmployee);
+                }
+
+                //make sure employee does not manage themselves and
+                //that manager of manager is not employee.
+                while (employee == manager || hasLoopBool){
+                    manager = managers[j % numEmployees];
+                    j ++;
+
+                    curManager = manager;
+                    curEmployee = employee;
+                    hasLoopBool = (curEmployee == getManager[curManager]);
+
+                    while(getManager[curManager]){
+                        curManager = getManager[curManager];
+                        curEmployee = getManager[curEmployee];
+                        hasLoopBool = hasLoopBool || (getManager[curManager] == curEmployee);
+                    }
+                }
+
+                getManager[employee] = manager;
+
+                if (employee && manager){
+                    newTable[0].push(employee);
+                    newTable[1].push(manager);
+                }
+            }
+
+            return newTable;
+        }
+
+        function bfs(graph, start, toFind, printBool) {
+
+
+            for (var i = 0; i < graph.nodes.length; i ++){
+                graph.nodes[i].visited = false;
+            }
+
+            var fakeQueue = [start];
+            if (printBool){
+                console.log(start.data);
+            }
+            start.visited = true;
+
+            while (fakeQueue.length > 0){
+
+
+              var curr = fakeQueue[0];
+              for (var i = 0; i < curr.children.length; i ++){
+
+                //extra piece to count how many disconnected pieces in graph
+                if (toFind && curr != start){
+
+                    for (var i = 0; i < toFind.length; i ++){
+
+                        if (toFind[i] == curr){
+                            return i + 1;
+                        }
+                    }
+                }
+
+
+                if (!curr.children[i].visited){
+
+                  curr.children[i].visited = true;
+                  fakeQueue.push(curr.children[i]);
+                  if (printBool){
+                    console.log(curr.children[i].data);
+                  }
+                }
+              }
+
+              fakeQueue.shift();
+            }
+            if (printBool){
+                console.log('----------------');
+            }
+            return false;
+        }
+
+
+        function getDisconnectedPieces(graph){
+
+            var graphPieces = {};
+            var toFind = [];
+            for (var i = 0; i < graph.nodes.length; i ++){
+
+                var cur = graph.nodes[i];
+                if (cur.children.length > 0){
+
+                    toFind.push(graph.nodes[i]);
+
+                    var found = bfs(graph, cur, toFind, false);
+
+                    if (found){
+                        delete graphPieces[toFind[found - 1].data];
+                        toFind = toFind.slice(0, found - 1).concat(toFind.slice(found, toFind.length));
+                    }
+
+                    graphPieces[cur.data] = cur;
+                }
+            }
+            return graphPieces;
+        }
+
+
+        function getTree(newTable){
+
+            console.clear();
+
+            var graph = new Graph();
+            var numEmployees = newTable[0].length;
+
+            // all employees in left column are guaranteed to be unique so we add them to graph
+            var employees = {};
+            for (var i = 0; i < numEmployees; i ++){
+
+                graph.addNode(new GraphNode(newTable[0][i]));
+
+                //this keeps track of already added employees for speed
+                employees[newTable[0][i]] = i + 1;
+            }
+
+            // add remaining nodes while also adding edges
+            for (var i = 0; i < numEmployees; i ++){
+
+                //new person to be added
+                if (!employees[newTable[1][i]]){
+                    var managerNode = new GraphNode(newTable[1][i]);
+                    graph.addNode(managerNode);
+
+                    employees[newTable[1][i]] = numEmployees + 1;
+                }
+                //retrieve already added node
+                else{
+                    var nodeIndex = employees[newTable[1][i]] - 1;
+                    var managerNode = graph.nodes[nodeIndex];
+                }
+
+                employeeNode = graph.nodes[employees[newTable[0][i]] - 1];
+
+                //add edge from manager to employee
+                managerNode.addChildren(employeeNode);
+            }
+
+            for (var i = 0; i < graph.nodes.length; i ++){
+                bfs(graph, graph.nodes[i], false, true);
+            }
+
+            console.log('-------!!!----');
+
+
+            //calculate number of disconnected pieces
+            var graphPieces = getDisconnectedPieces(graph);
+
+            updateGraphDisplay(graph, graphPieces);
+        }
+
+        function refreshDemo(){
+
+            //var numEmployees = Math.floor(Math.random()*(names.length - 10)) + 10;
+            var numEmployees = 10;
+
+            names.sort(() => Math.random() - 0.5);
+            managers.sort (() => Math.random() - 0.5 );
+
+            var newTable = getNewTable(numEmployees);
+
+            //update table
+            updateTableDisplay(newTable);
+            getTree(newTable);
+        }
+
+
+    </script>
+
+{%endblock%}
