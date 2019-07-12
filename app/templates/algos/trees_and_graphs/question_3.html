@@ -28,7 +28,11 @@ below to get new random sample data.</p>
 
 <div id="table_data" class="row"></div>
 
-<canvas id="canvas_1" width="200" height="150" style="display:none;"></canvas>
+<div class="container">
+    <div class="row" id="canvases">
+
+    </div>
+</div>
 
 {%endblock%}
 
@@ -89,19 +93,93 @@ below to get new random sample data.</p>
         // ========================================================== FOR DEMO
 
         var tableData = document.getElementById('table_data');
-        var canvas_1 = document.getElementById('canvas_1');
 
         var names = ['Ringo', 'John', 'Alfred', 'Angela', 'Julia',
                     'Jude', 'Yolanda', 'Jude', 'Catarina', 'Sofia',
                     'Potato', 'Pedro', 'Fiona', 'Cyrus', 'Olivia',
-                    'Cyrille', 'Xuehong', 'Elvira', 'Carol', 'Obama',
+                    'Cyrille', 'Hong', 'Elvira', 'Carol', 'Obama',
                     'Usain', 'Flavio', 'Jeremy', 'Roberto', 'Daiki'];
 
         var managers = names.slice(0, Math.floor(names.length/2));
         var colSize = 5;
 
 
-        function canvasBfs(graph, start) {
+        function splitAxis(totalWidth, numSlots, radius){
+
+            var middle = Math.floor(totalWidth/2);
+
+            var out = [];
+
+            var numOnSides = Math.floor((numSlots - 1) / 2);
+
+            for (var i = numOnSides; i > 0; i --){
+                out.push(middle - i * radius * 2);
+            }
+
+            out.push(middle);
+
+            for (var i = 1; i <= numOnSides; i ++){
+                out.push(middle + i * radius * 2);
+            }
+
+            if (((numSlots - 1) / 2) % 2 != 2){
+                out.push(middle + (numOnSides + 1) * radius * 2);
+            }
+
+            return out;
+
+        }
+
+        function connectCircles(x1, y1, x2, y2, radius, c){
+
+            var ctx = c.getContext("2d");
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
+            var startX = x1;
+            var startY = y1 + radius;
+            var endX = x2;
+            var endY = y2 - radius;
+
+            if (x1 == x2){
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 1;
+                return;
+
+            }
+
+            var slope = (y2 - y1)/(x2 - x1);
+
+            startX = x1 + radius / Math.sqrt(1 + Math.pow(slope, 2));
+            startY = slope * startX + (y1 - x1 * slope);
+
+            if (startX > x2){
+                startX = x1 - radius / Math.sqrt(1 + Math.pow(slope, 2));
+                startY = slope * startX + (y1 - x1 * slope);
+            }
+
+            endX = x2 + radius / Math.sqrt(1 + Math.pow(slope, 2));
+            endY = slope * endX + (y1 - x1 * slope);
+
+            if (endX > x1){
+                endX = x2 - radius / Math.sqrt(1 + Math.pow(slope, 2));
+                endY = slope * endX + (y1 - x1 * slope);
+            }
+
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+        }
+
+        function getCanvasDim(graph, start) {
 
 
             for (var i = 0; i < graph.nodes.length; i ++){
@@ -109,48 +187,181 @@ below to get new random sample data.</p>
             }
 
             var fakeQueue = [start];
-            console.log(start.data);
+            var depthQueue = [1];
+
+            var depth = 0;
+            var rowLens = {};
+
             start.visited = true;
 
             while (fakeQueue.length > 0){
 
 
               var curr = fakeQueue[0];
+              var level = depthQueue[0];
+
+              if (level > depth){
+                depth = level;
+              }
+
+              //store the number of items in each level
+              if (curr.children.length != 0){
+                  if (!rowLens[level + 1]){
+                    rowLens[level + 1] = curr.children;
+                  }
+                  else{
+                    rowLens[level + 1] = rowLens[level + 1].concat(curr.children);
+                  }
+              }
+
               for (var i = 0; i < curr.children.length; i ++){
 
                 if (!curr.children[i].visited){
 
                   curr.children[i].visited = true;
                   fakeQueue.push(curr.children[i]);
-                  console.log(curr.children[i].data);
+                  depthQueue.push(level + 1);
                 }
               }
 
               fakeQueue.shift();
+              depthQueue.shift();
             }
-            console.log('----------------');
+
+            return [depth, rowLens];
+        }
+
+
+        function canvasBfs(graph, start, c, radius, rowLens) {
+
+            // canvas setup
+            var ctx = c.getContext("2d");
+            ctx.font = "20px Georgia";
+            var level = 0;
+            var yOffset = radius;
+            var xOffset = c.width / 2;
+
+            //draw root node
+            ctx.beginPath();
+            ctx.fillText(start.data.toString(), xOffset - 0.8 * radius, yOffset + 0.2*radius);
+            ctx.arc(xOffset, yOffset, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+
+            var canvasPos = {};
+            canvasPos[start.data] = [xOffset, yOffset];
+
+            for (key in rowLens){
+
+              var curNodes = rowLens[key];
+
+              //split x axis
+              var xArray = splitAxis(c.width, curNodes.length, radius);
+
+              yOffset =  (2 * (parseInt(key)) - 1) * (radius * 1.1);
+
+
+              //get parent nodes to draw edges
+              if (parseInt(key) == 2){
+                var parents = start;
+              }
+              else{
+                var parents = rowLens[parseInt(key) - 1];
+              }
+
+              for (var i = 0; i < curNodes.length; i ++){
+
+
+                  ctx.beginPath();
+                  ctx.fillText(curNodes[i].data.toString(), xArray[i] - 0.8 * radius, yOffset + 0.2*radius);
+                  ctx.arc(xArray[i], yOffset, radius, 0, 2 * Math.PI);
+                  ctx.stroke();
+
+                  canvasPos[curNodes[i].data] = [xArray[i], yOffset];
+
+                  //connect all nodes to root
+                  if (parents == start){
+                    connectCircles(canvasPos[start.data][0], canvasPos[start.data][1], xArray[i] , yOffset, radius, c);
+                    continue;
+                  }
+
+                  //check which nodes are connected to which
+                  for (var j = 0; j < parents.length; j ++){
+
+                    if (parents[j].children.includes(curNodes[i])){
+                        connectCircles(canvasPos[parents[j].data][0],
+                            canvasPos[parents[j].data][1], xArray[i] , yOffset, radius, c);
+                        break;
+                    }
+                  }
+              }
+
+            }
 
         }
 
         function updateGraphDisplay(graph, graphPieces){
 
-            canvas_1.innerHTML = '';
-            canvas_1.style.display = 'inline';
-            var ctx = canvas_1.getContext("2d");
-            var j = 10;
-            var yOffset = 10;
+            var div = document.getElementById('canvases');
+            div.innerHTML = '';
+
+            var radius = 40;
+
+            //each component is printed in separate canvas
+            var allCanvases = [];
 
             for (key in graphPieces){
 
                 var cur_root = graphPieces[key];
 
-                canvasBfs(graph, cur_root);
+                //initialize empty canvas at right position
+                var c = document.createElement('canvas');
 
-                ctx.beginPath();
-                ctx.font = "20px Georgia";
-                ctx.fillText(key.toString(), j + 40, yOffset + 5);
-                ctx.arc(j + 40, yOffset, 40, 0, 2 * Math.PI);
-                ctx.stroke();
+                c.style.display = 'block';
+                //c.style = 'border:1px solid';
+
+                //calculate dimensions of canvas
+                [depth, rowLens] = getCanvasDim(graph, cur_root);
+
+                //not draw single nodes
+                if (depth == 1){
+                    continue;
+                }
+
+                var canvasWidth = 0;
+                for (key in rowLens){
+
+                    if (rowLens[key].length > canvasWidth){
+                        canvasWidth = rowLens[key].length;
+                    }
+                }
+
+                c.width = (canvasWidth * radius * 2 + radius * 2);
+                c.height = (depth * radius * 2 * 1.1);
+                c.getContext("2d").clearRect(0,0,c.width,c.height);
+
+                canvasBfs(graph, cur_root, c, radius, rowLens);
+
+                allCanvases.push(c);
+
+                var k = allCanvases.length - 1;
+                if (k > 0){
+                    while (k > 0 && c.width < allCanvases[k - 1].width){
+                        allCanvases[k] = allCanvases[k - 1];
+                        k --;
+                    }
+                    allCanvases[k] = c;
+                }
+
+            }
+
+            for (var i = 0; i < allCanvases.length; i ++){
+
+                //wrap canvas in column for display
+                var col = document.createElement('div');
+                col.class = 'col';
+                col.style = 'float:left';
+                div.appendChild(col).appendChild(allCanvases[i]);
+
             }
 
 
@@ -268,10 +479,10 @@ below to get new random sample data.</p>
                 //extra piece to count how many disconnected pieces in graph
                 if (toFind && curr != start){
 
-                    for (var i = 0; i < toFind.length; i ++){
+                    for (var j = 0; j < toFind.length; j ++){
 
-                        if (toFind[i] == curr){
-                            return i + 1;
+                        if (toFind[j] == curr){
+                            return j + 1;
                         }
                     }
                 }
@@ -296,25 +507,74 @@ below to get new random sample data.</p>
         }
 
 
+        function bfsMod(graph, start, toFind, printBool) {
+
+
+            for (var i = 0; i < graph.nodes.length; i ++){
+                graph.nodes[i].visited = false;
+            }
+
+            var fakeQueue = [start];
+            if (printBool){
+                console.log(start.data);
+            }
+            start.visited = true;
+
+            while (fakeQueue.length > 0){
+
+
+              var curr = fakeQueue[0];
+              for (var i = 0; i < curr.children.length; i ++){
+
+                //extra piece to count how many disconnected pieces in graph
+                if (toFind && curr != start && toFind == curr){
+                    return true;
+                }
+
+
+                if (!curr.children[i].visited){
+
+                  curr.children[i].visited = true;
+                  fakeQueue.push(curr.children[i]);
+                  if (printBool){
+                    console.log(curr.children[i].data);
+                  }
+                }
+              }
+
+              fakeQueue.shift();
+            }
+            if (printBool){
+                console.log('----------------');
+            }
+            return false;
+        }
+
         function getDisconnectedPieces(graph){
 
             var graphPieces = {};
             var toFind = [];
+
+            for (var i = 0; i < graph.nodes.length; i ++){
+                graphPieces[graph.nodes[i].data] = curRoot;
+            }
+
             for (var i = 0; i < graph.nodes.length; i ++){
 
-                var cur = graph.nodes[i];
-                if (cur.children.length > 0){
+                var curRoot = graph.nodes[i];
+                graphPieces[curRoot.data] = curRoot;
 
-                    toFind.push(graph.nodes[i]);
+                for (var j = 0; j < graph.nodes.length; j++){
 
-                    var found = bfs(graph, cur, toFind, false);
+                    if (i != j){
+                        var toFind = graph.nodes[j];
+                        var found = bfsMod(graph, curRoot, toFind, false);
 
-                    if (found){
-                        delete graphPieces[toFind[found - 1].data];
-                        toFind = toFind.slice(0, found - 1).concat(toFind.slice(found, toFind.length));
+                        if (found){
+                            delete graphPieces[toFind.data];
+                        }
                     }
 
-                    graphPieces[cur.data] = cur;
                 }
             }
             return graphPieces;
@@ -339,6 +599,7 @@ below to get new random sample data.</p>
             }
 
             // add remaining nodes while also adding edges
+            var count = 1;
             for (var i = 0; i < numEmployees; i ++){
 
                 //new person to be added
@@ -346,7 +607,8 @@ below to get new random sample data.</p>
                     var managerNode = new GraphNode(newTable[1][i]);
                     graph.addNode(managerNode);
 
-                    employees[newTable[1][i]] = numEmployees + 1;
+                    employees[newTable[1][i]] = numEmployees + count;
+                    count++;
                 }
                 //retrieve already added node
                 else{
@@ -360,12 +622,6 @@ below to get new random sample data.</p>
                 managerNode.addChildren(employeeNode);
             }
 
-            for (var i = 0; i < graph.nodes.length; i ++){
-                bfs(graph, graph.nodes[i], false, true);
-            }
-
-            console.log('-------!!!----');
-
 
             //calculate number of disconnected pieces
             var graphPieces = getDisconnectedPieces(graph);
@@ -375,8 +631,8 @@ below to get new random sample data.</p>
 
         function refreshDemo(){
 
-            //var numEmployees = Math.floor(Math.random()*(names.length - 10)) + 10;
-            var numEmployees = 10;
+            var numEmployees = Math.floor(Math.random()*(names.length - 10)) + 10;
+            //var numEmployees = 10;
 
             names.sort(() => Math.random() - 0.5);
             managers.sort (() => Math.random() - 0.5 );
