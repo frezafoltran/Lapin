@@ -26,26 +26,43 @@
         they know people in common or not.</p>
 
 
-<canvas id="canvas" width="500" height="200" style="border:1px solid #d3d3d3;">
+<canvas id="canvas" width="500" height="200">
 Your browser does not support the HTML5 canvas tag.</canvas>
 
-<p><a href="{{url_for('main.algos_trees_and_graphs', q_num=1)}}">Refresh graph</a></p>
+<p><a onclick="refreshGraph();" style="cursor:pointer;">Refresh graph</a></p>
 
-<form action="" method="post">
-        {{ form.hidden_tag() }}
-        {{form.p1.label}}
-        {{form.p1}}
-        <br>
-        {{form.p2.label}}
-        {{form.p2}}
-        <br>
-        {% for error in form.p1.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
-        {{form.submit}}
-        <span style="display:none">{{form.curr_graph(value=edges)}}</span>
-
+<form action="">
+    <span style="font-weight:bold;">Select first person:</span>
+  <select id = "first_person" name="people">
+    <option value="0">Angela</option>
+    <option value="1">Joao</option>
+    <option value="2">Elvira</option>
+    <option value="3">Ringo</option>
+      <option value="4">Pedro</option>
+      <option value="5">Carol</option>
+      <option value="6">Sofia</option>
+      <option value="7">Jude</option>
+  </select>
 </form>
+
+<form action="">
+    <span style="font-weight:bold;">Select second person:</span>
+  <select id = "second_person" name="people">
+      <option value="3">Ringo</option>
+    <option value="0">Angela</option>
+    <option value="1">Joao</option>
+    <option value="2">Elvira</option>
+      <option value="4">Pedro</option>
+      <option value="5">Carol</option>
+      <option value="6">Sofia</option>
+      <option value="7">Jude</option>
+  </select>
+</form>
+<br>
+<p><a onclick="checkIfPathExists();" style="cursor:pointer;">Check if path exists</a></p>
+
+
+<p id="path_exists_result"></p>
 
 {%if path_bool != -1%}
 {%if path_bool%}
@@ -108,78 +125,204 @@ as the start node, the path is trivial. We return <span class="code">True</span>
     var c = document.getElementById("canvas");
     var ctx = c.getContext("2d");
 
-
-    var edges = {{edges_vec}}
-
-
-    var c = 0
-
-    //1-2, 2-3, 3-4
-    for (var i = 1; i < 4; i ++){
-
-        if (edges[c] == 1){
-            ctx.beginPath();
-            ctx.moveTo((i*1.8 + i)*41, 41);
-            ctx.lineTo(((i+1)*1.8 + (i-1))*41, 41);
-            ctx.stroke();
-        }
-        c ++;
-    }
-
-    //5-6, 6-7, 7-8
-    for (var i = 1; i < 4; i ++){
-        if (edges[c] == 1){
-            ctx.beginPath();
-            ctx.moveTo((i*1.8 + i)*41, 3.8*41);
-            ctx.lineTo(((i+1)*1.8 + (i-1))*41, 3.8*41);
-            ctx.stroke();
-        }
-        c ++;
-    }
-
-    //1-5, 2-6, 3-7, 4-8
-    for (var i = 1; i < 5; i ++){
-        if (edges[c] == 1){
-            ctx.beginPath();
-            ctx.moveTo((i*1.8 + i - 1)*41, 2*41);
-            ctx.lineTo((i*1.8 + i - 1)*41, 2.8*41);
-            ctx.stroke();
-        }
-        c ++;
-    }
-
-    //diagonals 1-6,  2-7, 3-8
-    for (var i = 1; i < 4; i ++){
-        if (edges[c] == 1){
-            ctx.beginPath();
-            ctx.moveTo((i*1.8 + 0.9 + i - 1)*41, (2 -0.707)*41);
-            ctx.lineTo(((i + 1)*1.8 -0.9 + (i+1) - 1)*41, (2.8 + 0.707)*41);
-            ctx.stroke();
-        }
-        c++;
-    }
-
     var names = ['Angela', 'Joao', 'Elvira', 'Ringo', 'Pedro',
-    'Carol', 'Sofia', 'Jude']
-    //upper row of nodes
-    for (var i = 1; i < 5; i ++){
-        ctx.beginPath();
-        var offset = (i-1) + 1.8*i
-        ctx.font = "20px Georgia";
-        ctx.fillText(names[i-1],(offset-0.6)*41 , 41 + 5);
-        ctx.arc(offset*41, 41, 40, 0, 2 * Math.PI);
-        ctx.stroke();
+    'Carol', 'Sofia', 'Jude'];
+
+    function addNodes(){
+        //upper row of nodes
+        for (var i = 1; i < 5; i ++){
+            ctx.beginPath();
+            var offset = (i-1) + 1.8*i
+            ctx.font = "20px Georgia";
+            ctx.fillText(names[i-1],(offset-0.6)*41 , 41 + 5);
+            ctx.arc(offset*41, 41, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
+        //lower row of nodes
+        for (var i = 1; i < 5; i ++){
+            ctx.beginPath();
+            var offset = (i-1) + 1.8*i
+            ctx.font = "20px Georgia";
+            ctx.fillText(names[i+3],(offset-0.6)*41 , 3.8*41 + 5);
+            ctx.arc(offset*41, 3.8*41, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+
     }
 
-    //lower row of nodes
-    for (var i = 1; i < 5; i ++){
-        ctx.beginPath();
-        var offset = (i-1) + 1.8*i
-        ctx.font = "20px Georgia";
-        ctx.fillText(names[i+3],(offset-0.6)*41 , 3.8*41 + 5);
-        ctx.arc(offset*41, 3.8*41, 40, 0, 2 * Math.PI);
-        ctx.stroke();
+
+    var edgesVec = [];
+
+    function randomEdges(){
+
+        edgesVec = [];
+
+        for (var i = 0; i < 13; i ++){
+
+            var temp = Math.floor(Math.random() * 10);
+            edgesVec.push(temp <= 5 ? 1 : 0);
+         }
     }
+
+    function updateDisplay(edges){
+
+        var c = 0
+
+        //1-2, 2-3, 3-4
+        for (var i = 1; i < 4; i ++){
+
+            if (edges[c] == 1){
+                ctx.beginPath();
+                ctx.moveTo((i*1.8 + i)*41, 41);
+                ctx.lineTo(((i+1)*1.8 + (i-1))*41, 41);
+                ctx.stroke();
+            }
+            c ++;
+        }
+
+        //5-6, 6-7, 7-8
+        for (var i = 1; i < 4; i ++){
+            if (edges[c] == 1){
+                ctx.beginPath();
+                ctx.moveTo((i*1.8 + i)*41, 3.8*41);
+                ctx.lineTo(((i+1)*1.8 + (i-1))*41, 3.8*41);
+                ctx.stroke();
+            }
+            c ++;
+        }
+
+        //1-5, 2-6, 3-7, 4-8
+        for (var i = 1; i < 5; i ++){
+            if (edges[c] == 1){
+                ctx.beginPath();
+                ctx.moveTo((i*1.8 + i - 1)*41, 2*41);
+                ctx.lineTo((i*1.8 + i - 1)*41, 2.8*41);
+                ctx.stroke();
+            }
+            c ++;
+        }
+
+        //diagonals 1-6,  2-7, 3-8
+        for (var i = 1; i < 4; i ++){
+            if (edges[c] == 1){
+                ctx.beginPath();
+                ctx.moveTo((i*1.8 + 0.9 + i - 1)*41, (2 -0.707)*41);
+                ctx.lineTo(((i + 1)*1.8 -0.9 + (i+1) - 1)*41, (2.8 + 0.707)*41);
+                ctx.stroke();
+            }
+            c++;
+        }
+    }
+
+    function refreshGraph(){
+
+        ctx.clearRect(0, 0, c.width, c.height);
+        randomEdges();
+
+        addNodes();
+        updateDisplay(edgesVec);
+
+
+    }
+
+    function buildGraph(edgesVec){
+
+        var graph = [];
+        for (var i = 0; i < 8; i ++){
+            graph.push([]);
+        }
+
+        // build graph
+        for (var i = 0; i < edgesVec.length; i ++){
+
+            if (edgesVec[i] == 0){
+                continue;
+            }
+
+            // i is connected to i + 1 (total 3)
+            if (i < 3){
+                graph[i].push(i + 1);
+                graph[i + 1].push(i);
+            }
+
+            // i + 1 is connected to i + 2 (total 3)
+            else if (i >= 3 && i < 6){
+                graph[i + 1].push(i + 2);
+                graph[i + 2].push(i + 1);
+            }
+
+            // i - 6 is connected to (i - 6) + 4 (total 4)
+            else if (i >= 6 && i < 10){
+                graph[i - 6].push((i - 6) + 4);
+                graph[(i - 6) + 4].push(i - 6);
+            }
+
+            // i - 10 is connected to (i - 10) + 5
+            else{
+                graph[i - 10].push((i - 10) + 5);
+                graph[(i - 10) + 5].push(i - 10);
+            }
+
+        }
+
+        return graph;
+
+    }
+
+    function pathExists(start, end, graph){
+
+        if (start == end){
+            return true;
+        }
+
+        var visited = [];
+        for (var i = 0; i < graph.length; i ++){
+            visited.push(0);
+        }
+
+        visited[start] = 1;
+        var queue = [start];
+
+        while (queue.length > 0){
+            curr = queue[0];
+
+            for ( var i = 0; i < graph[curr].length; i ++){
+
+                if (graph[curr][i] == end){
+                    return true;
+                }
+
+                if (!visited[graph[curr][i]]){
+                    visited[graph[curr][i]] = true;
+                    queue.push(graph[curr][i]);
+                }
+            }
+            queue.shift();
+        }
+
+        return false;
+    }
+
+    function checkIfPathExists(){
+
+        var p1Index = parseInt(document.getElementById('first_person').value);
+        var p2Index = parseInt(document.getElementById('second_person').value);
+
+        var graph = buildGraph(edgesVec);
+
+        var pathBool = pathExists(p1Index, p2Index, graph);
+
+        var txtResult = pathBool ? "The selected people are friends" : "The selected people are not friends";
+
+        var resultPar = document.getElementById('path_exists_result');
+
+        resultPar.style.color = pathBool ? 'green' : 'red';
+        resultPar.innerHTML = txtResult;
+
+    }
+
+    refreshGraph();
 
     </script>
 

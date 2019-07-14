@@ -1,0 +1,360 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_trees_and_graphs', q_num=0)}}" >Back to Trees and Graphs</a>
+{%endblock%}
+
+{%block question_name%}
+    List of Depths
+{%endblock%}
+
+{%block question_explanation%}
+    Given a binary tree, create a linked list for each level of the tree containing the nodes at that level.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>This algorithm is useful when facing a scenario similar to the employee hierarchy (as demonstrated
+    <a href="{{ url_for('main.algos_trees_and_graphs', q_num = 3) }}">here</a>). Imagine you are given a binary tree,
+    where each node is the employee of a company. The demo below shows how to get a linked list of all employees
+    at any given hierarchical level.</p>
+
+<button onclick="newTree()">Refresh</button>
+<br>
+<br>
+
+<div class="container" id="canvas_div"></div>
+
+<div id="linked_lists"></div>
+
+{%endblock%}
+
+{%block code_intuition%}
+ <p>For problems that involve visiting all nodes of a binary tree, it is usually helpful to consider the three
+ options of traversal: <span class="code">pre-order</span>, <span class="code">in-order</span> and
+     <span class="code">post-order</span> traversal. Since we want to keep track of the level we are visiting,
+    <span class="code">pre-order</span> traversal comes in handy.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> As <span class="code">pre-order</span> traversal is usually implemented through
+recursion, we will write a recursive function to traverse the tree. We include <span class="code">level</span>
+as one of the inputs to keep track of the level we are at.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/175b5628a2fdbe108f8cd68019313119.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> An important part of the recursive function is to identify whether
+or not we are at a new level. If we are at an unvisited level, we crate a new <span class="code">list</span>
+linked list that will later be added to the array of linked lists called lists. Else, we simply access the respective
+level at the <span class="code">lists</span> array.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/bf9c0bc21bc8fab36cf6f36f5c6dfce3.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> We wrap the recursive function for ease of use.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/2e9121c41386319f10ed94dac8f45c2f.js"></script>
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p>The time complexity is the same as usual traversals of binary trees, O(n), where n is the number of nodes.
+The space complexity is also O(n) to store the linked lists.</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/4f9326027dcff4cfbdf4860b97892f19.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+
+        var Node = function (data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+
+        var names = ['Ringo', 'John', 'Alfred', 'Angela', 'Julia',
+                    'Jude', 'Yolanda', 'Jude', 'Catarina', 'Sofia',
+                    'Potato', 'Pedro', 'Fiona', 'Cyrus', 'Olivia',
+                    'Cyrille', 'Hong', 'Elvira', 'Carol', 'Obama',
+                    'Usain', 'Flavio', 'Jeremy', 'Roberto', 'Daiki'];
+
+
+        //get linked list at each level of Binary tree
+          function createLevelLinkedListHelper(root, lists, level){
+
+            if (!root){
+              return;
+            }
+
+            var list;
+            if (lists.length == level){
+              list = [];
+              lists.push (list);
+            }
+            else{
+              list = lists[level];
+            }
+
+            list.push (root);
+            createLevelLinkedListHelper(root.left, lists, level + 1);
+            createLevelLinkedListHelper(root.right, lists, level + 1);
+          }
+
+          function createLevelLinkedList(root){
+            var lists = [];
+            createLevelLinkedListHelper(root, lists, 0);
+            return lists;
+          }
+
+
+        function getXPos(numNodes, middle){
+
+            //var middle = c.width/2;
+            if (numNodes == 1){
+
+                return [middle];
+            }
+
+            var out = [];
+            var middles = [];
+
+            for (var i = 0; i < numNodes/2; i ++){
+
+                var coeff = (2*i+1)/(numNodes/2)
+                middles.push(coeff * middle);
+            }
+
+            for (var k = 0; k < middles.length; k ++){
+
+                    var offSet = middles[0]/Math.pow(2, (1));
+                    out.push(middles[k] - offSet);
+                    out.push(middles[k] + offSet);
+                }
+
+            return out;
+
+        }
+
+        function connectCircles(x1, y1, x2, y2, radius, c){
+
+            var ctx = c.getContext("2d");
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
+            var startX = x1;
+            var startY = y1 + radius;
+            var endX = x2;
+            var endY = y2 - radius;
+
+            if (x1 == x2){
+
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 1;
+                return;
+
+            }
+
+            var slope = (y2 - y1)/(x2 - x1);
+
+            startX = x1 + radius / Math.sqrt(1 + Math.pow(slope, 2));
+            startY = slope * startX + (y1 - x1 * slope);
+
+            if (startX > x2){
+                startX = x1 - radius / Math.sqrt(1 + Math.pow(slope, 2));
+                startY = slope * startX + (y1 - x1 * slope);
+            }
+
+            endX = x2 + radius / Math.sqrt(1 + Math.pow(slope, 2));
+            endY = slope * endX + (y1 - x1 * slope);
+
+            if (endX > x1){
+                endX = x2 - radius / Math.sqrt(1 + Math.pow(slope, 2));
+                endY = slope * endX + (y1 - x1 * slope);
+            }
+
+
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 1;
+        }
+
+        function findParent(possibleParents, j, numNodes){
+
+            var cur = numNodes;
+            var parent = possibleParents;
+            var offset = 0;
+            var rightChild = j % 2 == 0 ? false : true;
+
+            while (cur > 2){
+                cur = cur / 2;
+
+                if (j < cur + offset){
+                    parent = parent.slice(0, parent.length/2);
+
+                }
+                else{
+                    offset += parent.length;
+                    parent = parent.slice(parent.length/2, parent.length);
+                }
+            }
+
+            parent = parent[0];
+            return [parent, rightChild];
+
+        }
+
+        function createCanvas(numLayers, c){
+
+            if (numLayers == 2){
+                c.width = 200;
+                c.height = 150;
+            }
+            else if (numLayers == 3){
+                c.width = 500;
+                c.height = 200;
+            }
+            else if (numLayers == 4){
+                c.width = 700;
+                c.height = 250;
+            }
+
+            c.style.display = 'inline';
+            var ctx = c.getContext("2d");
+
+            var rad = 30;
+
+
+            var nameCounter = 0;
+            names.sort(() => Math.random() - 0.5);
+
+            //store coordinates to draw line between them
+            var nodesCoord = {};
+            var curParents = [];
+
+            for (var i = 0; i < numLayers; i ++){
+
+                var yOffset = (2 * i + 1)*(rad + 1);
+                var numNodes = Math.pow(2, i);
+
+                var currXPos = getXPos(numNodes, c.width/2);
+                curParents.push([]);
+
+
+                for (var j = 0; j < numNodes; j ++){
+
+                    //not add some nodes in last row
+                    if (i == numLayers - 1 && Math.random() > 0.5){
+                        continue;
+                    }
+
+                    ctx.beginPath();
+                    ctx.font = "15px Georgia";
+                    ctx.fillText(names[nameCounter], currXPos[j] - 0.8*rad, yOffset + 0.2*rad);
+                    ctx.arc(currXPos[j], yOffset, rad, 0, 2 * Math.PI);
+                    ctx.stroke();
+
+                    var node = new Node(names[nameCounter]);
+                    curParents[i].push(node);
+                    nodesCoord[names[nameCounter]] = [currXPos[j], yOffset];
+
+                    if (i == 0){
+                        var root = node;
+                    }
+                    if (i > 0){
+                        [parent, rightChild] = findParent(curParents[i-1], j, numNodes);
+
+                        if (rightChild){
+                            parent.right = node;
+                        }
+                        else{
+                            parent.left = node;
+                        }
+
+                        connectCircles(nodesCoord[parent.data][0], nodesCoord[parent.data][1],
+                            nodesCoord[node.data][0], nodesCoord[node.data][1], rad, c);
+
+                    }
+
+                    nameCounter ++;
+
+
+
+                }
+            }
+
+            return root;
+        }
+
+        function newTree(){
+
+            console.clear();
+            var div = document.getElementById('canvas_div');
+            div.innerHTML = '';
+
+            var numLayers = Math.floor(Math.random()*(5 - 2)) + 2;
+            var c = document.createElement('canvas');
+            var root = createCanvas(numLayers, c);
+            div.appendChild(c);
+
+            var output = document.getElementById('linked_lists');
+            output.innerHTML = '';
+            linkedLists = createLevelLinkedList(root);
+
+            for (var i = 0; i < linkedLists.length; i ++){
+
+                var p = document.createElement('p');
+                var txt = '';
+
+                for (var j = 0; j < linkedLists[i].length; j ++){
+
+                    txt += linkedLists[i][j].data + '\u2192';
+                }
+
+                p.innerHTML = txt;
+                output.append(p);
+
+            }
+
+
+        }
+
+        newTree();
+
+
+
+    </script>
+
+{%endblock%}
