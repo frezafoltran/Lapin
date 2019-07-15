@@ -1,0 +1,195 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block question_name%}
+    Bit Insertion
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to insert a binary number into another one between bits <span class="code">i</span>
+    and <span class="code">j</span>.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see another example.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+    <div class="container row" style="display:flex;align-items:center;flex-wrap:wrap;">
+
+        <div class="col-md-4 col-md-offset-2">
+            <p id="m_input"></p>
+            <p id="n_input"></p>
+            <p id="indexes"></p>
+        </div>
+
+        <div class="col-md-1">
+            <p style="float:center;"><img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:30px;height:20px;"></p>
+        </div>
+
+        <div class="col-md-4">
+            <p id="out"></p>
+        </div>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> ...</p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> ...</p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>The time complexity is O(n*n) as we need to iterate through entire linked list with both pointers.
+    The space complexity is O(1).</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/b7f089c72a801426b2cae86ac5a8b04c.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+        function insert(n, m, i, j) {
+
+          var nArray = n.split('');
+          var mArray = m.split('');
+          var nLen = nArray.length - 1;
+          var mLen = mArray.length - 1;
+
+          for (var c = 0; c < j - i + 1; c++) {
+
+            nArray[nLen - (i + c)] = mArray[mLen - c];
+
+          }
+          return nArray.join('');
+        };
+
+        function updateDisplay(n, m, i, j, out){
+
+            var mDiv = document.getElementById('m_input');
+            var nDiv = document.getElementById('n_input');
+            var indexDiv = document.getElementById('indexes');
+            var outDiv = document.getElementById('out');
+            outDiv.innerHTML = '';
+            mDiv.innerHTML = '';
+            nDiv.innerHTML = '';
+
+
+            var mSpan1 = document.createElement('span');
+            mSpan1.innerHTML = 'm = ';
+
+            var mSpan2 = document.createElement('span');
+            mSpan2.innerHTML = m;
+            mSpan2.style.color = 'green';
+            mSpan2.style.fontWeight = 'bold';
+
+            mDiv.appendChild(mSpan1).appendChild(mSpan2);
+
+            var nSpan1 = document.createElement('span');
+            var nSpan2 = document.createElement('span');
+            var nSpan3 = document.createElement('span');
+
+            var outSpan1 = document.createElement('span');
+            var outSpan2 = document.createElement('span');
+            var outSpan3 = document.createElement('span');
+
+            nSpan1.innerHTML = 'n = ';
+            outSpan1.innerHTML = 'output = ';
+            for (var c = 0; c < n.length - j - 1; c ++){
+               nSpan1.innerHTML += n[c];
+               outSpan1.innerHTML += out[c];
+            }
+
+            console.log(m.length);
+            console.log(n.length - j - 1 + m.length);
+            nSpan2.innerHTML = '';
+            outSpan2.innerHTML = '';
+            for (var c = n.length - j - 1; c < n.length - j - 1 + m.length; c ++){
+               nSpan2.innerHTML += n[c];
+               outSpan2.innerHTML += out[c];
+            }
+
+            for (var c = n.length - j - 1 + m.length; c < n.length ; c++){
+                nSpan3.innerHTML += n[c];
+                outSpan3.innerHTML += out[c];
+            }
+
+
+            nSpan2.style.color = 'orange';
+            nSpan2.style.fontWeight = 'bold';
+            outSpan2.style.color = 'green';
+            outSpan2.style.fontWeight = 'bold';
+
+            nDiv.appendChild(nSpan1).appendChild(nSpan2)
+            nDiv.appendChild(nSpan3);
+
+            indexDiv.innerHTML = 'i = ' + i + ', j = ' + j;
+
+            outDiv.appendChild(outSpan1).appendChild(outSpan2)
+            outDiv.appendChild(outSpan3);
+
+
+        }
+
+        function refreshDemo(){
+
+            var n = '';
+            var nLen = Math.floor(Math.random() * (10 - 7)) + 7;
+            for (var i = 0; i < nLen; i++){
+
+                n += Math.random() <= 0.5 ? '1' : '0';
+            }
+
+            var m = '';
+            var mLen = Math.floor(Math.random() * (6 - 3)) + 3;
+            for (var i = 0; i < mLen; i++){
+
+                m += Math.random() <= 0.5 ? '1' : '0';
+            }
+
+            var j = Math.floor(Math.random() * (nLen - (mLen - 1))) + (mLen - 1);
+            var i = j - mLen + 1;
+
+            var out = insert(n, m, i, j);
+
+            updateDisplay(n, m, i, j, out);
+
+        }
+
+        refreshDemo();
+
+
+    </script>
+
+
+{%endblock%}

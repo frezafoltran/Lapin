@@ -35,6 +35,9 @@
                 <h4><a href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}"> Trees and Graphs<img
                         style="width:120px; height:100px;" src="{{ url_for('static', filename='images/binary_tree.png') }}"></a></h4>
 
+                <h4><a href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}"> Bit Manipulation<img
+                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+
                 <h4><a href = "{{ url_for('main.algos_math', q_num=0) }}"> Math<img
                         style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
 
@@ -55,7 +58,7 @@
     <script>
 
     var progressBar = document.getElementById('progress_bar');
-    var currProgress = (55 + 37 + 16 + 26 + 30 + 16) / 6;
+    var currProgress = (55 + 37 + 16 + 38 + 0 + 30 + 16) / 7;
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';

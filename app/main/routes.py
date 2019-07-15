@@ -274,6 +274,15 @@ def algos_trees_and_graphs(q_num):
         return render_template('algos/trees_and_graphs/question_' + str(q_num) + '.html')
 
 
+@bp.route('/algos/bit_manipulation/<q_num>', methods=['GET', 'POST'])
+def algos_bit_manipulation(q_num):
+
+    if q_num == '0':
+        return render_template('algos/bit_manipulation/bit_manipulation_main.html')
+
+    else:
+        return render_template('algos/bit_manipulation/question_' + str(q_num) + '.html')
+
 @bp.route('/algos/math/<q_num>', methods=['GET', 'POST'])
 def algos_math(q_num):
 

@@ -37,34 +37,30 @@
 {%endblock%}
 
 {%block code_intuition%}
- <p>The idea is simply to look for the root node of the smaller tree in the larger one. When we find, we check
- if their children are equal. Else, we continue looking for another occurrence of the root.</p>
+ <p>The idea is simply to look for the root node of the smaller tree in the larger one.
+     When we find, we check if their children are equal.
+     Else, we continue looking for another occurrence of the root.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> As <span class="code">pre-order</span> traversal is usually implemented through
-recursion, we will write a recursive function to traverse the tree. We include <span class="code">level</span>
-as one of the inputs to keep track of the level we are at.</p>
+<p><span class="step">Step 1</span> ...</p>
     <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/175b5628a2fdbe108f8cd68019313119.js"></script>
         </div>
     </section>
 
-<p><span class="step">Step 2</span> An important part of the recursive function is to identify whether
-or not we are at a new level. If we are at an unvisited level, we crate a new <span class="code">list</span>
-linked list that will later be added to the array of linked lists called lists. Else, we simply access the respective
-level at the <span class="code">lists</span> array.</p>
+<p><span class="step">Step 2</span> ...</p>
     <section>
+
+
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/bf9c0bc21bc8fab36cf6f36f5c6dfce3.js"></script>
         </div>
+
     </section>
 
-<p><span class="step">Step 3</span> We wrap the recursive function for ease of use.</p>
+<p><span class="step">Step 3</span> ...</p>
     <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/2e9121c41386319f10ed94dac8f45c2f.js"></script>
         </div>
     </section>
 
@@ -73,13 +69,12 @@ level at the <span class="code">lists</span> array.</p>
 {%endblock%}
 
 {%block code_complexity%}
-<p>The time complexity is the same as usual traversals of binary trees, O(n), where n is the number of nodes.
-The space complexity is also O(n) to store the linked lists.</p>
+<p>The time complexity is ...</p>
 {%endblock%}
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/4f9326027dcff4cfbdf4860b97892f19.js"></script>
+    <script src="https://gist.github.com/frezafoltran/83dff9b12585c2e32d4de12446f34212.js"></script>
 {%endblock%}
 
 
@@ -92,12 +87,6 @@ The space complexity is also O(n) to store the linked lists.</p>
 
     <script>
 
-
-        var Node = function (data){
-            this.data = data;
-            this.left = null;
-            this.right = null;
-        }
 
         var names = ['Ringo', 'John', 'Alfred', 'Angela', 'Julia',
                     'Jude', 'Yolanda', 'Trevor', 'Catarina', 'Sofia',
@@ -286,40 +275,7 @@ The space complexity is also O(n) to store the linked lists.</p>
             return root;
         }
 
-        function containsTree(n1, n2){
 
-            if (!n2){
-                return true;
-            }
-            return subTree(n1, n2);
-        }
-
-        function subTree(r1, r2){
-
-            if (!r1){
-                return false;
-            }
-            else if (r1.data == r2.data && matchTree(r1, r2)){
-                return true;
-            }
-            return subTree (r1.left, r2) || subTree (r1.right, r2);
-        }
-
-        function matchTree(r1, r2){
-
-            if (!r1 && !r2){
-                return true;
-            }
-            else if (!r1 || !r2){
-                return false;
-            }
-            else if (r1.data != r2.data){
-                return false;
-            }
-            else{
-                return matchTree(r1.left, r2.left) && matchTree(r1.right, r2.right);
-            }
-        }
 
         function cloneCanvas(oldCanvas) {
 
@@ -338,45 +294,64 @@ The space complexity is also O(n) to store the linked lists.</p>
             return newCanvas;
         }
 
-        function preOrder(root, treeStr){
 
-            if (!root){
-                treeStr.push(0);
+        function isSubtree(root1, root2, result){
+
+            if (!root2){
                 return null;
             }
-            //console.log(root.data);
-            treeStr.push(root.data);
-            preOrder(root.left, treeStr);
-            preOrder(root.right, treeStr);
+
+            if (root1.data == root2.data){
+                var out = checkSubtrees(root1, root2);
+                result[0] = out;
+            }
+
+            isSubtree(root1, root2.left, result);
+            isSubtree(root1, root2.right, result);
+
 
         }
 
-        function isContained(array1, array2){
-            //check if array1 is contained in array2
-            if (array1.length > array2.length){
-                return false;
+        function printPreOrder(root){
+
+            if (!root){
+                return null;
+            }
+            console.log(root.data);
+            printPreOrder(root.left);
+            printPreOrder(root.right);
+
+        }
+
+        function helper(root1, root2, numDiff){
+
+            if (!root1){
+                return null;
             }
 
-            //can subtract array1.length from array2.length for the upper bound
-            for (var i = 0; i < array2.length; i ++){
-
-                if (array1[0] == array2[i]){
-                    flag = true;
-                    for (var j = i; j < array1.length + i; j ++){
-
-                        if (array1[j - i] != 0 && array1[j - i] != array2[j]){
-                            flag = false;
-                            break;
-                        }
-                    }
-                    if (flag == true){
-                        return true;
-                    }
-
-                }
+            if (!root2 || (root2.data != root1.data)){
+                console.log('found difference');
+                numDiff[0] ++;
             }
 
-            return false;
+            console.log('helper: ' + root1.data);
+
+            var leftNode = root2 ? root2.left : null;
+            helper(root1.left, leftNode, numDiff);
+
+            var rightNode = root2 ? root2.right : null;
+            helper(root1.right, rightNode, numDiff);
+
+        }
+
+        function checkSubtrees(root1, root2){
+            //check if root1 is subtree of root2
+
+            var numDiff = [0];
+            helper(root1, root2, numDiff);
+
+            return numDiff[0] > 0 ? false : true;
+
         }
 
 
@@ -441,30 +416,18 @@ The space complexity is also O(n) to store the linked lists.</p>
                 div.appendChild(col.appendChild(c));
             }
 
-            //check if they trees can be combined into less pieces
-            var oneInThree = containsTree(roots[0], roots[2]);
-            var oneInTwo =  containsTree(roots[1], roots[2]);
-            var twoInThree = containsTree(roots[0], roots[1]);
 
-            console.log(oneInThree);
-            console.log(oneInTwo);
-            console.log(twoInThree);
+            var result = [false];
+            isSubtree(roots[2], roots[0], result);
+            var oneInThree = result[0];
 
-            //console.log('---');
-            var treeStr1 = [];
-            preOrder(roots[0],  treeStr1);
-            console.log(treeStr1);
-            var treeStr2 = [];
-            preOrder(roots[1], treeStr2);
-            console.log(treeStr2);
-            //console.log('---');
-            var treeStr3 = [];
-            preOrder(roots[2], treeStr3);
-            console.log(treeStr3);
+            result = [false];
+            isSubtree(roots[2], roots[1], result);
+            var oneInTwo = result[0];
 
-            var oneInThree = isContained(treeStr3, treeStr1);
-            var oneInTwo = isContained(treeStr3, treeStr2);
-            var twoInThree = isContained(treeStr2, treeStr1);
+            result = [false];
+            isSubtree(roots[1], roots[0], result);
+            var twoInThree = result[0];
 
             console.log(oneInThree);
             console.log(oneInTwo);
@@ -484,6 +447,7 @@ The space complexity is also O(n) to store the linked lists.</p>
                 document.getElementById('arrow').style.display = 'none';
 
                 var p = document.createElement('p');
+                p.style.color = 'red';
                 p.innerHTML = 'Not possible to simplify display.';
                 resultDiv.appendChild(p);
             }
@@ -492,7 +456,7 @@ The space complexity is also O(n) to store the linked lists.</p>
 
                 document.getElementById('arrow').style.display = 'inline';
 
-                if (twoInThree && oneInTwo){
+                if (twoInThree && oneInTwo || twoInThree && oneInThree){
                     resultDiv.appendChild(resultCol.appendChild(cloneCanvas(canvases[0])));
                 }
                 else if (twoInThree){
