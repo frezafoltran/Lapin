@@ -1,23 +1,13 @@
-{%extends "base.html"%}
+
+{%extends "algos/topic_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
-{%block app_content%}
-    <head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
-    </head>
+{%block topic_name%}bit manipulation{%endblock%}
 
-<div class="row">
-    <a href="{{url_for('main.algos')}}" >Back to Algos</a>
-    <div class="col-lg-6 col-md-offset-3">
+{%block question_list%}
 
-        <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
-             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
-                    </div>
-        <br>
-        <h2>Learn about bit manipulation.</h2>
-
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 1) }}">
+       <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 1) }}">
         Bit Insertion</a></h3>
         <h4>Insert a binary number into another one between two given bits.</h4>
 
@@ -49,13 +39,6 @@
         TODO</a></h3>
         <h4>---</h4>
 
-
-    </div>
-</div>
-
-
-
-
 {%endblock%}
 
 {%block scripts%}
@@ -65,17 +48,22 @@
 
 <script>
 
-    var progressBar = document.getElementById('progress_bar');
     var numQuestions = 8;
-    var numCompleted = 1;
+    var numCompleted = 2;
     var numAppCompleted = 0;
 
     //questions completed contribute with 1/numQuestions
     //questions with app completed contribute 1/(2*numQuestions)
+    var progressBar = document.getElementById('progress_bar');
+
     var currProgress = (numCompleted / numQuestions + numAppCompleted / (2*numQuestions)) * 100;
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
+
+
+
 </script>
+
 
 {%endblock%}

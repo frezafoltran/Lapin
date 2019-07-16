@@ -1,23 +1,10 @@
-{%extends "base.html"%}
+{%extends "algos/topic_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
-{%block app_content%}
-    <head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
-    </head>
+{%block topic_name%}math{%endblock%}
 
-<div class="row">
-    <a href="{{url_for('main.algos')}}" >Back to Algos</a>
-    <div class="col-lg-6 col-md-offset-3">
-
-        <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
-             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
-                    </div>
-        <br>
-
-        <h2>Learn about math questions.</h2>
-
+{%block question_list%}
         <h3><a href = "{{ url_for('main.algos_math', q_num = 1) }}">
         Generating Primes</a></h3>
         <h4>Efficiently generate all prime numbers within a given range.</h4>
@@ -32,14 +19,6 @@
         <h4>Find the best option to gain a point in a penalty kick game.</h4>
 
 
-
-
-    </div>
-</div>
-
-
-
-
 {%endblock%}
 
 {%block scripts%}
@@ -49,7 +28,7 @@
 
 <script>
 
-    var progressBar = document.getElementById('progress_bar');
+   var progressBar = document.getElementById('progress_bar');
     var numQuestions = 10;
     var numCompleted = 3;
     var numAppCompleted = 0;
@@ -60,6 +39,11 @@
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
+
+
+
 </script>
 
+
 {%endblock%}
+

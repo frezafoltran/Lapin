@@ -1,23 +1,11 @@
-{%extends "base.html"%}
+
+{%extends "algos/topic_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
-{%block app_content%}
-    <head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
-    </head>
+{%block topic_name%}object oriented design{%endblock%}
 
-<div class="row">
-    <a href="{{url_for('main.algos')}}" >Back to Algos</a>
-    <div class="col-lg-6 col-md-offset-3">
-
-        <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
-             role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
-                    </div>
-        <br>
-
-        <h2>Learn about object oriented design.</h2>
-
+{%block question_list%}
         <h3><a href = "{{ url_for('main.algos_object_oriented_design', q_num = 1) }}">
         Deck of Cards</a></h3>
         <h4>Design the data structures for a generic deck of cards and implement a version
@@ -68,12 +56,6 @@
         <h4>---</h4>
 
 
-    </div>
-</div>
-
-
-
-
 {%endblock%}
 
 {%block scripts%}
@@ -94,6 +76,10 @@
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
+
+
+
 </script>
+
 
 {%endblock%}

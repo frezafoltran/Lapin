@@ -1,8 +1,16 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+
 {%block back_to%}
-        <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
 {%endblock%}
 
 {%block question_name%}

@@ -2,7 +2,19 @@
 {%import 'bootstrap/wtf.html' as wtf%}
 
 {%block back_to%}
-        <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#">binary-to-decimal</a>
+<a href="#">infinite-binary-numbers</a>
 {%endblock%}
 
 {%block question_name%}
@@ -22,24 +34,26 @@
     <p>Below you can see the output of the algorithm in this question. Click
         <span class="code">Refresh</span> to see another example.</p>
 
-    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <p><a style="cursor:pointer" onclick="refreshBiased()">Refresh</a></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh to random number</a></p>
 
-    <div class="container row" style="display:flex;align-items:center;flex-wrap:wrap;">
 
-        <div class="col-md-4 col-md-offset-2">
-            <p id="m_input"></p>
-            <p id="n_input"></p>
-            <p id="indexes"></p>
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <div class="col" style="textAlign:center;float:none;display:inline-block; margin:10px;">
+            <p id="input"></p>
         </div>
 
-        <div class="col-md-1">
+        <div class="col" style="textAlign:center;float:none;display:inline-block; margin:10px;">
             <p style="float:center;"><img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:30px;height:20px;"></p>
         </div>
 
-        <div class="col-md-4">
+        <div class="col" style="textAlign:center;float:none;display:inline-block; margin:10px;">
             <p id="out"></p>
         </div>
 
+    </div>
     </div>
 
 
@@ -50,20 +64,32 @@
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> In order to perform the insertion in place (without using additional
-    data structures), we first convert the two inputs <span class="code">n, m</span> into vectors.</p>
+<p><span class="step">Step 1</span> Since we are interested in real numbers
+    in the range <span class="code">(0,1)</span>, the binary representation (if any) will have a
+    leading <span class="code">"0."</span>. Thus, we initialize the output as:</p>
     <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/b9b2fd38ed8dfc378d38398bfd79340c.js"></script>
+            <script src="https://gist.github.com/frezafoltran/f440746d7ab3d254d12ce5757592ffdf.js"></script>
         </div>
     </section>
 
 
-<p><span class="step">Step 2</span> Then we iterate through the vectors and update bits <span class="code">j</span>
-through <span class="code">i</span>. Remember that in bit vectors, bit 0 is the last one.</p>
+<p><span class="step">Step 2</span> In binary, the <span class="code">i-th</span>
+bit after the point represents the decimal <span class="code">Math.pow (2, -i)</span>. Thus, for each
+    <span class="code">i</span> we check if the input is greater than the contribution of the
+<span class="code">i-th</span> bit. If so, we subtract this from the input.</p>
     <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/7649e7efc69269e19164ae06b5cd6dae.js"></script>
+            <script src="https://gist.github.com/frezafoltran/43db901b0d6cc262af20ff30b6817306.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> At the end, if we could represent the number in binary, we subtracted all parts
+of the input from itself. Thus, <span class="code">number</span> must be zero. We also check if we used at most
+    <span class="code">32</span> bits.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e8ca3d6f91524dd70c31578b3564a71a.js"></script>
         </div>
     </section>
 
@@ -88,114 +114,62 @@ through <span class="code">i</span>. Remember that in bit vectors, bit 0 is the 
     {{moment.lang(g.locale)}}
     <script>
 
-        function insert(n, m, i, j) {
+        function RealToBinary(number) {
+          var n = 1;
+          var str = '0.';
 
-          var nArray = n.split('');
-          var mArray = m.split('');
-          var nLen = nArray.length - 1;
-          var mLen = mArray.length - 1;
+          while (n <= 32 && number > 0) {
 
-          for (var c = 0; c < j - i + 1; c++) {
-
-            nArray[nLen - (i + c)] = mArray[mLen - c];
-
+            if (number >= Math.pow(2, -n)){
+              number -= Math.pow(2, -n);
+              str += '1';
+            }
+            else{
+              str += '0';
+            }
+            n++;
           }
-          return nArray.join('');
-        };
 
-        function updateDisplay(n, m, i, j, out){
-
-            var mDiv = document.getElementById('m_input');
-            var nDiv = document.getElementById('n_input');
-            var indexDiv = document.getElementById('indexes');
-            var outDiv = document.getElementById('out');
-            outDiv.innerHTML = '';
-            mDiv.innerHTML = '';
-            nDiv.innerHTML = '';
-
-
-            var mSpan1 = document.createElement('span');
-            mSpan1.innerHTML = 'm = ';
-
-            var mSpan2 = document.createElement('span');
-            mSpan2.innerHTML = m;
-            mSpan2.style.color = 'green';
-            mSpan2.style.fontWeight = 'bold';
-
-            mDiv.appendChild(mSpan1).appendChild(mSpan2);
-
-            var nSpan1 = document.createElement('span');
-            var nSpan2 = document.createElement('span');
-            var nSpan3 = document.createElement('span');
-
-            var outSpan1 = document.createElement('span');
-            var outSpan2 = document.createElement('span');
-            var outSpan3 = document.createElement('span');
-
-            nSpan1.innerHTML = 'n = ';
-            outSpan1.innerHTML = 'output = ';
-            for (var c = 0; c < n.length - j - 1; c ++){
-               nSpan1.innerHTML += n[c];
-               outSpan1.innerHTML += out[c];
-            }
-
-            console.log(m.length);
-            console.log(n.length - j - 1 + m.length);
-            nSpan2.innerHTML = '';
-            outSpan2.innerHTML = '';
-            for (var c = n.length - j - 1; c < n.length - j - 1 + m.length; c ++){
-               nSpan2.innerHTML += n[c];
-               outSpan2.innerHTML += out[c];
-            }
-
-            for (var c = n.length - j - 1 + m.length; c < n.length ; c++){
-                nSpan3.innerHTML += n[c];
-                outSpan3.innerHTML += out[c];
-            }
-
-
-            nSpan2.style.color = 'orange';
-            nSpan2.style.fontWeight = 'bold';
-            outSpan2.style.color = 'green';
-            outSpan2.style.fontWeight = 'bold';
-
-            nDiv.appendChild(nSpan1).appendChild(nSpan2)
-            nDiv.appendChild(nSpan3);
-
-            indexDiv.innerHTML = 'i = ' + i + ', j = ' + j;
-
-            outDiv.appendChild(outSpan1).appendChild(outSpan2)
-            outDiv.appendChild(outSpan3);
-
-
+          if (n === 33 && number > 0) {
+            return 'Can\'t be represented with 32 bits';
+          }
+          else {
+            return str;
+          }
         }
 
         function refreshDemo(){
 
-            var n = '';
-            var nLen = Math.floor(Math.random() * (10 - 7)) + 7;
-            for (var i = 0; i < nLen; i++){
+            var input = (Math.random() + 0.0001).toFixed(4);
+            var out = RealToBinary(input);
 
-                n += Math.random() <= 0.5 ? '1' : '0';
+            document.getElementById('input').innerHTML = input;
+
+            document.getElementById('out').innerHTML = out;
+            document.getElementById('out').style.color = 'green';
+
+            if (out == 'Can\'t be represented with 32 bits'){
+                document.getElementById('out').style.color = 'red';
+            }
+        }
+
+        function refreshBiased(){
+
+            var input = (Math.random() + 0.0001).toFixed(4);
+            var out = RealToBinary(input);
+            while(out == 'Can\'t be represented with 32 bits'){
+                input = Math.random().toFixed(4);
+                out = RealToBinary(input);
             }
 
-            var m = '';
-            var mLen = Math.floor(Math.random() * (6 - 3)) + 3;
-            for (var i = 0; i < mLen; i++){
+            document.getElementById('input').innerHTML = input;
 
-                m += Math.random() <= 0.5 ? '1' : '0';
-            }
-
-            var j = Math.floor(Math.random() * (nLen - (mLen - 1))) + (mLen - 1);
-            var i = j - mLen + 1;
-
-            var out = insert(n, m, i, j);
-
-            updateDisplay(n, m, i, j, out);
+            document.getElementById('out').innerHTML = out;
+            document.getElementById('out').style.color = 'green';
 
         }
 
-        refreshDemo();
+        refreshBiased();
 
 
     </script>
