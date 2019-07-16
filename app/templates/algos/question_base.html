@@ -99,11 +99,16 @@ width:100%;
 background:rgb(300,250,204);
 }
 
+.back-button-top{
+display:inline;
+}
+
 @media screen and (min-width: 600px) {
   .left-col {display:inline}
   .right-col {display:inline}
   .main-col {width:70%}
   .similar-questions-top{display:none}
+  .back-button-top {display:none}
 
 }
 </style>
@@ -112,15 +117,17 @@ background:rgb(300,250,204);
 
 <div class="container">
 
+     <div class="row" style="">
+        <div class="back-button-top">
+            {%block back_to_top%}
+            {%endblock%}
+        </div>
+     </div>
 
     <div class="row" style="display:flex;justify-content:left">
 
+
         <div class="left-col">
-
-            <img src="{{url_for('static', filename='images/back_arrow.png')}}"
-                 style="width:80px; height:50px;padding-left:10px;">
-
-            <br>
             {%block back_to%}
             {%endblock%}
 
@@ -246,6 +253,8 @@ background:rgb(300,250,204);
             this.left = null;
             this.right = null;
         }
+
+
 
 
     </script>
