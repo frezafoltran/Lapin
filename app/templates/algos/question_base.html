@@ -4,14 +4,122 @@
 {%block app_content%}
     <head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/question.css') }}">
+        <style>
+
+.code {
+color:rgb(169,169,169);
+font-style:italic;
+}
+
+.step {
+color:rgb(204,204,0);
+}
+
+.note {
+color:rgb(255,102,102);
+}
+
+.code-lines{
+width:80%;
+margin:0 auto;
+}
+
+.answer-div{
+background-color:rgb(200,376,228);
+border-radius:25px;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 5px;
+  color: #fff;
+  line-height: 50px;
+  text-align: center;
+  background: #000
+}
+
+.sidenav {
+  width: 11%;
+  position: fixed;
+  z-index: 1;
+  background: rgb(300,250,204);
+  opacity:0.7;
+  overflow-x: hidden;
+  margin-left: 20px;
+  border-radius:15px;
+
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #2196F3;
+  display: block;
+}
+
+.sidenav:hover{
+opacity:1;
+}
+
+.sidenav a:hover {
+  color: #064579;
+}
+
+.left-col{
+width:15%;
+float:left;
+display:none;
+}
+
+.right-col{
+width:15%;
+float:right;
+display:none;
+overflow: hidden;
+}
+
+.main-col{
+width:100%;
+}
+
+.similar-questions-top{
+display:block;
+width:100%;
+//height:100px;
+background:rgb(300,250,204);
+}
+
+@media screen and (min-width: 600px) {
+  .left-col {display:inline}
+  .right-col {display:inline}
+  .main-col {width:70%}
+  .similar-questions-top{display:none}
+
+}
+</style>
+
     </head>
 
 <div class="container">
-    <div class="row">
-        {%block back_to%}
-        {%endblock%}
-        <div class="col-lg-8 col-md-offset-2">
+
+
+    <div class="row" style="display:flex;justify-content:left">
+
+        <div class="left-col">
+
+            <img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;">
+
+            <br>
+            {%block back_to%}
+            {%endblock%}
+
+        </div>
+
+        <div class="main-col">
 
             <!-- QUESTION STATEMENT -->
             <h2><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point.png')}}">
@@ -43,6 +151,12 @@
             <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Time and Space Complexity</h3>
             <p>{%block code_complexity%}{%endblock%}</p>
 
+            <!-- SIMILAR QUESTIONS -->
+            <div class="similar-questions-top">
+                <h3>Similar Questions</h3>
+                {%block sim_questions%}
+                {%endblock%}
+            </div>
 
             <!-- FULL CODE -->
             <p class="full-code">Click <a style="cursor:pointer" onclick=toggleFullCode();>here</a> to see the full code</p>
@@ -55,6 +169,22 @@
                 </div>
             </section>
         </div>
+
+        <div id="temp" class="right-col">
+
+            <div id="tags" class="sidenav">
+              <h4 style="cursor:context-menu">Tags</h4>
+              {%block tags%}
+                {%endblock%}
+
+                <h4 style="cursor:context-menu">Similar <br>Questions</h4>
+              {%block sim_questions_side%}
+                {%endblock%}
+            </div>
+
+
+        </div>
+
     </div>
 </div>
 
@@ -108,6 +238,7 @@
             this.left = null;
             this.right = null;
         }
+
 
     </script>
 
