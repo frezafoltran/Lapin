@@ -1,0 +1,163 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+
+.col{
+margin-left:30%;
+margin-right:30%;
+text-align:"center";
+float:"none";
+display:"inline-block";
+border:solid 1px red;
+}
+{%endblock%}
+
+{%block back_to%}
+        <a href="{{url_for('main.algos_object_oriented_design', q_num=0)}}" >Back to Object Oriented Design</a>
+{%endblock%}
+
+{%block question_name%}
+    Jukebox
+{%endblock%}
+
+{%block question_explanation%}
+    Design the data structures to implement a jukebox
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+<p>Below you can test the jukebox.</p>
+
+<div class="container">
+    <div class="row" style="text-align:center">
+        <div class="col">
+
+            <h4>Jukebox</h4>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> TODO</p>
+    <section>
+        <div class="code-lines">
+
+        </div>
+    </section>
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>TODO</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/9679ea6af4812fce7fc11495912ec9ea.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+    var Player = function() {
+      this.songQueue = [];
+      this.currentSong = null;
+    };
+
+    Player.prototype.shuffle = function() {
+      this.songQueue.sort(() => { return Math.random() > 0.5 ? 1 : 0; });
+    };
+
+    Player.prototype.play = function() {
+      if (this.currentSong === null) {
+        this.currentSong = this.songQueue.unshift();
+        this.currentSong.play();
+      } else {
+        console.log('song currently playing');
+      }
+    };
+
+    Player.prototype.pause = function() {
+      if (this.currentSong !== null) {
+        this.currentSong.pause();
+      } else {
+        console.log('no song in queue');
+      }
+    };
+
+    Player.prototype.nextSong = function() {
+      this.currentSong = this.songQueue.unshift();
+      this.currentSong.play();
+    };
+
+    Player.prototype.addSong = function(song) {
+      this.songQueue.push(song);
+    };
+
+    Player.prototype.currentSongName = function() {
+      return this.currentSong.name;
+    };
+
+
+    var Song = function(name, trackFile) {
+      this.name = name;
+      this.track = new Audio(trackFile);
+    };
+
+    Song.prototype.play = function() {
+      this.track.play();
+    };
+
+    Song.prototype.pause = function() {
+      this.track.play();
+    };
+
+    var jukebox = new Player();
+
+    function updateJukebox(){
+
+        var jukeDiv = document.getElementById('jukebox');
+        jukeDiv.innerHTML = '';
+
+        if (jukebox.songQueue.length == 0 && !jukebox.currentSong){
+            var p = document.createElement('p');
+            p.innerHTML = 'Your jukebox is empty. Add a song to start.'
+            jukeDiv.appendChild(p);
+        }
+
+    }
+
+    //updateJukebox();
+
+
+
+
+    </script>
+
+
+{%endblock%}
