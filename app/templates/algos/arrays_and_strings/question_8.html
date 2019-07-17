@@ -1,0 +1,292 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
+{%endblock%}
+
+{%block question_name%}
+    Zero Matrix
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm that sets any row or column of a matrix that contains a zero to 0.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>The algorithm in this question is demonstrated below. For visualization, we use
+    an image and set rows or columns that contain a pixel of a given color to that same given color.
+
+    <br>
+    Note: For better visualization in the demo, a pixel is taken to be equal if each rgb component differs by at most 4.
+You can click on the image of on <a style="cursor:pointer" onclick="zero()">Change colors</a> to see the algo in action.</p>
+
+
+
+<img src="{{url_for('static', filename='images/flower_clean.png')}}" id="image"
+       style="width:200px;height:200px;display:none;">
+
+<form>
+    <h4>rgb(<input type="text" id="r" style="width:50px;" value="255">,
+        <input type="text" id="g" style="width:50px;" value="255">,
+        <input type="text" id="b" style="width:50px;" value="255">)</h4>
+</form>
+<p><a style="cursor:pointer" onclick="zero()">Change colors</a> <br>
+    <a style="cursor:pointer" onclick="resetImg()">Reset Image</a></p>
+<canvas id="canvas"></canvas>
+<div id="color"></div>
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to use the first row and the first column to keep track of which columns and ros have zero and
+then update the matrix accordingly. </p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Since we will overwriting the data in the first row, we make sure we
+know whether we will need to zero out the first row afterwards. We do the same for the first column.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/38a170d3ca95905013ec6ec7784fc004.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Now we iterate through matrix and keep track of which rows and columns have zero
+by storing a zero at the respective row and column indexes in the first row and column.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/b0aeb8cfc4612c0ade9032049236965d.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> Then we check if each row needs to be zeroed and zero them.
+    We do the same for the columns.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/9928d3807b8e62528979882c5c5dcab1.js"></script>
+        </div>
+    </section>
+
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/19fee1e040ff5ebca8272fc501ff13ae.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        var orgImg = document.getElementById('image');
+        var img = new Image();
+        img.src = orgImg.src;
+        var canvas = document.getElementById('canvas');
+        canvas.width=200;
+        canvas.height=200;
+        var ctx = canvas.getContext('2d');
+
+
+        function zeroRow(mat, i){
+        for (var j = 0; j < mat[0].length; j ++){
+            ctx.fillRect(j, i, 1, 1);
+          }
+        }
+
+        function zeroColumn(mat, i){
+          for (var j = 0; j < mat.length; j ++){
+            ctx.fillRect(i, j, 1, 1);
+          }
+        }
+
+
+        var zeroPixel = [0, 0, 0];
+
+        function rgbEquals(mat){
+
+            if (Math.abs(mat[0] - zeroPixel[0]) < 4 &&
+                Math.abs(mat[1] - zeroPixel[1]) < 4 &&
+                Math.abs(mat[2] - zeroPixel[2]) < 4){
+
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        function zeroMat(mat){
+
+          var zeroColumn0 = false;
+          var zeroRow0 = false;
+
+          //check if row 0 and column 0 have zeros
+          for (var i = 0; i < mat.length; i ++){
+
+            if (rgbEquals(mat[i][0])){
+              zeroColumn0 = true;
+              break;
+            }
+          }
+          for (var i = 0; i < mat[0].length; i ++){
+            if (rgbEquals(mat[0][i])){
+              zeroRow0 = true;
+              break;
+            }
+          }
+
+          //store whether row/column i have zero by using row/column 0
+          for (var i = 1; i < mat.length; i ++){
+            for (var j = 1; j < mat[0].length; j ++){
+
+              if (rgbEquals(mat[i][j])){
+                mat[i][0] = zeroPixel;
+                mat[0][j] = zeroPixel;
+
+              }
+            }
+          }
+
+          //update matrix based on row/column 0
+          for (var i = 1; i < mat.length; i ++){
+            if (rgbEquals(mat[i][0])){
+              zeroRow(mat, i);
+            }
+          }
+
+          for (var i = 1; i < mat[0].length; i ++){
+            if (rgbEquals(mat[0][i])){
+              zeroColumn(mat, i);
+            }
+          }
+
+          if (zeroRow0){
+            zeroRow(mat, 0);
+          }
+
+          if (zeroColumn0){
+            zeroColumn(mat, 0);
+          }
+        }
+
+//===========================
+
+        function resetImg(){
+
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          var w=img.width;
+          var h=img.height;
+
+          var sizer=scalePreserveAspectRatio(w,h,canvas.width,canvas.height);
+
+          ctx.drawImage(img,0,0,w,h,0,0,w*sizer,h*sizer);
+
+        }
+
+        function scalePreserveAspectRatio(imgW,imgH,maxW,maxH){
+          return(Math.min((maxW/imgW),(maxH/imgH)));
+        }
+
+        function buildMat(){
+
+            var mat = [];
+
+            for (var i = 0; i < canvas.height; i ++){
+
+                mat.push([]);
+                for (var j = 0; j < canvas.width; j ++){
+
+                    var pixel = ctx.getImageData(j, i, 1, 1);
+                    var data = pixel.data;
+                    var rgb = [data[0], data[1], data[2]];
+                    mat[i].push(rgb);
+                }
+            }
+            return mat;
+        }
+
+        function zero(){
+
+            var mat = buildMat();
+
+            var r = parseInt(document.getElementById('r').value);
+            var g = parseInt(document.getElementById('g').value);
+            var b = parseInt(document.getElementById('b').value);
+
+            zeroPixel = [r, g, b];
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+            zeroMat(mat);
+
+
+        }
+
+        var color = document.getElementById('color');
+        function pick(event) {
+          var x = event.layerX;
+          var y = event.layerY;
+          var pixel = ctx.getImageData(x, y, 1, 1);
+          var data = pixel.data;
+          var rgb = 'rgb(' + data[0] + ', ' + data[1] +
+                     ', ' + data[2] + ')';
+          color.style.background =  rgb;
+          color.textContent = rgb;
+        }
+
+        function select (event){
+           var x = event.layerX;
+           var y = event.layerY;
+           var pixel = ctx.getImageData(x, y, 1, 1);
+           var data = pixel.data;
+
+           document.getElementById('r').value = data[0];
+           document.getElementById('g').value = data[1];
+           document.getElementById('b').value = data[2];
+
+           zero();
+
+        }
+        canvas.addEventListener('mousemove', pick);
+        canvas.addEventListener('click', select);
+
+        resetImg();
+
+    </script>
+
+
+{%endblock%}

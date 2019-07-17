@@ -4,20 +4,79 @@
 {%block app_content%}
     <head>
 
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/jinni_new_song.css') }}">
+        <style>
+
+            .sidenav {
+              width: 16%;
+              position: fixed;
+              z-index: 1;
+              background: rgb(300,250,204);
+              opacity:0.7;
+              overflow: hidden;
+              margin-left: 5px;
+              border-radius:15px;
+
+            }
+
+            .sidenav a {
+              padding: 6px 8px 6px 16px;
+              text-decoration: none;
+              font-size: 20px;
+              color: #2196F3;
+              display: block;
+            }
+
+            .sidenav:hover{
+            opacity:1;
+            }
+
+            .sidenav a:hover {
+              color: #064579;
+            }
+
+            .left-col{
+            width:20%;
+            float:left;
+            display:none;
+            }
+
+            .right-col{
+            width:20%;
+            float:right;
+            display:none;
+            overflow: hidden;
+            }
+
+            .main-col{
+            width:100%;
+            }
+
+            @media screen and (min-width: 600px) {
+              .left-col {display:inline}
+              .right-col {display:inline}
+              .main-col {width:60%}
+
+            }
+        </style>
+
     </head>
 
 <body>
     <div class="container">
 
-        <div class="row">
+        <div class="row" style="display:flex;justify-content:left">
 
-            <div class="col-lg-6 col-md-offset-3">
+            <div class="left-col">
+                <div  class="sidenav">
+              <h4 style="cursor:context-menu">What</h4>
 
-                <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
-                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
-                    </div>
-                <br>
+                <hr class="side-hr">
+                <h4 style="cursor:context-menu">Now</h4>
+
+            </div>
+            </div>
+
+            <div class="main-col">
 
                 <h2>Topics<br></h2>
 
@@ -45,6 +104,24 @@
                         style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
 
             </div>
+
+            <div class="right-col">
+                <div  class="sidenav">
+              <h4 style="cursor:context-menu">What</h4>
+
+                <hr class="side-hr">
+                <h4 style="cursor:context-menu">Now</h4>
+
+            </div>
+            </div>
+
+        </div>
+        <br>
+        <div class="row" style="display:flex;justify-content:left">
+            <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
+                    role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">
+                    </div>
+                <br>
         </div>
     </div>
 </body>

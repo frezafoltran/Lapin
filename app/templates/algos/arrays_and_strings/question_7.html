@@ -1,0 +1,166 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=8)}}" >Zero Matrix</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=8)}}" >Zero Matrix</a>
+{%endblock%}
+
+
+{%block question_name%}
+    Image Rotation
+{%endblock%}
+
+{%block question_explanation%}
+Rotate an image by 90 degrees without using any additional data structure.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>The algorithm in this question is demonstrated below. Image transformations such as this are the basis
+    to produce more complex transformations such as image scaling, cropping and compression. </p>
+
+
+<p><a style="cursor:pointer" onclick="rotateLeft()">Rotate left</a><span> or
+</span><a style="cursor:pointer" onclick="rotateRight()">Rotate right</a></p>
+
+<div id="container" style="text-align:center">
+  <img src="{{url_for('static', filename='images/rabbit.png')}}" id="image"
+       style="width:100px;height:150px;display:inline-block;">
+</div>
+
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to got through each layer of the matrix and rotate the matrix components.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> To understand what layer means, note that in the picture below,
+red represents the first layer, yellow the second and blue the last. By using <span class="code">i</span>
+ to represent the layer we are in and <span class="code">j</span>, the relative layer position, we rotate the matrix
+by:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/94bdfe8e2cf9ed5bce1726da20b4edff.js"></script>
+        </div>
+    </section>
+    <canvas id="layers" style="border:solid 1px black;" width="200px" height="200px"></canvas>
+
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/b21426d80355d681db35bf72ba00e907.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        var img = document.getElementById('image');
+
+        function rotateRight() {
+
+            var cur = img.style.transform;
+
+            if (!cur){
+                img.style.transform = 'rotate(90deg)';
+            }
+            else if (cur == 'rotate(90deg)'){
+                img.style.transform = 'rotate(180deg)';
+            }
+            else if (cur == 'rotate(180deg)'){
+                img.style.transform = 'rotate(270deg)';
+            }
+            else if (cur == 'rotate(270deg)'){
+                img.style.transform = '';
+            }
+        }
+
+        function rotateLeft() {
+
+            var cur = img.style.transform;
+
+            if (!cur){
+                img.style.transform = 'rotate(270deg)';
+            }
+            else if (cur == 'rotate(270deg)'){
+                img.style.transform = 'rotate(180deg)';
+            }
+            else if (cur == 'rotate(180deg)'){
+                img.style.transform = 'rotate(90deg)';
+            }
+            else{
+                img.style.transform = '';
+            }
+        }
+
+        var layers = document.getElementById('layers');
+        var ctx = layers.getContext('2d');
+        var w = layers.width;
+
+        //outer layer
+        var s = w/5;
+
+        ctx.fillStyle = 'red';
+        ctx.fillRect(0, 0, w, s);
+        ctx.fillRect(0, 0, s, w);
+        ctx.fillRect(w - s, 0, s, w);
+        ctx.fillRect(0, w - s, w, s);
+
+        //first layer
+        ctx.fillStyle = 'yellow';
+        ctx.fillRect(s, s, w - 2*s, s);
+        ctx.fillRect(s, s, s, w - 2*s);
+        ctx.fillRect(w - 2*s, s, s, w - 2*s);
+        ctx.fillRect(s, w - 2*s, w - 2*s, s);
+
+        //last one
+        ctx.fillStyle = 'blue';
+        ctx.fillRect(2*s, 2*s, s, s);
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

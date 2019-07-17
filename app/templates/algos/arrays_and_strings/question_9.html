@@ -1,0 +1,192 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
+{%endblock%}
+
+{%block question_name%}
+    String Rotation
+{%endblock%}
+
+{%block question_explanation%}
+    By using a single call to the st1.includes(str2) method in javascript (or an equivalent method in another language),
+write an algorithm that checks if a string is a rotation of another string.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>This problem makes me think of those scrolling boards used to display messages. With this, this algorithm
+can be used to check at any given point if the current shown string corresponds to the input string.
+    Please click <span class="code">Stop rotating</span> to start.</p>
+
+
+<div class="container">
+
+    <p><a style="cursor:pointer" onclick="stop()" id="stop">Stop rotating</a></p>
+    <p><a style="cursor:pointer; display:none;" onclick="resume()" id="resume">Resume</a></p>
+
+    <div class="row" style="text-align:center">
+
+        <div class="col-sm-3" style="text-align:center;float:none;display:inline-block;background-color:black">
+            <span style="color:white" id="rotating_text"></span>
+        </div>
+    </div>
+
+    <br>
+    <div id="options" style="display:none;">
+        <p><a style="cursor:pointer;" onclick="checkIfMatch(0)">Check if it matches:</a>
+        'The potato is in the oven. '</p>
+
+        <p><a style="cursor:pointer;" onclick="checkIfMatch(1)">Check if it matches:</a>
+        'The potato in the oven is. '</p>
+
+        <p><a style="cursor:pointer;" onclick="checkIfMatch(2)">Check if it matches:</a>
+        'The oven is in the potato. '</p>
+
+        <p id="result"></p>
+        </div>
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p>The key idea</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> ...</p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/d617db1f91c48f4744492e697537c64d.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+        var text = 'The potato is in the oven. ';
+        var textSpan = document.getElementById('rotating_text');
+
+        var i = 0;
+
+        var temp = setInterval(rotate, 100);
+
+        function rotate() {
+
+          if (i >= text.length){
+                i = 0;
+            }
+
+            var cur = text.substring(i, text.length);
+            cur = cur + text.substring(0, i);
+
+            textSpan.innerHTML = cur;
+
+            i ++;
+        }
+
+        rotate();
+
+
+        function stop(){
+
+            clearInterval(temp);
+
+            document.getElementById('stop').style.display = 'none';
+            document.getElementById('options').style.display = 'inline';
+            document.getElementById('result').style.display = 'inline';
+            document.getElementById('resume').style.display = 'inline';
+        }
+        function resume(){
+
+            temp = setInterval(rotate, 100);
+            rotate();
+
+            document.getElementById('options').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('result').innerHTML = '';
+            document.getElementById('resume').style.display = 'none';
+            document.getElementById('stop').style.display = 'inline';
+        }
+
+
+        function isRotation(s1, s2){
+
+          if (s1.length != s2.length){
+            return false;
+          }
+
+          var joint = s1.concat(s1);
+
+          return joint.includes(s2) ? true : false;
+        }
+
+        var options = ['The potato is in the oven. ',
+                       'The potato in the oven is. ',
+                       'The oven is in the potato. ']
+
+        function checkIfMatch(num){
+
+            var bool = isRotation(options[0], options[num]);
+
+            if (bool){
+                document.getElementById('result').style.color = 'green';
+                document.getElementById('result').innerHTML = 'It is a match!';
+            }
+            else{
+                document.getElementById('result').style.color = 'red';
+                document.getElementById('result').innerHTML = 'Not a match.';
+            }
+
+
+        }
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
