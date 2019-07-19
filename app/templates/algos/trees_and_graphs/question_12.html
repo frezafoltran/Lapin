@@ -13,12 +13,12 @@
 {%endblock%}
 
 {%block question_name%}
-    Successor Node
+    Paths with Sum
 {%endblock%}
 
 {%block question_explanation%}
-    Write an algorithm to find the next node (in-order successor) of a node in a BST. You may assume each node
-has a link to its parent node.
+    Given a binary tree where each node represents an integer, find the number of paths whose node values
+    add to a given integer. The paths must go downwards on the tree.
 {%endblock%}
 
 
@@ -27,12 +27,17 @@ has a link to its parent node.
 {%endblock%}
 
 {%block code_application%}
-<p>You can test the algorithm in this question below. Click on any given node to find its in-order
-successor. Click <span class="code">refresh</span> to generate a new BST.</p>
+<p>Imagine we are building a...</p>
 
-<button onclick="newTree('','')">Refresh</button>
+<form>
+    <span style="font-weight:bold;">Path sums to:</span>
+  <input type="text" value="5" id="path_sum" style="width:30px">
+</form>
+<button onclick="getNumPaths()">Get number of paths</button>
 <br>
-
+<button onclick="newTree('', '')">Refresh tree</button>
+<br>
+<br>
 
 <a onclick="decreaseSizeTree()" style="cursor:pointer">
     <img src="{{url_for('static', filename='images/decrease_symbol.png')}}" style="width:40px;height:40px;"></a>
@@ -43,13 +48,14 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
 <br>
 
 <div class="container row" id="canvas_div"></div>
-<p id="result"></p>
 
+
+<div class="row" id="result_div"></div>
 
 {%endblock%}
 
 {%block code_intuition%}
- <p>...</p>
+ <p>---</p>
 {%endblock%}
 
 {%block code_digest%}
@@ -58,6 +64,22 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
         <div class="code-lines">
         </div>
     </section>
+
+<p><span class="step">Step 2</span> ...</p>
+    <section>
+
+
+        <div class="code-lines">
+        </div>
+
+    </section>
+
+<p><span class="step">Step 3</span> ...</p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
 
 
 {%endblock%}
@@ -68,7 +90,7 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/4291981a3cbd26aefebc01bf42cfbec4.js"></script>
+    <script src="https://gist.github.com/frezafoltran/83dff9b12585c2e32d4de12446f34212.js"></script>
 {%endblock%}
 
 
@@ -83,62 +105,10 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
 
         var values = [];
         var rad = 25;
-        var nodesCoord;
-        var resDiv = document.getElementById("result");
 
-        var Node = function (data){
-            this.data = data;
-            this.left = null;
-            this.right = null;
-            this.parent = null;
+        for (var i = -10; i <= 10; i ++){
+            values.push(i);
         }
-
-
-        function createLevelLinkedListHelper(root, lists, level){
-
-            if (!root){
-              return;
-            }
-
-            var list;
-            if (lists.length == level){
-              list = [];
-              lists.push (list);
-            }
-            else{
-              list = lists[level];
-            }
-
-            list.push (root.data);
-            createLevelLinkedListHelper(root.left, lists, level + 1);
-            createLevelLinkedListHelper(root.right, lists, level + 1);
-          }
-
-          function createLevelLinkedList(root){
-            var lists = [];
-            createLevelLinkedListHelper(root, lists, 0);
-            return lists;
-          }
-
-        function getMinTreeHelper(array, start, end, layer){
-
-            if (start > end){
-              return null;
-            }
-
-            var mid = Math.floor((end + start) / 2);
-
-            var newNode = new Node(array[mid]);
-
-            newNode.left = getMinTreeHelper (array, start, mid - 1, layer + 1);
-            newNode.right = getMinTreeHelper (array, mid + 1, end, layer + 1);
-
-            return newNode
-          }
-
-          function getMinTree (array){
-            return getMinTreeHelper(array, 0, array.length - 1, 1);
-          }
 
 
         function getXPos(numNodes, middle){
@@ -270,7 +240,7 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
             var nameCounter = 0;
 
             //store coordinates to draw line between them
-            nodesCoord = {};
+            var nodesCoord = {};
             var curParents = [];
 
             var lastLayerNodes = [];
@@ -317,7 +287,6 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
                     ctx.arc(currXPos[j], yOffset, rad, 0, 2 * Math.PI);
                     ctx.stroke();
 
-
                     var node = new Node(values[nameCounter]);
                     curParents[i].push(node);
                     nodesCoord[values[nameCounter]] = [currXPos[j], yOffset];
@@ -326,17 +295,16 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
                         var root = node;
                     }
                     if (i > 0){
-                        [parentNode, rightChild] = findParent(curParents[i-1], j, numNodes);
+                        [parent, rightChild] = findParent(curParents[i-1], j, numNodes);
 
                         if (rightChild){
-                            parentNode.right = node;
+                            parent.right = node;
                         }
                         else{
-                            parentNode.left = node;
+                            parent.left = node;
                         }
-                        node.parent = parentNode;
 
-                        connectCircles(nodesCoord[parentNode.data][0], nodesCoord[parentNode.data][1],
+                        connectCircles(nodesCoord[parent.data][0], nodesCoord[parent.data][1],
                             nodesCoord[node.data][0], nodesCoord[node.data][1], rad, c);
 
                     }
@@ -350,6 +318,42 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
         }
 
 
+        var SumArr = function(arr) {
+          return arr.reduce((total, num) => total + num, 0);
+        };
+
+
+        Node.prototype.countPathsWithRoot = function(value, path) {
+          var pathCount = 0;
+          if (path === undefined) {
+            path = [this.data];
+          } else {
+            path = [...path, this.data];
+          }
+          if (SumArr(path) === value) {
+            pathCount++;
+          }
+          if (this.left !== null) {
+            pathCount += this.left.countPathsWithRoot(value, path);
+          }
+          if (this.right !== null) {
+            pathCount += this.right.countPathsWithRoot(value, path);
+          }
+          return pathCount;
+        };
+
+        Node.prototype.pathsWithSum = function(value) {
+          var pathCount = 0;
+          pathCount += this.countPathsWithRoot(value);
+          if (this.left !== null) {
+            pathCount += this.left.countPathsWithRoot(value);
+          }
+          if (this.right !== null) {
+            pathCount += this.right.countPathsWithRoot(value);
+          }
+          return pathCount;
+        };
+
 
         var root;
         var valuesCanvas;
@@ -359,41 +363,56 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
 
             console.clear();
 
-            resDiv.style.color = 'orange';
-            resDiv.innerHTML = 'Click on any node to find its parent.';
-
-            values = [Math.floor(Math.random() * 5)];
-
-            for (var i = 0; i < 21; i ++){
-                var val = Math.floor(Math.random() * (values[i] + 10 - (values[i] + 1))) + (values[i] + 1);
-                values.push(val);
-            }
-
-            var root = getMinTree(values);
-
-            var lists = createLevelLinkedList(root);
-
             values = [];
-            for (var i = 0; i < lists.length; i ++){
-                values = values.concat(lists[i]);
-            }
 
+            for (var i = -10; i <= 10; i ++){
+                values.push(i);
+            }
 
             var div = document.getElementById('canvas_div');
             div.innerHTML = '';
 
+            values.sort(() => Math.random() - 0.5);
 
             var col = document.createElement('div');
             col.class = 'col';
             var c = document.createElement('canvas');
-            c.addEventListener('click', select);
 
-            [masterRoot, valuesCanvas, lastLayerNodes] = createCanvas(4, c, valuesFixed, notRandomLastLayer);
+            [root, valuesCanvas, lastLayerNodes] = createCanvas(4, c, valuesFixed, notRandomLastLayer);
+
 
             div.appendChild(col.appendChild(c));
+            getNumPaths();
 
         }
 
+        function getNumPaths(){
+
+            var resultDiv = document.getElementById('result_div');
+            resultDiv.innerHTML = '';
+
+            var pathSum = document.getElementById('path_sum').value;
+
+            var p = document.createElement('p');
+
+
+            var numPaths = root.pathsWithSum(parseInt(pathSum));
+
+            if (numPaths == 0){
+                p.innerHTML = 'There are no paths that sum to ' +  pathSum.toString();
+                p.style.color = 'red';
+            }
+            else if(numPaths == 1){
+                p.innerHTML = 'There is ' + numPaths.toString() + ' paths that sum to ' +  pathSum.toString();
+                p.style.color = 'green';
+            }
+            else{
+                p.innerHTML = 'There are ' + numPaths.toString() + ' paths that sum to ' +  pathSum.toString();
+                p.style.color = 'green';
+            }
+
+            resultDiv.appendChild(p);
+        }
 
         function increaseSizeTree(){
 
@@ -407,95 +426,8 @@ successor. Click <span class="code">refresh</span> to generate a new BST.</p>
             newTree(valuesCanvas, lastLayerNodes);
         }
 
-        var findNode;
-        function traverse(cur, find){
-
-            if (!cur){
-                return null;
-            }
-
-            if (cur.data == find){
-                console.log('here');
-                findNode = cur;
-            }
-
-            traverse(cur.left, find);
-            traverse(cur.right, find);
-        }
-
-          function minNode(node){
-
-            var curr = node;
-            while (curr.left){
-              curr = curr.left;
-            }
-            return curr;
-          }
-
-          function inOrderSucc(node, root){
-
-            if (node.right){
-              return minNode (node.right);
-            }
-
-            var succ, curr = root;
-
-            while (curr){
-
-              if (node.data < curr.data){
-                succ = curr;
-                curr = curr.left;
-              }
-              else if (node.data > curr.data){
-                curr = curr.right;
-              }
-              else {
-                break;
-              }
-            }
-            return succ;
-          }
-
-        function select (event){
-           var x = event.layerX;
-           var y = event.layerY;
-           var clicked = false;
-
-           for (key in nodesCoord){
-
-            var xOffset = x - nodesCoord[key][0];
-            var yOffset = y - nodesCoord[key][1];
-
-            if (Math.pow(xOffset, 2) + Math.pow(yOffset, 2) <= Math.pow(rad, 2)){
-                clicked = key;
-                break;
-            }
-           }
-
-           if (clicked){
-            traverse(masterRoot, clicked);
-            resDiv.style.color = 'black';
-
-            var succ = inOrderSucc(findNode, masterRoot);
-
-            if (succ){
-                resDiv.innerHTML = 'Node ' + findNode.data + ' has is succeeded by node ' + succ.data;
-            }
-            else{
-                resDiv.innerHTML = 'Node ' + findNode.data + ' is the last node in in-order traversal.';
-            }
-           }
-           else{
-            resDiv.style.color = 'orange';
-            resDiv.innerHTML = 'Click on any node to find its parent.';
-           }
-
-        }
-
         newTree('', '');
-
-
-
+        getNumPaths();
 
 
 

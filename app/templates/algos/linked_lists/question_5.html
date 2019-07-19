@@ -1,0 +1,362 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+.col{
+margin-left:20%;
+margin-right:20%;
+text-align:"center";
+float:"none";
+display:"inline-block";
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block back_to_top%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block sim_questions%}
+    <a href="{{url_for('main.algos_linked_lists', q_num = 1)}}" >Remove Duplicates</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+    <a href="{{url_for('main.algos_linked_lists', q_num = 1)}}" >Remove Duplicates</a>
+{%endblock%}
+
+{%block question_name%}
+    Sum Lists
+{%endblock%}
+
+{%block question_explanation%}
+    Given two numbers, where each is represented by a linked list, calculate their sum also reprepsented
+by a linked list. The nodes in each linked list represent the number's digits.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>This problem show that it can be beneficial to think of algebraic operations by representing numbers
+    as linked lists. We can expand this reasoning to perform algebraic operations in polynomials as stated
+        <a href="{{url_for('main.algos_linked_lists', q_num = 1)}}">here</a>. Below we demo the algorithm in question.</p>
+
+<p><a style="cursor:pointer;" onclick="refreshDemo()">Refresh</a></p>
+
+<div class="container">
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4><span id="num1a"></span><span class="code">  or  </span><span id="num1b"></span></h4>
+        </div>
+    </div>
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <img src="{{url_for('static', filename='images/plus_sign.png')}}" style="width:20px;height:20px;">
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4><span id="num2a"></span><span class="code">  or  </span><span id="num2b"></span></h4>
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:15px;height:20px;">
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4><span id="outa"></span><span class="code">  or  </span><span id="outb"></span></h4>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We will write a recursive function that deals with each digit at a time.
+    Our base case is:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e95a9952aeb6ae97c7d30718f334283e.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Each carry will be passed as an input to the function. We add the current carry to
+the current digits and get the new carry by:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/b74930090eedd06e1aeaa604643f4616.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> Then our recursive call consists of advancing digits on the linked list
+    (if there are digits) and passing the carry on to the recursive stack:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/8c2949e21e64c4142f0d32bcf62ce89f.js"></script>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/4f817019c0490069ba6b57bb16883ddf.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+          class Node {
+            constructor(value){
+              this.value = value;
+              this.next = null;
+            }
+          }
+
+          class LinkedList {
+
+            constructor(){
+              this.head = null;
+              this.size = 0;
+            }
+
+            add (value){
+              //Adds node at end of list
+
+              var node = new Node(value);
+              var curr;
+
+              if (this.head == null){
+                this.head = node;
+              }
+              else{
+                curr = this.head;
+
+                while (curr.next){
+                  curr = curr.next;
+                }
+
+                curr.next = node;
+              }
+              this.size ++;
+            }
+
+            insertAt (value, index){
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var toAdd = new Node(value);
+
+              if (index == 0){
+                toAdd.next = this.head;
+                this.head = toAdd;
+              }
+              else{
+                var curr = this.head;
+                var prev;
+
+                for (var i = 0; i < index; i ++){
+
+                  prev = curr;
+                  curr = curr.next;
+                }
+                toAdd.next = curr;
+                prev.next = toAdd;
+              }
+              this.size ++;
+            }
+
+            remove (index){
+
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var curr = this.head;
+
+              if (index == 0){
+                this.head = this.head.next;
+              }
+              else{
+
+                var prev = null;
+
+                for (var i = 0; i < this.size; i ++){
+                  prev = curr;
+                  curr = curr.next;
+                }
+                prev.next = curr.next;
+              }
+              this.size --;
+
+              return curr.value;
+            }
+
+          }
+ //================================= APPLICATION
+
+        var num1a = document.getElementById('num1a');
+        var num1b = document.getElementById('num1b');
+        var num2a = document.getElementById('num2a');
+        var num2b = document.getElementById('num2b');
+
+        var outa = document.getElementById('outa');
+        var outb = document.getElementById('outb');
+
+        function addLists(h1, h2, carry){
+
+            if (!h1 && !h2 && carry == 0){
+              return null;
+            }
+
+            var result = new Node(0);
+            var value = carry;
+            if (h1){
+              value += h1.value;
+            }
+            if (h2){
+              value += h2.value;
+            }
+            result.value = value % 10;
+
+            if (h1 || h2){
+              var more = addLists(!h1 ? null : h1.next,
+                                  !h2 ? null : h2.next,
+                                  value >= 10 ? 1 : 0);
+              result.next = more;
+            }
+            return result;
+          }
+
+          function refreshDemo(){
+
+            var len1 = Math.floor(Math.random()* (6 - 3)) + 3;
+            var len2 = Math.floor(Math.random()* (6 - 3)) + 3;
+            var num1 = new LinkedList();
+            var num2 = new LinkedList();
+
+
+            for (var i = 0; i < len1; i ++){
+                var min = (i == len1 - 1) ? 1 : 0;
+                num1.add(Math.floor(Math.random() * (10 - min)) + min);
+            }
+
+            for (var i = 0; i < len2; i ++){
+                var min = (i == len2 - 1) ? 1 : 0;
+                num2.add(Math.floor(Math.random() * (10 - min)) + min);
+            }
+
+            var res = addLists(num1.head, num2.head, 0);
+
+            var num1Str = '';
+            var num1List = '';
+            var cur = num1.head;
+            var c = 0;
+            while (cur){
+
+                if (c % 3 == 0 && c != 0){
+                    num1Str = cur.value + ',' +  num1Str;
+                }
+                else{
+                    num1Str = cur.value + num1Str;
+                }
+
+                if (cur.next){
+                    num1List += cur.value + ' \u2192 ';
+                }
+                else{
+                    num1List += cur.value;
+                }
+
+                cur = cur.next;
+                c ++;
+            }
+
+            num1a.innerHTML = num1Str;
+            num1b.innerHTML = num1List;
+
+            var num2Str = '';
+            var num2List = '';
+            cur = num2.head;
+            c = 0;
+            while (cur){
+                if (c % 3 == 0 && c != 0){
+                    num2Str = cur.value + ',' +  num2Str;
+                }
+                else{
+                    num2Str = cur.value + num2Str;
+                }
+
+                if (cur.next){
+                    num2List += cur.value + ' \u2192 ';
+                }
+                else{
+                    num2List += cur.value;
+                }
+
+                cur = cur.next;
+                c ++;
+            }
+            num2a.innerHTML = num2Str;
+            num2b.innerHTML = num2List;
+
+            var outStr = '';
+            var outList = '';
+            cur = res;
+            c = 0;
+            while (cur){
+                if (c % 3 == 0 && c != 0){
+                    outStr = cur.value + ',' +  outStr;
+                }
+                else{
+                    outStr = cur.value + outStr;
+                }
+
+                if (cur.next){
+                    outList += cur.value + ' \u2192 ';
+                }
+                else{
+                    outList += cur.value;
+                }
+
+                cur = cur.next;
+                c ++;
+            }
+            outa.innerHTML = outStr;
+            outb.innerHTML = outList;
+
+          }
+
+        refreshDemo();
+    </script>
+
+
+{%endblock%}

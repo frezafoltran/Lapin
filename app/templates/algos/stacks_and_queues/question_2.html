@@ -2,7 +2,22 @@
 {%import 'bootstrap/wtf.html' as wtf%}
 
 {%block back_to%}
-        <a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >Back to Stacks and Queues</a>
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Stacks and Queues</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >Back to Stacks and Queues</a>
+{%endblock%}
+
+{%block sim_questions%}
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=5)}}">Sort Stack</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=5)}}">Sort Stack</a>
 {%endblock%}
 
 {%block question_name%}
@@ -62,10 +77,22 @@
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> We will design a <span class="code">popMin</span> and <span class="code">pushMin</span>
+functions that will be called in the stack of minimums whenever
+    <span class="code">pop</span> and <span class="code">push</span> are called in the original stack. As we are storing
+only new minimums, the <span class="code">pushMin</span> will only be updated if the value being pushed is a new minimum:</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/9bee5bb98d6bf8855f61c098449835af.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Likewise, we will only pop a node from the stack of minimums if the value popped in the
+original stack is the minimum. Note for this to work, we need to store consecutive equal minimums repeatedly i nthe stack
+of minimums.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/13e0fa118093d0fdbd508bb8f942d573.js"></script>
         </div>
     </section>
 {%endblock%}
@@ -76,7 +103,7 @@
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/b7f089c72a801426b2cae86ac5a8b04c.js"></script>
+    <script src="https://gist.github.com/frezafoltran/d2ebc00f70b4e32fc206ee9199cf4617.js"></script>
 {%endblock%}
 
 

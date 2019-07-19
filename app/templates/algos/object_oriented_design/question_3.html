@@ -4,17 +4,23 @@
 {%block style%}
 
 .col{
-margin-left:30%;
-margin-right:30%;
+margin-left:20%;
+margin-right:20%;
 text-align:"center";
 float:"none";
 display:"inline-block";
-border:solid 1px red;
 }
 {%endblock%}
 
 {%block back_to%}
-        <a href="{{url_for('main.algos_object_oriented_design', q_num=0)}}" >Back to Object Oriented Design</a>
+<a href="{{url_for('main.algos_object_oriented_design', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Object Oriented Design</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_object_oriented_design', q_num=0)}}" >Back to Object Oriented Design</a>
 {%endblock%}
 
 {%block question_name%}
@@ -36,14 +42,68 @@ border:solid 1px red;
 
 <div class="container">
     <div class="row" style="text-align:center">
-        <div class="col">
+        <h4>Jukebox</h4>
+        <h4><a style="cursor:pointer;" onclick="shuffleJuke()">Shuffle</a></h4>
 
-            <h4>Jukebox</h4>
+        <h4><a style="cursor:pointer;" onclick="playSong()" id="play">Play</a><span> || </span>
+            <a style="cursor:pointer;" onclick="nextSong()"> Next -></a></h4>
+
+        <h4><a style="cursor:pointer;display:none" onclick="pauseSong()" id="pause">Pause</a></h4>
+        <h4 style="display:none;" id="empty-msg">Your Jukebox is empty. Add songs to start.</h4>
+        <div class="col" id="jukebox">
+
+            <div style="width:50%;float:left;border:solid 1px red;display:none" id="available-songs"></div>
+            <div style="width:50%;float:right;border:solid 1px red;display:none;" id="current-song-wrapper">
+                <div id="current-song"></div>
+
+
+                <img id="spin" src="{{url_for('static', filename='images/spinning_vynil.gif')}}"
+                     style="width:70px;height:70px;display:none;">
+                <img id="spin-stopped" src="{{url_for('static', filename='images/spin_stopped.png')}}"
+                     style="width:70px;height:70px;display:none;">
+            </div>
+
 
         </div>
-
-
     </div>
+
+    <br>
+    <div class="row" style="text-align:center;">
+        <figure class="col-sm-2 col-sm-offset-1">
+            <a onclick="addSong('Taxman')" style="margin:5px;cursor:pointer;">
+            <img src="{{url_for('static', filename='images/revolver_album.jpg')}}" style="width:70px;height:70px;">
+            <figcaption>Taxman</figcaption></a>
+        </figure>
+
+        <figure class="col-sm-2">
+            <a onclick="addSong('Helter Skelter')" style="margin:5px;cursor:pointer;">
+            <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+                <figcaption>Helter Skelter</figcaption>
+            </a>
+        </figure>
+
+        <figure class="col-sm-2">
+            <a onclick="addSong('Revolution')" style="margin:5px;cursor:pointer;">
+            <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+            <figcaption>Revolution</figcaption></a>
+        </figure>
+
+        <figure class="col-sm-2">
+            <a onclick="addSong('Yellow Submarine')" style="margin:5px;cursor:pointer;">
+            <img src="{{url_for('static', filename='images/revolver_album.jpg')}}" style="width:70px;height:70px;">
+            <figcaption> Yellow Submarine</figcaption>
+                </a>
+        </figure>
+
+
+        <figure class="col-sm-2">
+            <a onclick="addSong('Glass Onion')" style="margin:5px;cursor:pointer;">
+            <img src="{{url_for('static', filename='images/white_album.jpg')}}" style="width:70px;height:70px;">
+                <figcaption>Glass Onion</figcaption>
+            </a>
+        </figure>
+    </div>
+
 </div>
 
 
@@ -90,15 +150,21 @@ border:solid 1px red;
     };
 
     Player.prototype.shuffle = function() {
-      this.songQueue.sort(() => { return Math.random() > 0.5 ? 1 : 0; });
+      this.songQueue.sort(() => Math.random() - 0.5);
     };
 
     Player.prototype.play = function() {
+
+      if (!this.songQueue){
+        console.log('jukebox is empty');
+        return;
+      }
+
       if (this.currentSong === null) {
-        this.currentSong = this.songQueue.unshift();
-        this.currentSong.play();
+        this.currentSong = this.songQueue[0];
+        this.songQueue = this.songQueue.slice(1, this.songQueue.length);
       } else {
-        console.log('song currently playing');
+        return -1;
       }
     };
 
@@ -111,8 +177,9 @@ border:solid 1px red;
     };
 
     Player.prototype.nextSong = function() {
-      this.currentSong = this.songQueue.unshift();
-      this.currentSong.play();
+      this.currentSong = this.songQueue[0];
+      this.songQueue = this.songQueue.slice(1, this.songQueue.length);
+      //this.currentSong.play();
     };
 
     Player.prototype.addSong = function(song) {
@@ -139,20 +206,95 @@ border:solid 1px red;
 
     var jukebox = new Player();
 
+    var jukeDiv = document.getElementById('jukebox');
+    var emptyMsg = document.getElementById('empty-msg');
+
+    var availableDiv = document.getElementById('available-songs');
+    var curDiv = document.getElementById('current-song');
+    var curWrapper = document.getElementById('current-song-wrapper');
+
+    var playDiv = document.getElementById('play');
+    var pauseDiv = document.getElementById('pause');
+
+    var spin = document.getElementById('spin');
+    var spinStopped = document.getElementById('spin-stopped');
+
     function updateJukebox(){
 
-        var jukeDiv = document.getElementById('jukebox');
-        jukeDiv.innerHTML = '';
+
+
+        availableDiv.innerHTML = '';
+        curDiv.innerHTML = '';
 
         if (jukebox.songQueue.length == 0 && !jukebox.currentSong){
-            var p = document.createElement('p');
-            p.innerHTML = 'Your jukebox is empty. Add a song to start.'
-            jukeDiv.appendChild(p);
+            emptyMsg.style.display = 'inline';
+            availableDiv.style.display = 'none';
+            curWrapper.style.display = 'none';
+
+        }
+        else{
+
+            emptyMsg.style.display = 'none';
+            availableDiv.style.display = 'inline';
+            curWrapper.style.display = 'inline';
+
+            for (var i = 0; i < jukebox.songQueue.length; i ++){
+                var songName = document.createElement('h5');
+                songName.innerHTML = jukebox.songQueue[i];
+                availableDiv.appendChild(songName);
+            }
+
+            if (jukebox.currentSong){
+                var curSong = document.createElement('h5');
+                curSong.innerHTML = jukebox.currentSong;
+                curDiv.appendChild(curSong);
+            }
+
+
         }
 
     }
 
-    //updateJukebox();
+    function addSong(songName){
+
+        jukebox.addSong(songName);
+        updateJukebox();
+    }
+
+    function playSong(){
+
+        jukebox.play();
+        spin.style.display='inline';
+        spinStopped.style.display='none';
+        updateJukebox();
+        playDiv.style.display = 'none';
+        pauseDiv.style.display = 'inline';
+
+    }
+
+    function pauseSong(){
+        spin.style.display='none';
+        spinStopped.style.display='inline';
+        pauseDiv.style.display = 'none';
+        playDiv.style.display = 'inline';
+
+    }
+
+    function shuffleJuke(){
+
+        jukebox.shuffle();
+        console.log(jukebox.songQueue);
+        updateJukebox();
+
+    }
+
+    function nextSong(){
+
+        jukebox.nextSong();
+        updateJukebox();
+    }
+
+    updateJukebox();
 
 
 

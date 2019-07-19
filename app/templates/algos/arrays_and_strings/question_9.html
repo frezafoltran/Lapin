@@ -19,11 +19,13 @@
 {%endblock%}
 
 {%block sim_questions%}
-    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#">concat</a>
 {%endblock%}
 
 {%block sim_questions_side%}
-    <a href="{{url_for('main.algos_arrays_and_strings', q_num=7)}}" >Rotate Image</a>
 {%endblock%}
 
 {%block question_name%}
@@ -52,21 +54,21 @@ can be used to check at any given point if the current shown string corresponds 
 
     <div class="row" style="text-align:center">
 
-        <div class="col-sm-3" style="text-align:center;float:none;display:inline-block;background-color:black">
-            <span style="color:white" id="rotating_text"></span>
+        <div class="col-sm-4" style="text-align:center;float:none;display:inline-block;background-color:black">
+            <p style="color:white" id="rotating_text"></p>
         </div>
     </div>
 
     <br>
     <div id="options" style="display:none;">
         <p><a style="cursor:pointer;" onclick="checkIfMatch(0)">Check if it matches:</a>
-        'The potato is in the oven. '</p>
+        ''It is what is that is. ''</p>
 
         <p><a style="cursor:pointer;" onclick="checkIfMatch(1)">Check if it matches:</a>
-        'The potato in the oven is. '</p>
+        'It what it is that is. '</p>
 
         <p><a style="cursor:pointer;" onclick="checkIfMatch(2)">Check if it matches:</a>
-        'The oven is in the potato. '</p>
+        'What it is is that is. '</p>
 
         <p id="result"></p>
         </div>
@@ -75,21 +77,46 @@ can be used to check at any given point if the current shown string corresponds 
 {%endblock%}
 
 {%block code_intuition%}
-<p>The key idea</p>
+<p>Assume the two strings are rotation of one another. Then we can write
+    <span class="code">s1 = 'xy'</span> and <span class="code">s2 = 'yx'</span> for some <span class="code">x, y</span>
+substrings. Then if we consider <span class="code">s2</span>, that is a substring of <span class="code">s1 + s1</span>.
+</p>
+
+<a onclick="showAnswer(1);" style="cursor:pointer;"><p><img src="{{url_for('static', filename='images/question.png')}}" class="question_img" style="width:50px;height:50px;">
+        <span style="color:rgb(255,56,0);">Conversely, if we have <span class="code">s2</span> a substring of <span class="code">s1 + s1</span>,
+             can we conclude that they are rotation of each other?</span>
+    </p></a>
+
+    <div class="row answer-div" style="background-color:rgb(150,228,228);border-radius:35px;">
+    <p id="answer1" style="display:none;color:rgb(300,376,228);"><img style="width:48px; height:60px;" src="{{ url_for('static', filename='images/rabbit.png') }}">
+    Yes. That is assuming the string are of equal length (else they can't be rotations), we necessarily need one portion
+    of <span class="code">s2</span> lying in the beginning of <span class="code">s1</span> and the other part in the end.</p>
+        </div>
+
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> ...</p>
+<p><span class="step">Step 1</span>We know if the string have different lengths,
+    they can't be a rotation of each other. Thus, we return <span class="code">false</span>.</p>
     <section>
         <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/0e6ff79556e3326a7b47271c79069250.js"></script>
         </div>
     </section>
+
+<p><span class="step">Step 2</span> We follow the steps in the <span class="code">Intuition</span> section above:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/477c151fe0193b500dddcd2b2879a199.js"></script>
+        </div>
+    </section>
+
 
 
 {%endblock%}
 
 {%block code_complexity%}
-
+<p>The algorithm has both time and space complexity <span class="code">O(1)</span>.</p>
 {%endblock%}
 
 {%block full_code_gist%}
@@ -105,7 +132,7 @@ can be used to check at any given point if the current shown string corresponds 
 
     <script>
 
-        var text = 'The potato is in the oven. ';
+        var text = 'It is what is that is. ';
         var textSpan = document.getElementById('rotating_text');
 
         var i = 0;
@@ -162,9 +189,9 @@ can be used to check at any given point if the current shown string corresponds 
           return joint.includes(s2) ? true : false;
         }
 
-        var options = ['The potato is in the oven. ',
-                       'The potato in the oven is. ',
-                       'The oven is in the potato. ']
+        var options = ['It is what is that is. ',
+                       'It what it is that is. ',
+                       'What it is is that is. ']
 
         function checkIfMatch(num){
 

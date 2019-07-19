@@ -208,16 +208,7 @@ def algos_linked_lists(q_num):
     if q_num == '0':
         return render_template('algos/linked_lists/linked_lists_main.html')
 
-    elif q_num == '1':
-        return render_template('algos/linked_lists/question_' + str(q_num) + '.html')
-
-    elif q_num == '2':
-        return render_template('algos/linked_lists/question_' + str(q_num) + '.html')
-
-    elif q_num == '3':
-        return render_template('algos/linked_lists/question_' + str(q_num) + '.html')
-
-    elif q_num == '4':
+    else:
         return render_template('algos/linked_lists/question_' + str(q_num) + '.html')
 
 

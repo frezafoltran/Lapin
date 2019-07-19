@@ -1,8 +1,34 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+
+{%block style%}
+
+.col{
+width:50%;
+text-align:"center";
+display:"inline-block";
+}
+
+{%endblock%}
+
 {%block back_to%}
-        <a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >Back to Stacks and Queues</a>
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Stacks and Queues</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >Back to Stacks and Queues</a>
+{%endblock%}
+
+{%block sim_questions%}
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=2)}}">Stack Minimum</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_stacks_and_queues', q_num=2)}}">Stack Minimum</a>
 {%endblock%}
 
 {%block question_name%}
@@ -20,7 +46,40 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>As in <a href="{{url_for('main.algos_stacks_and_queues', q_num=2)}}">this</a> question, stacks are useful in implementing
+    <span class="code">undo</span> functions. In this case, imagine that the task a user performs is adding sentences
+        to a song lyric.
+
+        <br><br>The algorithm in this question can be used to implement an <span class="code">undo</span> function with
+    two options: <span class="code">undo (delete)</span> last sentence added (the usual <span class="code">undo</span>)
+        or <span class="code">undo (delete)</span>
+    the shortest sentence added. Below you will find a sample lyric along with a sample stack of the changes.
+    Click <span class="code">refresh</span> to get a new demo.</p>
+
+    <div class="container">
+
+        <p><a onclick="refreshDemo()" style="cursor:pointer;">Refresh</a></p>
+        <div class="row" style="text-align:center" id="all-content">
+
+            <div class="col" style="float:left;">
+                <div id="stack" class="col" style="float:left;">
+
+                </div>
+                <div id="sorted-stack" class="col" style="float:right;">
+
+                </div>
+            </div>
+            <div  id="notes" class="col" style="float:right;border:solid 1px gray;">
+
+            </div>
+
+
+        </div>
+
+        <p><a onclick="delLast()" style="cursor:pointer;" id="del-last">Delete last added sentence</a></p>
+        <p><a onclick="delShortest()" style="cursor:pointer;" id="del-shortest">Delete shortest sentence</a></p>
+    </div>
+
 {%endblock%}
 
 {%block code_intuition%}
@@ -30,10 +89,29 @@
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> To sort the stack, we need to iterate through all of its elements. Thus, we
+setup a while loop as:</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/ba1af2dbd57330b773734267f3f27886.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Now the idea is to continuously <span class="code">pop</span> elements from
+the original stack until the value popped is larger than the current top of the <span class="code">sortedStack</span>.
+note that by this construction, <span class="code">sortedStack</span> is actually sorted in reverse order
+    (i.e. largest element on top).</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/5b5428ea5b26db9760097a1cb20ab5b4.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> Because <span class="code">sortedStack</span> is sorted in reverse order, we correct that
+by copying the elements back as:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/936354c0707c4322bc0d7f64c3c9bc37.js"></script>
         </div>
     </section>
 {%endblock%}
@@ -55,5 +133,309 @@
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
 
+    <script>
+
+          function sortStack(stack){
+            var sortedStack = new Stack ();
+
+            while (!stack.isEmpty()){
+
+              var curr = stack.pop();
+
+              while (!sortedStack.isEmpty() && sortedStack.peek().data[1] > curr.data[1]){
+                stack.push(sortedStack.pop().data);
+              }
+              sortedStack.push(curr.data);
+
+            }
+
+            while (!sortedStack.isEmpty()){
+              stack.push(sortedStack.pop().data);
+            }
+          }
+
+            var Stack = function (){
+            this.top = null;
+            this.size = 0;
+          }
+
+          var Node = function (data){
+            this.data = data;
+            this.previous = null;
+          }
+
+          Stack.prototype.push = function (data){
+            var node = new Node (data);
+
+            node.previous = this.top;
+            this.top = node;
+            this.size ++;
+
+            return this.top;
+          }
+
+          Stack.prototype.pop = function (){
+
+            var popped = this.top;
+            if (popped){
+              this.top = this.top.previous;
+            }
+            this.size --;
+
+            return popped;
+          }
+
+          Stack.prototype.peek = function (){
+            return this.top;
+          }
+
+          Stack.prototype.isEmpty = function (){
+            return (this.top == null);
+          }
+          Stack.prototype.print = function (){
+            var curr = this.top;
+            while(curr){
+              console.log(curr.data);
+              curr = curr.previous;
+            }
+          }
+
+  //===========================================APPLICATION
+
+          var text =[['Yesterday,',
+                      'all my troubles seemed so far away.',
+                      'Now it looks as though they are here to stay.',
+                      'Suddenly, I\'m not',
+                      'half the man I used to be.'],
+
+                      ['You know my name.',
+                       'Look up the number.',
+                       'That\'s right, look up my number.',
+                       'You know, you know you know my name.'],
+
+                      ['Our day will come.',
+                       'And we\'ll have everything.',
+                       'Our dreams have magic because,',
+                       'we\'ll always stay in love this way.'],
+
+                      ['Let me take you down,',
+                      'cause I\'m going to Strawberry Fields.',
+                      'Nothing is real.']
+                      ];
+
+          var notes = document.getElementById('notes');
+          var stack = document.getElementById('stack');
+          var sortedStack = document.getElementById('sorted-stack');
+          var allContent = document.getElementById('all-content');
+          var delLastDiv = document.getElementById('del-last');
+          var delShortDiv = document.getElementById('del-shortest');
+
+
+          var linesStack;
+          var stackCopy;
+          var songNum = 0;
+          var lyrics;
+
+          function updateStack(sync){
+
+
+            //refresh display
+            stack.innerHTML = '';
+            var title = document.createElement('span');
+            title.style.fontWeight = 'bold';
+            title.innerHTML = 'Stack of changes'
+            stack.appendChild(title);
+            stack.appendChild(document.createElement('br'));
+
+            var cur = linesStack.top;
+            //make sure copy is up to date
+            if (sync){
+                stackCopy = new Stack();
+                stackCopy.push(cur.data);
+                var curCopy = stackCopy.top;
+            }
+
+            while (cur){
+
+                var addedSpan = document.createElement('span');
+                addedSpan.innerHTML = 'line ' + cur.data[0] + ' was added.';
+                stack.appendChild(addedSpan);
+                stack.appendChild(document.createElement('hr'));
+
+                if (sync && cur.previous){
+                    curCopy.previous = new Node(cur.previous.data);
+                    curCopy = curCopy.previous;
+                }
+
+                cur = cur.previous;
+            }
+          }
+
+          function updateSortedStack(){
+
+            sortedStack.innerHTML = '';
+            var title = document.createElement('span');
+            title.style.fontWeight = 'bold';
+            title.innerHTML = 'Sorted stack of changes'
+            sortedStack.appendChild(title);
+            sortedStack.appendChild(document.createElement('br'));
+
+            sortStack(stackCopy);
+            var cur = stackCopy.top;
+            while (cur){
+
+                var addedSpan = document.createElement('span');
+                addedSpan.innerHTML = 'line ' + cur.data[0] + ' was added.';
+                sortedStack.appendChild(addedSpan);
+                sortedStack.appendChild(document.createElement('hr'));
+                cur = cur.previous;
+            }
+          }
+
+
+          function updateNotes(){
+
+            var indexes = [];
+            var cur = linesStack.top;
+            while(cur){
+                indexes.push(cur.data[0]);
+                cur = cur.previous;
+            }
+
+            notes.innerHTML = '';
+
+            for (var i = indexes.length - 1; i >= 0; i --){
+
+                //===lyric column
+                var lineIndex = document.createElement('span');
+                lineIndex.innerHTML = 'line ' + indexes[i];
+                lineIndex.style.color = 'gray';
+                lineIndex.style.float = 'left';
+                lineIndex.style.margin = '5px';
+
+                var line = document.createElement('span');
+                line.style.fontWeight = 'bold';
+                if (i == 0){
+                    line.style.backgroundColor = 'yellow';
+                }
+                line.innerHTML = lyrics[indexes[i]];
+
+                notes.appendChild(lineIndex);
+                notes.appendChild(line);
+                notes.appendChild(document.createElement('hr'));
+
+            }
+
+          }
+
+          function refreshDemo(){
+
+            console.clear();
+
+            allContent.style.display = 'inline';
+            delLastDiv.style.display = 'inline';
+            delShortDiv.style.display = 'inline';
+
+            notes.innerHTML = '';
+
+            //refresh stack
+            linesStack = new Stack();
+            stackCopy = new Stack();
+
+            lyrics = text[songNum % text.length];
+            songNum ++;
+
+            for (var i = 0; i < lyrics.length; i ++){
+
+                //===lyric column
+                var lineIndex = document.createElement('span');
+                lineIndex.innerHTML = 'line ' + i;
+                lineIndex.style.color = 'gray';
+                lineIndex.style.float = 'left';
+                lineIndex.style.margin = '5px';
+
+                var line = document.createElement('span');
+                line.style.fontWeight = 'bold';
+                if (i == lyrics.length - 1){
+                    line.style.backgroundColor = 'yellow';
+                }
+                line.innerHTML = lyrics[i];
+
+                notes.appendChild(lineIndex);
+                notes.appendChild(line);
+                notes.appendChild(document.createElement('hr'));
+
+                //===build stack
+                linesStack.push([i, lyrics[i].length]);
+            }
+            updateStack(true);
+
+            updateSortedStack();
+
+          }
+
+          function delLast(){
+
+            linesStack.pop();
+
+            if (linesStack.isEmpty()){
+                allContent.style.display = 'none';
+                delLastDiv.style.display = 'none';
+                delShortDiv.style.display = 'none';
+                return;
+            }
+
+            updateStack(true);
+
+            updateSortedStack();
+            updateNotes();
+          }
+
+          function delShortest(){
+
+            var popped = stackCopy.pop();
+
+            if (stackCopy.isEmpty()){
+                allContent.style.display = 'none';
+                delLastDiv.style.display = 'none';
+                delShortDiv.style.display = 'none';
+                return;
+            }
+
+            //sync stacks
+            var cur = linesStack.top;
+            var prev = cur;
+
+            while(cur){
+
+                //delete from stack
+                if (popped.data[0] == cur.data[0]){
+
+                    if (cur == linesStack.top){
+                        linesStack.top = cur.previous;
+                    }
+                    else{
+                        prev.previous = cur.previous;
+                    }
+                    break;
+                }
+                if (cur != linesStack.top){
+                    prev = prev.previous;
+                }
+
+                cur = cur.previous;
+            }
+
+            updateStack(false);
+            updateSortedStack();
+            updateNotes();
+
+
+
+          }
+
+          refreshDemo();
+
+    </script>
 
 {%endblock%}
