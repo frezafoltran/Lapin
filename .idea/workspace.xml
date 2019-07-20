@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/jinni_data/viable_words.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lapin.py" beforeDir="false" afterPath="$PROJECT_DIR$/lapin.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -81,8 +76,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="140" column="59" selection-start-line="140" selection-start-column="59" selection-end-line="140" selection-end-column="59" />
+            <state relative-caret-position="80">
+              <caret line="126" selection-start-line="126" selection-end-line="126" />
               <folding>
                 <element signature="e#247#297#0" expanded="true" />
               </folding>
@@ -746,8 +741,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="140" column="59" selection-start-line="140" selection-start-column="59" selection-end-line="140" selection-end-column="59" />
+        <state relative-caret-position="80">
+          <caret line="126" selection-start-line="126" selection-end-line="126" />
           <folding>
             <element signature="e#247#297#0" expanded="true" />
           </folding>
