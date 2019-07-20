@@ -2,33 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_10.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_12.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/static/jinni_data/viable_words.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/question_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/question_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/stacks_and_queues_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/stacks_and_queues_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/trees_and_graphs_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/trees_and_graphs_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lapin.py" beforeDir="false" afterPath="$PROJECT_DIR$/lapin.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,31 +20,95 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
+            <state relative-caret-position="380">
               <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="294" column="24" selection-start-line="294" selection-start-column="24" selection-end-line="294" selection-end-column="24" />
+            <state relative-caret-position="260">
+              <caret line="47" column="12" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/topic_base.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="88" column="50" selection-start-line="88" selection-start-column="50" selection-end-line="88" selection-end-column="50" />
               <folding>
-                <element signature="e#406#456#0" expanded="true" />
-                <element signature="e#963#988#0" expanded="true" />
-                <element signature="e#1004#1027#0" expanded="true" />
-                <element signature="e#1109#1132#0" expanded="true" />
-                <element signature="e#1004#1027#0" expanded="true" />
-                <element signature="e#1175#1198#0" expanded="true" />
-                <element signature="e#1082#1117#0" expanded="true" />
-                <element signature="e#1005#1026#0" expanded="true" />
-                <element signature="e#1147#1209#0" expanded="true" />
-                <element signature="e#1438#1502#0" expanded="true" />
-                <element signature="e#1697#1741#0" expanded="true" />
-                <element signature="e#1952#1996#0" expanded="true" />
-                <element signature="e#1120#1146#0" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="429">
+              <caret line="111" column="67" selection-start-line="111" selection-start-column="67" selection-end-line="111" selection-end-column="67" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#h4#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#a#0;n#h4#4;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#1;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#1;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="746">
+              <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#29#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="380">
+              <caret line="140" column="59" selection-start-line="140" selection-start-column="59" selection-end-line="140" selection-end-column="59" />
+              <folding>
+                <element signature="e#247#297#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lapin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+              <folding>
+                <element signature="e#280#330#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,8 +156,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/main/helpers.py" />
-        <option value="$PROJECT_DIR$/app/main/forms.py" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/question_3.html" />
@@ -123,7 +164,6 @@
         <option value="$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/base.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_2.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_3.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_5.html" />
@@ -133,7 +173,6 @@
         <option value="$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/math/math_main.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/topic_base.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_7.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_8.html" />
@@ -152,7 +191,6 @@
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/stacks_and_queues_main.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/algos_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_12.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_2.html" />
@@ -164,6 +202,11 @@
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/trees_and_graphs_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/topic_base.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/algos_main.html" />
+        <option value="$PROJECT_DIR$/app/models.py" />
+        <option value="$PROJECT_DIR$/lapin.py" />
+        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html" />
       </list>
     </option>
   </component>
@@ -180,6 +223,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -191,18 +235,6 @@
               <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
               <item name="Lapin" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
@@ -225,43 +257,10 @@
               <item name="algos" type="462c0819:PsiDirectoryNode" />
               <item name="arrays_and_strings" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="bit_manipulation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="object_oriented_design" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="stacks_and_queues" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="trees_and_graphs" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -338,7 +337,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" visible="true" weight="0.1590214" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.1590214" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -346,15 +345,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_8.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/images/rock.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/static/images/george.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/static/images/john.png" />
     <entry file="file://$PROJECT_DIR$/app/main/helpers.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -378,16 +368,6 @@
           <folding>
             <element signature="n#style#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-          <folding>
-            <element signature="e#247#297#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -460,16 +440,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/topic_base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="87" column="12" lean-forward="true" selection-start-line="87" selection-start-column="12" selection-end-line="93" selection-end-column="18" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_7.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="480">
@@ -497,16 +467,6 @@
           <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
           <folding>
             <element signature="e#251#301#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="20" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
-          <folding>
-            <element signature="e#280#330#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -599,20 +559,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="137" column="36" selection-start-line="137" selection-start-column="36" selection-end-line="137" selection-end-column="36" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#h4#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#img#0;n#a#0;n#h4#4;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_1.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
@@ -649,16 +595,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="109" column="8" selection-start-line="109" selection-start-column="8" selection-end-line="127" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_8.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="270" column="8" selection-start-line="270" selection-start-column="8" selection-end-line="284" selection-end-column="49" />
-          <folding>
-            <element signature="e#280#330#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -700,13 +636,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -731,24 +660,96 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="294" column="24" selection-start-line="294" selection-start-column="24" selection-end-line="294" selection-end-column="24" />
+        <state relative-caret-position="260">
+          <caret line="47" column="12" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_8.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5420">
+          <caret line="271" column="32" lean-forward="true" selection-start-line="271" selection-start-column="32" selection-end-line="271" selection-end-column="32" />
           <folding>
-            <element signature="e#406#456#0" expanded="true" />
-            <element signature="e#963#988#0" expanded="true" />
-            <element signature="e#1004#1027#0" expanded="true" />
-            <element signature="e#1109#1132#0" expanded="true" />
-            <element signature="e#1004#1027#0" expanded="true" />
-            <element signature="e#1175#1198#0" expanded="true" />
-            <element signature="e#1082#1117#0" expanded="true" />
-            <element signature="e#1005#1026#0" expanded="true" />
-            <element signature="e#1147#1209#0" expanded="true" />
-            <element signature="e#1438#1502#0" expanded="true" />
-            <element signature="e#1697#1741#0" expanded="true" />
-            <element signature="e#1952#1996#0" expanded="true" />
-            <element signature="e#1120#1146#0" expanded="true" />
+            <element signature="e#280#330#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+          <folding>
+            <element signature="e#280#330#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/topic_base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="88" column="50" selection-start-line="88" selection-start-column="50" selection-end-line="88" selection-end-column="50" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/main/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="111" column="67" selection-start-line="111" selection-start-column="67" selection-end-line="111" selection-end-column="67" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#h4#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#a#0;n#h4#4;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="746">
+          <caret line="124" column="18" lean-forward="true" selection-start-line="124" selection-start-column="18" selection-end-line="124" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lapin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="48" selection-start-line="10" selection-start-column="48" selection-end-line="10" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="140" column="59" selection-start-line="140" selection-start-column="59" selection-end-line="140" selection-end-column="59" />
+          <folding>
+            <element signature="e#247#297#0" expanded="true" />
           </folding>
         </state>
       </provider>
