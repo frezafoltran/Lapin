@@ -1,6 +1,14 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block style%}
+
+.oneFifth{
+width:20%;
+}
+
+{%endblock%}
+
 {%block back_to%}
 <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
 <img src="{{url_for('static', filename='images/back_arrow.png')}}"
@@ -14,6 +22,8 @@
 
 {%block question_name%}
     Unique Characters
+
+
 {%endblock%}
 
 {%block question_explanation%}
@@ -26,6 +36,7 @@
 {%endblock%}
 
 {%block code_application%}
+
     <p>This algorithm can be used to check if a string (or array) has repeated
         elements is a very space efficient way by using bit vectors. </p>
 
@@ -124,24 +135,10 @@ we turn the "B" switch "on" by flipping the second bit of <span class="code">fla
     {{moment.lang(g.locale)}}
 <script>
 
-
-    var info;
-
-    fetch('https://2vwwtiro51.execute-api.us-east-2.amazonaws.com/jinni-api/sentences/1')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(myJson) {
-        info = JSON.stringify(myJson);
-        console.log(JSON.stringify(myJson));
-      });
-
-
-      function show(){
-        document.getElementById('result').innerHTML = info;
-
-      }
-
+      //to be used in dynamodb
+      {%block q_name%}
+      'unique_characters'
+      {%endblock%}
 
 
     function plotDif(){

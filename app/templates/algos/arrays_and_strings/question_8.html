@@ -112,6 +112,10 @@ by storing a zero at the respective row and column indexes in the first row and 
 
     <script>
 
+        {%block q_name%}
+      'zero_matrix'
+      {%endblock%}
+
         var orgImg = document.getElementById('image');
         var img = new Image();
         img.src = orgImg.src;

@@ -112,6 +112,79 @@ display:inline;
 
 }
 
+/*====================== RATING  ======*/
+
+.star-ratings-css {
+  unicode-bidi: bidi-override;
+  color: #c5c5c5;
+  font-size: 25px;
+  height: 25px;
+  width: 100px;
+  margin: 0 auto;
+  position: relative;
+  padding: 0;
+  text-shadow: 0px 1px 0 #a2a2a2;
+}
+.star-ratings-css-top {
+    color: #e7711b;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+.star-ratings-css-bottom {
+    padding: 0;
+    display: block;
+    z-index: 0;
+  }
+
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+
 {%block style%}
 
 {%endblock%}
@@ -142,6 +215,15 @@ display:inline;
             <!-- QUESTION STATEMENT -->
             <h2><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point.png')}}">
             {%block question_name%} {%endblock%}
+                <div class="star-ratings-css">
+                  <div id="cur_rank" class="star-ratings-css-top">
+                      <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
+                  <div class="star-ratings-css-bottom">
+                      <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
+                </div>
+                <h4 id="num-votes"></h4>
+                <div id="snackbar"></div>
+
             </h2>
 
             <h3 style="color:rgb(169,169,169)">
@@ -217,6 +299,121 @@ display:inline;
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
     <script>
+
+
+      function votedMsg(msg) {
+          var x = document.getElementById("snackbar");
+          x.innerHTML = msg;
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+      var curRankDiv = document.getElementById('cur_rank');
+      var numVotesDiv = document.getElementById('num-votes');
+      var curRank, numVotes, cur_width;
+      var voted = false;
+
+      var q_name = {%block q_name%}{%endblock%};
+
+      //update current question rating
+      function updateRank(){
+          fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/!' + q_name)
+              .then(function(response) {
+
+                return response.json();
+              })
+              .then(function(json) {
+
+                if (json['out'] == -1){
+                    console.log('handled');
+                    curRank = 0;
+                    numVotes = 0;
+                    fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/' + q_name + '$' + 0 + '$' + 0);
+                   }
+                else{
+                    curRank = json['cur_rank'];
+                    numVotes = json['num_votes'];
+                }
+
+                console.log(numVotes);
+                console.log(curRank);
+
+                curRankDiv.style.width = (curRank/5)*100 + '%';
+                if (numVotes == 0){
+                    return;
+                }
+                numVotesDiv.innerHTML = numVotes > 1 ? numVotes + " votes" : numVotes + " vote";
+
+              });
+       }
+
+      function vote(num){
+        //clearTimeout();
+
+        if (voted){
+            console.log('already voted');
+            votedMsg("You have already voted for this question!");
+            return;
+        }
+
+        var newRank = (curRank * numVotes + num) / (numVotes + 1);
+        curRankDiv.style.width = (newRank/5) * 100 + '%';
+        cur_width = curRankDiv.style.width
+        numVotesDiv.innerHTML = numVotes > 0 ? (numVotes + 1) + " votes" : (numVotes + 1) + " vote";
+
+        voted = true;
+        votedMsg("Thank you for your vote!");
+
+        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/' + q_name + '$' + newRank + '$' + (numVotes + 1));
+      }
+
+
+      $(document).ready(function() {
+
+        $(".star1").hover(function() {
+
+            cur_width = document.getElementById('cur_rank').style.width;
+            document.getElementById('cur_rank').style.width = "20%";
+
+        }, function() {
+            document.getElementById('cur_rank').style.width = cur_width;
+        });
+
+        $(".star2").hover(function() {
+            cur_width = document.getElementById('cur_rank').style.width;
+            document.getElementById('cur_rank').style.width = "40%";
+
+        }, function() {
+            document.getElementById('cur_rank').style.width = cur_width;
+        });
+
+        $(".star3").hover(function() {
+            cur_width = document.getElementById('cur_rank').style.width;
+            document.getElementById('cur_rank').style.width = "60%";
+
+        }, function() {
+            document.getElementById('cur_rank').style.width = cur_width;
+        });
+
+        $(".star4").hover(function() {
+            cur_width = document.getElementById('cur_rank').style.width;
+            document.getElementById('cur_rank').style.width = "80%";
+
+        }, function() {
+            document.getElementById('cur_rank').style.width = cur_width;
+        });
+
+        $(".star5").hover(function() {
+            cur_width = document.getElementById('cur_rank').style.width;
+            document.getElementById('cur_rank').style.width = "103%";
+
+        }, function() {
+            document.getElementById('cur_rank').style.width = cur_width;
+        });
+
+    });
+
+    updateRank();
 
         function showAnswer(num){
 
