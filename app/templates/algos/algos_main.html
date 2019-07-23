@@ -143,5 +143,21 @@
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
 
+     //get top rated questions
+        var num_questions = 3;
+        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/best_ranked')
+              .then(function(response) {
+
+                return response.json();
+              })
+              .then(function(json) {
+
+                for (var i = 0; i < num_questions; i ++){
+                    console.log(json[i]['id']);
+                }
+
+              });
+
+
     </script>
 {%endblock%}
