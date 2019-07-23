@@ -29,12 +29,13 @@
     <p>You can see the algorithm in action below.
     </p>
 
-    <button onclick="pushToStack()">Push to Stack</button>
-    <button onclick="popFromStack()">Pop from Stack</button>
-    <button onclick="popFromStackAt()">Pop from Stack at:</button>
-    <form>
+    <p><a onclick="pushToStack()" style="cursor:pointer">Push to Stack</a> or
+    <a onclick="popFromStack()" style="cursor:pointer">Pop from Stack</a> or </p>
+
+    <p> <a onclick="popFromStackAt()" style="cursor:pointer">Pop from Stack at:</a>
     <input id="pop_val" type="text" value="0" style="width:30px;">
-    </form>
+    </p>
+
 
     <div class="container">
         <div id="stacks" class="row" style="text-align:center;">
@@ -194,7 +195,7 @@
         col.style.textAlign = "center";
         col.style.float = "none";
         col.style.display = "inline-block";
-        col.style.margin = '30px';
+        col.style.margin = '10px';
 
         var span = document.createElement('span');
         span.style.fontWeight = 'bold';
@@ -202,7 +203,15 @@
         var cur = setOfStacks.stackArray[i].top;
         while(cur){
 
-            span.appendChild(document.createTextNode(cur.data.toString()));
+            var temp = document.createElement('span');
+            temp.style.padding = '10px';
+            temp.style.margin = '2px';
+            temp.style.backgroundColor = 'orange';
+            temp.style.color = 'white';
+            temp.innerHTML = cur.data.toString();
+
+            span.appendChild(temp);
+            span.appendChild(document.createElement('br'));
             span.appendChild(document.createElement('br'));
             cur = cur.previous;
         }
@@ -217,6 +226,7 @@
     setOfStacks.push(Math.floor(Math.random() * 100));
     updateDisplay();
   }
+
 
   function popFromStack(){
     setOfStacks.pop();
@@ -233,7 +243,10 @@
     var val = document.getElementById('pop_val').value;
     setOfStacks.popAt(parseInt(val));
     updateDisplay();
+  }
 
+  for (var i = 0; i < Math.floor(Math.random() * (15 - 8)) + 8; i ++){
+    pushToStack();
   }
 
     </script>

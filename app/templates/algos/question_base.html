@@ -216,7 +216,7 @@ display:inline;
             <h2><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point.png')}}">
             {%block question_name%} {%endblock%}
                 <div class="star-ratings-css">
-                  <div id="cur_rank" class="star-ratings-css-top">
+                  <div id="cur_rank" class="star-ratings-css-top" style="width:0%">
                       <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
                   <div class="star-ratings-css-bottom">
                       <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
@@ -415,41 +415,41 @@ display:inline;
 
     updateRank();
 
-        function showAnswer(num){
+    function showAnswer(num){
 
-            var answer = document.getElementById('answer' + num.toString());
+        var answer = document.getElementById('answer' + num.toString());
 
-            answer.style.display = answer.style.display == 'none' ? 'inline' : 'none';
-        }
+        answer.style.display = answer.style.display == 'none' ? 'inline' : 'none';
+    }
 
-        function toggleFullCode() {
+    function toggleFullCode() {
 
-          var x = document.getElementsByClassName("full-code");
-          for (var i = 0; i < x.length; i ++){
-              if (x[i].style.display === "none") {
-                x[i].style.display = "block";
-                if (i == 2){
-                    document.getElementById('f_code').scrollIntoView();
-                }
-              } else {
-                x[i].style.display = "none";
-              }
+      var x = document.getElementsByClassName("full-code");
+      for (var i = 0; i < x.length; i ++){
+          if (x[i].style.display === "none") {
+            x[i].style.display = "block";
+            if (i == 2){
+                document.getElementById('f_code').scrollIntoView();
+            }
+          } else {
+            x[i].style.display = "none";
           }
+      }
 
-        }
+    }
 
-        function goToFullCode(){
-            var x = document.getElementsByClassName("full-code");
-            for (var i = 0; i < x.length; i ++){
-              if (x[i].style.display === "none") {
-                x[i].style.display = "block";
-              } else {
-              }
+    function goToFullCode(){
+        var x = document.getElementsByClassName("full-code");
+        for (var i = 0; i < x.length; i ++){
+          if (x[i].style.display === "none") {
+            x[i].style.display = "block";
+          } else {
           }
-          x[0].style.display = "none";
-          document.getElementById('f_code').scrollIntoView();
+      }
+      x[0].style.display = "none";
+      document.getElementById('f_code').scrollIntoView();
 
-        }
+    }
 
     {%if anchored%}
     var app = document.getElementById("app");

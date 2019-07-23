@@ -110,6 +110,12 @@
             values.push(i);
         }
 
+        var Node = function (data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+
 
         function getXPos(numNodes, middle){
 
@@ -294,6 +300,7 @@
                     if (i == 0){
                         var root = node;
                     }
+
                     if (i > 0){
                         [parent, rightChild] = findParent(curParents[i-1], j, numNodes);
 

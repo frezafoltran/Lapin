@@ -83,6 +83,11 @@ node that will be removed. Then we simply delete the node following the node to 
     {{moment.lang(g.locale)}}
     <script>
 
+        //to be used in dynamodb
+      {%block q_name%}
+      'delete_middle_node_2.3'
+      {%endblock%}
+
         var LinkedList = function(value) {
           this.value = value;
           this.next = null;

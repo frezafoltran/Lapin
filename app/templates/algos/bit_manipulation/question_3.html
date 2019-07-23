@@ -1,0 +1,196 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Flip Bit To Win
+{%endblock%}
+
+{%block question_explanation%}
+    Given a binary number, write an algorithm to find the length of the longest sequence of
+    ones you can get by flipping at most one bit.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see another example.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <p id="input"></p>
+        <p style="float:center;"><img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:30px;height:30px;"></p>
+        <p id="input_mod"></p>
+        <p>Longest sequence of ones has length: <span id="out"></span></p>
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We first convert the given number to a binary string. We use this to create an array
+containing all substrings of sequences of ones that are separated by a zero. So for example, if we the sequence
+<span class="code">"1011"</span>, we would get entries <span class="code">["1", "11"]</span>.
+
+    <br><br>It's crucial to note that
+if we have two zeros in a row, as in <span class="code">"10011"</span>, the output will be
+    <span class="code">["1", "", "11"]</span>. That is, empty sequences are included in the array.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/c9ade688ffc426f70aaa8df0fc79ddc2.js"></script>
+        </div>
+    </section>
+
+
+<p><span class="step">Step 2</span> We then iterate through the <span class="code">arrOnes</span> above and simply check
+for which two sequences of ones have the highest value when "connected" by a bit flip. Notice that since
+    <span class="code">arrOnes</span> includes empty sequences, the longest sequence could also be simply extending
+one sequence of ones. To account for the bit flipped, we must return <span class="code">longest + 1</span>.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/654eeeb082f022ec568133668483f80c.js"></script>
+        </div>
+    </section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/6262cab2a85873320480610d3c197d0c.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+         //to be used in dynamodb
+      {%block q_name%}
+      'flip_bit_to_win_5.3'
+      {%endblock%}
+
+        function longestOneSeq(number) {
+
+          var binaryStr = number.toString(2);
+          var arrOnes = binaryStr.split('0');
+          var longest = 0;
+
+
+          for (var i = 0; i < arrOnes.length - 1; i++) {
+
+            var sum = arrOnes[i].length + arrOnes[i + 1].length;
+            longest = sum > longest ? sum : longest;
+
+          }
+
+          return longest + 1;
+        }
+
+
+        function refreshDemo(){
+
+            var num = Math.floor(Math.random() * (10000 - 1000)) + 1000;
+            var binStr = num.toString(2);
+
+            document.getElementById('input').innerHTML = binStr;
+
+            var longest = longestOneSeq(binStr);
+            document.getElementById('out').innerHTML = longest;
+
+            //check which bit to flip
+            var toFlip = 0;
+            for (var i = 0; i < binStr.length; i ++){
+
+                if (binStr[i] == '1'){
+                    continue;
+                }
+                var temp = binStr.slice(0, i) + '1' + binStr.slice(i + 1);
+
+                var c = 0;
+                for (var j = 0; j < temp.length; j ++){
+                    if (temp[j] == '1'){
+                        c ++;
+                    }
+                    else{
+                        c = 0;
+                    }
+
+                    if (c == longest){
+                        toFlip = i;
+                        break;
+                    }
+                }
+            }
+
+            var sp1 = document.createElement('span');
+            var sp2 = document.createElement('span');
+            var sp3 = document.createElement('span');
+            sp1.innerHTML = binStr.slice(0, toFlip);
+            sp3.innerHTML = binStr.slice(toFlip + 1);
+            sp2.innerHTML = '1';
+            sp2.style.color = 'orange';
+            sp2.style.fontWeight = 'bold';
+
+            var inputMod = document.getElementById('input_mod');
+            inputMod.innerHTML = '';
+
+            inputMod.appendChild(sp1);
+            inputMod.appendChild(sp2);
+            inputMod.appendChild(sp3);
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

@@ -105,6 +105,12 @@ is empty (i.e. <span class="code">start</span> > <span class="code">end</span>).
         const ctx3 = c3.getContext('2d');
         const ctx4 = c4.getContext('2d');
 
+        var Node = function (data){
+            this.data = data;
+            this.left = null;
+            this.right = null;
+        }
+
 
         //get tree from array
         function getMinTreeHelper(array, start, end){

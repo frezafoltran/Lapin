@@ -113,6 +113,11 @@ is O(1).</p>
     {{moment.lang(g.locale)}}
     <script>
 
+        //to be used in dynamodb
+      {%block q_name%}
+      'k_th_to_last_2.2'
+      {%endblock%}
+
         var LinkedList = function(value, coef) {
           this.value = value;
           this.next = null;
@@ -261,6 +266,8 @@ is O(1).</p>
                           appendChild(document.createTextNode(coefStr));
 
         }
+
+        showKthToLast();
 
 
     </script>

@@ -1,6 +1,16 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block style%}
+.col{
+    margin-left:10%;
+    margin-right:10%;
+    text-align:"center";
+    float:"none";
+    display:"inline-block";
+    }
+
+{%endblock%}
 
 {%block back_to%}
 <a href="{{url_for('main.algos_stacks_and_queues', q_num=0)}}" >
@@ -27,7 +37,30 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+    <p>You can test the algorithm in this question below. Click <span class="code">new array</span> to generate random
+    new stacks.</p>
+
+    <p><a onclick="newArray()" style="cursor:pointer">New Array</a></p>
+    <div class="container">
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4 id="array_1"></h4>
+            <br>
+            <h4 id="array_2"></h4>
+        </div>
+    </div>
+        <br>
+     <p><a onclick="popFromStack(1)" style="cursor:pointer">Pop from stack 1</a> or
+     <a onclick="pushToStack(1)" style="cursor:pointer">Push to stack 1</a></p>
+
+        <p><a onclick="popFromStack(2)" style="cursor:pointer">Pop from stack 2</a> or
+        <a onclick="pushToStack(2)" style="cursor:pointer">Push to stack 1</a></p>
+
+        <p><a onclick="popFromStack(3)" style="cursor:pointer">Pop from stack 3</a> or
+        <a onclick="pushToStack(3)" style="cursor:pointer">Push to stack 1</a></p>
+
+
+</div>
 {%endblock%}
 
 {%block code_digest%}
@@ -55,6 +88,204 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+
+    <script>
+
+       //to be used in dynamodb
+      {%block q_name%}
+      'three_in_one_3.1'
+      {%endblock%}
+
+        var ThreeInOne = function() {
+          this.container = [];
+          this.middleBottom = 0;
+          this.middleTop = 0;
+        };
+
+        ThreeInOne.prototype.push1 = function(value) {
+          this.container.unshift(value);
+          this.middleBottom++;
+          this.middleTop++;
+        };
+
+        ThreeInOne.prototype.push2 = function(value) {
+          this.container.splice(this.middleTop, 0, value);
+          this.middleTop++;
+        };
+
+        ThreeInOne.prototype.push3 = function(value) {
+          this.container.push(value);
+        };
+
+        ThreeInOne.prototype.pop1 = function() {
+          if (this.isEmpty1()) {
+            return undefined;
+          }
+          var answer = this.container.shift();
+          if (this.middleBottom > 0) {
+            this.middleBottom--;
+            this.middleTop--;
+          }
+          return answer;
+        };
+
+        ThreeInOne.prototype.pop2 = function() {
+          if (this.isEmpty2()) {
+            return undefined;
+          }
+
+          var answer = this.container[this.middleTop - 1];
+          console.log(answer);
+
+          this.container.splice(this.middleTop - 1, 1);
+          if (this.middleBottom < this.middleTop) {
+            this.middleTop--;
+          }
+          return answer;
+        };
+
+        ThreeInOne.prototype.pop3 = function(value) {
+          if (this.isEmpty3()) {
+            return undefined;
+          }
+
+          return this.container.pop(value);
+        };
+
+        ThreeInOne.prototype.peek1 = function() {
+          return this.isEmpty1() ?
+            undefined : this.container[0];
+        };
+
+        ThreeInOne.prototype.peek2 = function() {
+          return this.isEmpty2() ?
+            undefined : this.container[this.middleTop - 1];
+        };
+
+        ThreeInOne.prototype.peek3 = function() {
+          return this.isEmpty3() ?
+            undefined : this.container[this.container.length - 1];
+        };
+
+        ThreeInOne.prototype.isEmpty1 = function() {
+          return this.middleBottom === 0;
+        };
+
+        ThreeInOne.prototype.isEmpty2 = function() {
+          return this.middleBottom === this.middleTop;
+        };
+
+        ThreeInOne.prototype.isEmpty3 = function() {
+          return this.middleTop === this.container.length;
+        };
+
+        //============================ APPLICATION
+
+        var mainArray = new ThreeInOne();
+        var arrayDiv1 = document.getElementById('array_1');
+        var arrayDiv2 = document.getElementById('array_2');
+
+        function newArray(){
+
+            mainArray = new ThreeInOne();
+            var len = 10;
+
+            for (var i = 0; i < len; i ++){
+
+                var val = Math.floor(Math.random() * 100);
+                var stackChooser = Math.random();
+
+
+                if (stackChooser <= 0.33){
+                    mainArray.push1(val);
+                }
+                else if (stackChooser > 0.33 && stackChooser <= 0.66){
+                    mainArray.push2(val);
+                }
+                else{
+                    mainArray.push3(val);
+                }
+            }
+            updateDisplay();
+
+        }
+
+        function popFromStack(num){
+
+            if (num == 1){
+                mainArray.pop1();
+            }
+            else if (num == 2){
+                mainArray.pop2();
+            }
+            else{
+                mainArray.pop3();
+            }
+            updateDisplay();
+
+        }
+
+        function pushToStack(num){
+
+            if (mainArray.container.length >= 30){
+                return;
+            }
+
+            if (num == 1){
+                mainArray.push1(Math.floor(Math.random() * 100));
+            }
+            else if (num == 2){
+                mainArray.push2(Math.floor(Math.random() * 100));
+            }
+            else{
+                mainArray.push3(Math.floor(Math.random() * 100));
+            }
+            updateDisplay();
+
+        }
+
+        function updateDisplay(){
+
+            arrayDiv1.innerHTML = '';
+            arrayDiv2.innerHTML = '';
+
+            var curDiv = arrayDiv1;
+
+            for (var i = 0; i < mainArray.container.length; i ++){
+
+                var s = document.createElement('span');
+                s.style.padding = '10px';
+                s.style.color = 'white';
+                s.style.margin = '3px';
+                s.innerHTML = mainArray.container[i];
+
+                if (i == 15){
+                    curDiv = arrayDiv2;
+                }
+
+                if (i < mainArray.middleBottom){
+                    s.style.backgroundColor = 'orange';
+                    curDiv.appendChild(s);
+                }
+                else if (i < mainArray.middleTop){
+                    s.style.backgroundColor = 'blue';
+                    curDiv.appendChild(s);
+                }
+                else{
+                   s.style.backgroundColor = 'red';
+                   curDiv.appendChild(s);
+                }
+
+            }
+
+
+        }
+
+        newArray();
+
+
+
+    </script>
 
 
 {%endblock%}

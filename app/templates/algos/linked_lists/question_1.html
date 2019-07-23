@@ -78,6 +78,11 @@ we delete that element. </p>
     {{moment.lang(g.locale)}}
     <script>
 
+        //to be used in dynamodb
+      {%block q_name%}
+      'remove_duplicates_2.1'
+      {%endblock%}
+
         var LinkedList = function(value, coef) {
           this.value = value;
           this.next = null;
@@ -182,6 +187,8 @@ we delete that element. </p>
             displayPoly(root, true);
 
         }
+
+        getPoly();
 
     </script>
 

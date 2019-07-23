@@ -114,6 +114,11 @@ of the input from itself. Thus, <span class="code">number</span> must be zero. W
     {{moment.lang(g.locale)}}
     <script>
 
+    //to be used in dynamodb
+      {%block q_name%}
+      'real_to_binary_5.2'
+      {%endblock%}
+
         function RealToBinary(number) {
           var n = 1;
           var str = '0.';

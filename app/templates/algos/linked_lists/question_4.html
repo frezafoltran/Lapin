@@ -1,6 +1,16 @@
 {%extends "algos/question_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
+{%block style%}
+.col{
+    margin-left:10%;
+    margin-right:10%;
+    text-align:"center";
+    float:"none";
+    display:"inline-block";
+    }
+{%endblock%}
+
 {%block back_to%}
 <a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
 <img src="{{url_for('static', filename='images/back_arrow.png')}}"
@@ -18,7 +28,7 @@
 {%endblock%}
 
 {%block question_explanation%}
-    Write an algorithm to partition a linkedList based on an input value.
+    Write an algorithm to partition a linked list based on an input value.
     For example, if the input value is <span class="code">x</span>, then any node
     in the linkedList which value is smaller than <span class="code">x</span> must precede
     any node which value is greater than <span class="code">x</span>.
@@ -30,14 +40,57 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>TODO</p>
+<p>You can test the algorithm in this question below.<br>
+    Click <span class="code">Refresh</span> to get a new example.</p>
+
+<p><a onclick="refreshDemo()" style="cursor:pointer">Refresh</a></p>
+
+<div class="container">
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4><span id="input"></span></h4>
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4>Split at: <span id="split"></span></h4>
+            <img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:15px;height:20px;">
+        </div>
+    </div>
+
+    <div class="row" style="text-align:center">
+        <div class="col">
+            <h4><span id="out"></span></h4>
+        </div>
+    </div>
+</div>
 {%endblock%}
 
+<p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
 {%block code_digest%}
-<p><span class="step">Step 1</span> </p>
+<p><span class="step">Step 1</span> We will iterate through each node of the list. Since we will change the order
+of the nodes (their <span class="code">.next</span> properties), we store the current next at each iteration.</p>
     <section>
         <div class="code-lines">
-            <p>TODO</p>
+            <script src="https://gist.github.com/frezafoltran/91fa7615841f6f2116e2594d1a7d166c.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Then we check if the current node is larger than the passed value. If so we use
+tail to start building the right side of the linked list (with values greater than the passed value).</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/49e237b738c82ebfb0501c47598adbf5.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> Otherwise, we build the left side of the linked list by changing the position of
+the current node to the beginning of list.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e1e457bff148a1df31dff77e138426da.js"></script>
         </div>
     </section>
 {%endblock%}
@@ -58,6 +111,212 @@
     {{super()}}
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
+    <script>
+        //to be used in dynamodb
+      {%block q_name%}
+      'partition_linked_list_2.4'
+      {%endblock%}
+
+      class Node {
+            constructor(value){
+              this.value = value;
+              this.next = null;
+            }
+          }
+
+          class LinkedList {
+
+            constructor(){
+              this.head = null;
+              this.size = 0;
+            }
+
+            add (value){
+              //Adds node at end of list
+
+              var node = new Node(value);
+              var curr;
+
+              if (this.head == null){
+                this.head = node;
+              }
+              else{
+                curr = this.head;
+
+                while (curr.next){
+                  curr = curr.next;
+                }
+
+                curr.next = node;
+              }
+              this.size ++;
+            }
+
+            insertAt (value, index){
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var toAdd = new Node(value);
+
+              if (index == 0){
+                toAdd.next = this.head;
+                this.head = toAdd;
+              }
+              else{
+                var curr = this.head;
+                var prev;
+
+                for (var i = 0; i < index; i ++){
+
+                  prev = curr;
+                  curr = curr.next;
+                }
+                toAdd.next = curr;
+                prev.next = toAdd;
+              }
+              this.size ++;
+            }
+
+            remove (index){
+
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var curr = this.head;
+
+              if (index == 0){
+                this.head = this.head.next;
+              }
+              else{
+
+                var prev = null;
+
+                for (var i = 0; i < this.size; i ++){
+                  prev = curr;
+                  curr = curr.next;
+                }
+                prev.next = curr.next;
+              }
+              this.size --;
+
+              return curr.value;
+            }
+
+          }
+
+      //============================== APPLICATION
+
+      function splitList(node, val){
+        var head = node;
+        var tail = node;
+
+        while(node){
+          next = node.next;
+
+          if (node.value > val){
+            tail.next = node;
+            tail = node;
+          }
+          else{
+            node.next = head;
+            head = node;
+          }
+          node = next;
+        }
+        tail.next = null
+        return head;
+      }
+
+      var max = 100;
+
+      function getRandList(){
+
+        var len = Math.floor(Math.random() * (10 - 6)) + 6;
+
+        var list = new LinkedList();
+
+        var largest = -1;
+        var smallest = 101;
+
+        for (var i = 0; i < len; i++){
+            num = Math.floor(Math.random() * max);
+
+            if (num > largest){
+                largest = num;
+            }
+            else if (num < smallest){
+                smallest = num;
+            }
+
+            list.add(num);
+        }
+
+        return [list.head, largest, smallest];
+
+      }
+
+      var inputDiv = document.getElementById('input');
+      var outDiv = document.getElementById('out');
+
+      function refreshDemo(){
+
+        console.clear();
+        var temp = getRandList();
+        var head = temp[0];
+        var largest = temp[1];
+        var smallest = temp[2];
+        console.log(largest);
+        console.log(smallest);
+
+        var cur = head;
+        inputDiv.innerHTML = '';
+
+        while (cur){
+            inputDiv.innerHTML += cur.value;
+
+            if (cur.next){
+                inputDiv.innerHTML += ' \u2192 ';
+            }
+            cur = cur.next;
+        }
+
+        var split = Math.floor(Math.random() * (largest - (smallest + 1))) + smallest + 1;
+        document.getElementById('split').innerHTML = split;
+
+        var newHead = splitList(head, split);
+
+        outDiv.innerHTML = '';
+        outDiv.style.fontWeight = 'bold';
+
+        while (newHead){
+
+            var s = document.createElement('span');
+
+            if (newHead.value > split){
+                s.style.color = 'orange';
+            }
+            else{
+                s.style.color = 'blue';
+            }
+
+            s.innerHTML = newHead.value;
+
+            if (newHead.next){
+                s.innerHTML += ' \u2192 ';
+            }
+
+            outDiv.appendChild(s);
+
+            newHead = newHead.next;
+        }
+
+      }
+
+      refreshDemo();
+
+    </script>
 
 
 {%endblock%}
