@@ -1,0 +1,159 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Next Number
+{%endblock%}
+
+{%block question_explanation%}
+    Given a number, write an algorithm to find the next largest and next smallest number
+that have the same number of ones in its binary representation.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see another example.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <p><span id="input" style="font-weight:bold"></span> = <span id="input_bin"></span> <span id="num_ones"></span></p>
+        <p style="float:center;"><img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:30px;height:30px;"></p>
+        <p><span style="font-style:italic">Next smallest: </span><span id="out1" style="font-weight:bold"></span> = <span id="out1_bin"></span></p>
+        <p><span style="font-style:italic">Next largest: </span><span id="out2" style="font-weight:bold"></span> = <span id="out2_bin"></span></p>
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> The idea of this algorithm is very intuitive. We first calculate how many ones we have in
+the input. Then, to same some coding lines, we pass an iterator as a parameter to the <span class="code">next</span>
+ function. This allows us to write one piece of code to calculate the largest and smallest numbers.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/53651adf354eacd9f47767b36a84edf9.js"></script>
+        </div>
+    </section>
+
+
+<p><span class="step">Step 2</span> The next function simply increments, (to calculate the next largest)
+    or decrements (for the next smallest) the original number
+    by one and calculates the number of ones in the resulting number. If that equals to the number of ones in
+the original number, we return. </p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/008b65fa83fa4527242d57e586b32fe1.js"></script>
+        </div>
+    </section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/b4879679c6bbc225d6c249cc4a17ea1f.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'next_number_5.4'
+      {%endblock%}
+
+
+
+        function next(number, numOnes, iterator) {
+          var currNum = iterator(number);
+
+          while (currNum.toString(2).split('1').length - 1 !== numOnes) {
+            currNum = iterator(currNum);
+          }
+          return currNum;
+        }
+
+        function nextNumber(number) {
+          var numOnes = (number.toString(2)).split('1').length - 1;
+          var smallest = next(number, numOnes, currNum => currNum - 1);
+          var largest = next(number, numOnes, currNum => currNum + 1);
+
+          return [smallest, largest]
+        }
+
+        //======================= APPLICATION
+
+        function refreshDemo(){
+
+            var input = Math.floor(Math.random() * (1000 - 1)) + 1;
+            var binStr = input.toString(2);
+            [small, large] = nextNumber(input);
+
+            document.getElementById('input').innerHTML = input;
+            document.getElementById('input_bin').innerHTML = binStr;
+            document.getElementById('num_ones').innerHTML = "(" + (binStr.split('1').length - 1) + " ones)";
+
+            document.getElementById('out1').innerHTML = small;
+            document.getElementById('out2').innerHTML = large;
+            document.getElementById('out1_bin').innerHTML = small.toString(2);
+            document.getElementById('out2_bin').innerHTML = large.toString(2);
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

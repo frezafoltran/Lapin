@@ -1,0 +1,272 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Draw Line
+{%endblock%}
+
+{%block question_explanation%}
+    ...
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Select the range of lines
+    you'd like to see in the result canvas:</p>
+
+    <p>x1: <input value="50" id="x1" style="width:50px"> x2: <input value="150" id="x2" style="width:50px"></p>
+    <p>y: <input value="70" id="y" style="width:50px"></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <canvas id="canvas" width="256" height="256"></canvas>
+        <canvas id="res_canvas" width="256" height="256"></canvas>
+
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We first initialize two bit vectors to keep track of even and odd bits.
+The <span class="code">oddBits</span> is initialized by right-shifting the original vector. That is, the
+bit at the least-significant position of <span class="code">oddBits</span> is the second bit the original string.
+</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/75ffd7d70571d760ad7f5068d1fd7b4b.js"></script>
+        </div>
+</section>
+<p>Similarly, we initialize <span class="code">evevBits</span> by right-shifting the original vector. This is done so that
+the indexes in these arrays are easier to handle below.</p>
+
+
+<p><span class="step">Step 2</span>  Now if the current bit is odd, we simply store the last bit of the
+    <span class="code">i-th</span> to last bit of <span class="code">oddBits</span> (which corresponds to even bit in
+    the original string) in our answer.
+</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/69e3dfd5b0fa2a300ea90359e33479ad.js"></script>
+        </div>
+</section>
+<p>Else, we use <span class="code">evenBits</span>. Note that it's crucial to check if the current bit of
+<span class="code">oddBits</span> is defined. This is because left-shifting reduces the size of the string and we must
+iterate through the entire length of the original string.</p>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p></p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/9e86685fa458882f5ef4a317248c3b23.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'draw_line_5.8'
+      {%endblock%}
+
+      var drawLine = function(screen, width, x1, x2, y) {
+          var byte;
+          var pixel;
+
+          var findByte = function(x, y, width) {
+            var start = y * width / 8;
+            return start + Math.floor(x / 8);
+          };
+
+          var findPixel = function(x) {
+            return x % 8;
+          };
+
+          for (var i = x1; i <= x2; i++) {
+            byte = findByte(i, y, width);
+            pixel = findPixel(i);
+            screen[byte][pixel] = 1;
+          }
+          return screen;
+        };
+
+
+
+        //======================= APPLICATION
+
+        function printCanvas(){
+
+            var w = 256;
+            var h = 256;
+            var c = document.getElementById('canvas');
+            var ctx = c.getContext('2d');
+
+            var inc = 1;
+            var range = [w/2 - inc * 5, w/2, w/2, w/2 + inc * 5];
+
+            var screen = [];
+
+            for (var i = 0; i < h; i ++){
+
+                for (var j = 0; j < w; j ++){
+
+                    var toFill = 0;
+                    ctx.fillStyle = 'black';
+
+                    // middle of A
+                    if (i >= w/2 - w/16 && i < w/2){
+
+                        if (j >= range[0] && j <= range[3]){
+
+                        ctx.fillRect(j, i, 1, 1);
+                        toFill = 1;
+                        }
+
+                    }
+
+                    //two legs of A
+                    if (i < w - w/4 && ((j >= range[0] && j <= range[1])
+                            ||(j > range[2] && j <= range[3]))){
+
+                        ctx.fillRect(j, i, 1, 1);
+                        toFill = 1;
+                    }
+
+                    //bottom of T
+                    if (i >= w/2 && j >= w/2 - w/32 && j <= w/2 + w/32){
+                        ctx.fillRect(j, i, 1, 1);
+                        toFill = 1;
+                    }
+
+                    if (toFill == 0){
+                        ctx.fillStyle = 'rgb(34,139,34)';
+                        ctx.fillRect(j, i, 1, 1);
+                    }
+
+                    if (screen.length == 0 || screen[screen.length - 1].length == 8){
+                        screen.push([]);
+                    }
+                    screen[screen.length - 1].push(toFill);
+                }
+                if (i >= w/8 && i % 3 == 0){
+                    range = [range[0] - inc, range[1] - inc, range[2] + inc, range[3] + inc];
+                }
+                else if (i < w/8 && i % 3 == 0){
+                    range = [range[0] - inc, range[1], range[2], range[3] + inc];
+                }
+
+            }
+
+            return screen;
+        }
+
+        var screen = printCanvas();
+
+        function refreshDemo(){
+
+            var mask = [];
+            for (var i = 0; i < screen.length; i ++){
+                mask.push([0, 0, 0, 0, 0, 0, 0, 0]);
+            }
+
+            var y = parseInt(document.getElementById('y').value);
+
+            var margin = 5;
+
+            var r1 = (y - margin) < 0 ? 0 : y - margin;
+            var r2 = (y + margin) > 256 ? 256 : y + margin;
+
+            for (var i = r1; i < r2; i ++){
+                drawLine(mask, 256, parseInt(document.getElementById('x1').value),
+                    parseInt(document.getElementById('x2').value), i);
+            }
+
+
+            var c = document.getElementById('res_canvas');
+            var ctx = c.getContext('2d');
+
+            var count = -1;
+
+            for (var i = 0; i < 256; i ++){
+
+                for (var j = 0; j < 256; j ++){
+                    if (j % 8 == 0){
+                        count++;
+                    }
+
+                    if (mask[count][j % 8] == 1){
+
+                        if (screen[count][j % 8] == 1){
+                            ctx.fillStyle = 'black';
+                        }
+                        else{
+                            ctx.fillStyle = 'rgb(34,139,34)';
+                        }
+                    }
+                    else{
+                        ctx.fillStyle = 'white';
+                    }
+                    ctx.fillRect(j, i, 1, 1);
+
+                }
+            }
+
+
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

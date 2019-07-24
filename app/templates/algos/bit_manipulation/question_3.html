@@ -156,26 +156,37 @@ one sequence of ones. To account for the bit flipped, we must return <span class
                     }
 
                     if (c == longest){
-                        toFlip = i;
+                        toFlip = [i, j];
                         break;
                     }
                 }
             }
 
             var sp1 = document.createElement('span');
-            var sp2 = document.createElement('span');
+            var onesA = document.createElement('span');
+            var flipped = document.createElement('span');
+            var onesB = document.createElement('span');
             var sp3 = document.createElement('span');
-            sp1.innerHTML = binStr.slice(0, toFlip);
-            sp3.innerHTML = binStr.slice(toFlip + 1);
-            sp2.innerHTML = '1';
-            sp2.style.color = 'orange';
-            sp2.style.fontWeight = 'bold';
+
+
+            sp1.innerHTML = binStr.slice(0, toFlip[1] - longest + 1);
+            sp3.innerHTML = binStr.slice(toFlip[1] + 1);
+            onesA.innerHTML = binStr.slice(toFlip[1] - longest + 1, toFlip[0]);
+            onesB.innerHTML = binStr.slice(toFlip[0] + 1, toFlip[1] + 1);
+            flipped.innerHTML = '1';
+
+            onesA.style.color = 'orange';
+            onesB.style.color = 'orange';
+            flipped.style.color = 'red';
+            flipped.style.fontWeight = 'bold';
 
             var inputMod = document.getElementById('input_mod');
             inputMod.innerHTML = '';
 
             inputMod.appendChild(sp1);
-            inputMod.appendChild(sp2);
+            inputMod.appendChild(onesA);
+            inputMod.appendChild(flipped);
+            inputMod.appendChild(onesB);
             inputMod.appendChild(sp3);
 
 

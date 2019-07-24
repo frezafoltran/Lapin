@@ -1,0 +1,172 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Powers Of Two
+{%endblock%}
+
+{%block question_explanation%}
+    Examine what the code <span class="code">(n & (n - 1)) == 0</span> does.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see other examples.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+
+<div class="container">
+    <div id="examples" class="row" style="text-align:center">
+
+        <p><span id="input" style="font-weight:bold"></span> ' \u2192 ' <span id=""></span></p>
+
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We must first understand what it means for <span class="code">(n & (n - 1)) == 0</span> in
+terms of <span class="code">n</span>. Check the demo above and try to find a pattern. </p>
+
+
+<p><span class="step">Step 2</span> Note that if <span class="code">n = "abc...100"</span>, then
+    <span class="code">n - 1 = "abc...011"</span>. Thus <span class="code">(n & (n - 1)) == 0</span> only if all bits
+<span class="code">"abc..."</span> are zero. This in turn means that <span class="code">n</span> has at most one
+bit equal to one. Thus, the code checks if <span class="code">n</span> is a power of two or zero.</p>
+
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p></p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/296440e883f409c8b75d0d4925821280.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'powers_of_two_5.5'
+      {%endblock%}
+
+
+        //======================= APPLICATION
+
+        var exampleDiv = document.getElementById('examples');
+
+        function refreshDemo(){
+
+            exampleDiv.innerHTML = '';
+
+            var numExamples = 2 * 4;
+            var p = document.createElement('p');
+
+            for (var i = 1; i <= numExamples; i ++){
+
+                var coin = Math.random();
+                if (coin <= 0.5){
+                    var temp = Math.floor(Math.random() * (10 - 1)) + 1;
+                    var num = Math.pow(2, temp);
+                }
+                else{
+                    var num = Math.floor(Math.random() * (1000 - 1)) + 1;
+                }
+
+                var input1 = document.createElement('span');
+                var input2 = document.createElement('span');
+                var eq = document.createElement('span');
+                var arrow = document.createElement('span');
+                var out = document.createElement('span');
+
+                arrow.innerHTML = ' \u2192 ';
+                input1.innerHTML = num;
+                input2.innerHTML = num.toString(2);
+                eq.innerHTML = ' = ';
+
+                input2.style.fontWeight = 'bold';
+                input1.style.fontStyle = 'italic';
+
+                out.innerHTML = (num & (num - 1)) == 0;
+
+                out.style.color = (num & (num - 1)) == 0 ? 'green' : 'red';
+
+                p.appendChild(input1);
+                p.appendChild(eq);
+                p.appendChild(input2);
+                p.appendChild(arrow);
+                p.appendChild(out);
+
+                if (i != numExamples){
+                    p.appendChild(document.createTextNode(', '));
+                }
+
+
+                if (i % 2 == 0){
+                    exampleDiv.appendChild(p);
+                    p =  document.createElement('p');
+
+                }
+
+            }
+
+
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

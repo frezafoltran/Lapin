@@ -1,0 +1,162 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Conversion
+{%endblock%}
+
+{%block question_explanation%}
+    Given two numbers, write an algorithm to find how many bits must be flipped to
+    convert the binary representation of one to the other.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see other examples.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <p><span id="input1"></span><span style="color:gray"> = </span><span id="input1_bin"></span></p>
+        <p><span id="input2"></span><span style="color:gray"> = </span><span id="input2_bin"></span></p>
+        <p style="float:center;"><img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:30px;height:30px;"></p>
+        <p><span style="font-style:italic;color:gray">Number of bits that need to be flipped: </span><span id="out"></span></p>
+
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> A short way to identify which bits are different between two strings is to
+perform an <span class="code">XOR</span> between the strings. The result will contain one in the places the
+bits differ and thus need to be changed.</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/8b345b7200baeac4dc1ed3a10758ccff.js"></script>
+        </div>
+</section>
+
+
+<p><span class="step">Step 2</span> Then the only thing left is to identify how many ones there are in the
+<span class="code">XOR</span> string. A nice way to do this is to use JS <span class="code">reduce</span> function,
+where the declared function will be applied to each item in the array. </p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/8ffcfd6f0a129f37f90b395b763e05f4.js"></script>
+        </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p></p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/ca9f41cd1f1438135dec29eb17d527d7.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'conversion_5.6'
+      {%endblock%}
+
+      function toBeFlipped(num1, num2) {
+          var str = (num1 ^ num2).toString(2);
+
+          return str.split('').reduce((numBits, char) => {
+            return char === '1' ? numBits + 1 : numBits;
+          }, 0);
+        }
+
+
+        //======================= APPLICATION
+
+
+        function refreshDemo(){
+
+            var num1 = Math.floor(Math.random() * (1000 - 100)) + 100;
+            var num2 = Math.floor(Math.random() * (1000 - 100)) + 100;
+            var num1Str = num1.toString(2);
+            var num2Str = num2.toString(2);
+
+            //padding for display
+            var dif = num2.toString(2).length - num1.toString(2).length;
+            while(dif > 0){
+                num1Str = '0' + num1Str;
+                dif --;
+            }
+            while(dif < 0){
+                num2Str = '0' + num2Str;
+                dif ++;
+            }
+
+            document.getElementById('input1').innerHTML = num1;
+            document.getElementById('input1_bin').innerHTML = num1Str;
+            document.getElementById('input2').innerHTML = num2;
+            document.getElementById('input2_bin').innerHTML = num2Str;
+
+            document.getElementById('out').innerHTML = toBeFlipped(num1, num2);
+
+
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

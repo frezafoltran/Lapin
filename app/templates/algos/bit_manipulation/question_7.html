@@ -1,0 +1,196 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Bit manipulation</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_bit_manipulation', q_num=0)}}" >Back to Bit manipulation</a>
+{%endblock%}
+
+{%block tags%}
+<a href="#"></a>
+<a href="#"></a>
+{%endblock%}
+
+{%block question_name%}
+    Pairwise Swap
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm that swaps every consecutive even and odd bits in a bit string. For example,
+    <span class="code">"1001"</span> becomes <span class="code">"0110"</span> .
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question. Click
+        <span class="code">Refresh</span> to see other examples.</p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+
+
+
+<div class="container">
+    <div class="row" style="text-align:center">
+
+        <p><span id="input"></span><span style="color:gray"> = </span><span id="input_bin"></span></p>
+        <p style="float:center;padding-left:40px;"><img src="{{url_for('static', filename='images/down_arrow.png')}}" style="width:30px;height:30px;"></p>
+        <p><span style="padding-left:60px;" id="out"></span></p>
+
+
+    </div>
+</div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Please refer to steps below.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We first initialize two bit vectors to keep track of even and odd bits.
+The <span class="code">oddBits</span> is initialized by right-shifting the original vector. That is, the
+bit at the least-significant position of <span class="code">oddBits</span> is the second bit the original string.
+</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/75ffd7d70571d760ad7f5068d1fd7b4b.js"></script>
+        </div>
+</section>
+<p>Similarly, we initialize <span class="code">evevBits</span> by right-shifting the original vector. This is done so that
+the indexes in these arrays are easier to handle below.</p>
+
+
+<p><span class="step">Step 2</span>  Now if the current bit is odd, we simply store the last bit of the
+    <span class="code">i-th</span> to last bit of <span class="code">oddBits</span> (which corresponds to even bit in
+    the original string) in our answer.
+</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/69e3dfd5b0fa2a300ea90359e33479ad.js"></script>
+        </div>
+</section>
+<p>Else, we use <span class="code">evenBits</span>. Note that it's crucial to check if the current bit of
+<span class="code">oddBits</span> is defined. This is because left-shifting reduces the size of the string and we must
+iterate through the entire length of the original string.</p>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p></p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/9e86685fa458882f5ef4a317248c3b23.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'pairwise_swap_5.7'
+      {%endblock%}
+
+      function pairwiseSwap(number) {
+          var oddBits = (number >> 1).toString(2);
+          var evenBits = (number << 1).toString(2);
+
+          console.log(oddBits);
+          console.log(evenBits);
+
+          var isOdd = true;
+          var answer = '';
+          for (var i = 0; i < number.toString(2).length; i++) {
+            if (isOdd) {
+              answer = oddBits[oddBits.length - 1 - i] === undefined ?
+                       '0' + answer :
+                       oddBits[oddBits.length - 1 - i] + answer;
+            } else {
+              answer = oddBits[oddBits.length - 1 - i] === undefined ?
+                       '0' + answer :
+                       evenBits[evenBits.length - 1 - i] + answer;
+            }
+            isOdd = !isOdd;
+          }
+          return answer;
+        }
+
+
+        //======================= APPLICATION
+
+
+        function refreshDemo(){
+
+            var num = Math.floor(Math.random() * (1000 - 100)) + 100;
+            //var numStr = num.toString(2).length % 2 == 0 ? num.toString(2) : '0' +  num.toString(2);
+            var numStr = num.toString(2);
+
+
+            document.getElementById('input').innerHTML = num;
+
+            document.getElementById('input_bin').innerHTML = '';
+            var flag = 0;
+
+            for (var i = numStr.length; i >= 2; i -= 2){
+
+                var txt = document.createElement('span');
+                txt.innerHTML = numStr.slice(i - 2, i);
+                txt.style.color = flag == 0 ? 'orange' : 'black';
+                flag = flag == 0 ? 1 : 0;
+
+                document.getElementById('input_bin').prepend(txt);
+            }
+
+            var out = pairwiseSwap(num);
+
+            document.getElementById('out').innerHTML = '';
+            flag = 0;
+
+            for (var i = numStr.length; i >= 2; i -= 2){
+
+                var txt = document.createElement('span');
+                txt.innerHTML = out.slice(i - 2, i);
+                txt.style.color = flag == 0 ? 'orange' : 'black';
+                flag = flag == 0 ? 1 : 0;
+
+                document.getElementById('out').prepend(txt);
+            }
+
+
+
+
+        }
+
+        refreshDemo();
+
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
