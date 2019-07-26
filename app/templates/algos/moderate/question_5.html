@@ -1,0 +1,200 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Factorial Zeros
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to find the number of trailing zeros in <span class="code">n!</span>.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div id="results" class="container row">
+
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to find which prime factors of <span class="code">n</span> contribute with the trailing zeros.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Among the prime factors of <span class="code">n</span>, multiples of 10 contribute to
+trailing zeros. And multiples of 10 are created with pairs of multiples of 5 and 2. Thus, it suffices to count the
+number of pairs of multiples of 5 and 2. However, since <span class="code">n</span> will always have more multiples of
+2 than 5, it suffices to count the number of multiples of 5.</p>
+
+<p><span class="step">Step 2</span> However, one must be careful since some multiples of 5 actually contribute with more than one
+factor of 5 (i.e. 5^2, 5^3 ...). One efficient way to solve this is to note that between 1 and <span class="code">n</span>,
+there are <span class="code">n/5</span> multiples of 5, <span class="code">n/(5^2)</span> multiples of 5^2
+and so forth. Thus, we can calculate the number of multiples of 5 by:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/9b76997f16daa5b66281b5fae4a49dc1.js"></script>
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/ae6c83d5be61faed1b9090ed40104c37.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'factorial_zeros_16.5'
+      {%endblock%}
+
+    var resultsDiv = document.getElementById('results');
+
+    function trailingZeros(n){
+
+        var k = 5, out = 0;
+
+        while( n/k >= 1){
+            out += parseInt(n/k);
+            k *= 5;
+        }
+        return parseInt(out);
+    }
+
+    function fact(n){
+
+        if (n > 20){
+            return -1;
+        }
+
+        if (n == 0){
+            return 1;
+        }
+        return n * fact(n - 1);
+    }
+
+
+    function newRow(n){
+        var row = document.createElement('p');
+        var input1 = document.createElement('span');
+        var input2 = document.createElement('span');
+        var eq = document.createElement('span');
+        var txt1 = document.createElement('span');
+        var out = document.createElement('span');
+        var txt2 = document.createElement('span');
+
+        input1.innerHTML = n + '!';
+        input1.style.color = 'blue';
+
+        var temp = fact(n);
+        input2.innerHTML = temp;
+        input2.style.color = 'blue';
+
+        eq.innerHTML = '=';
+
+        txt1.innerHTML = ' contains ';
+        txt1.style.fontStyle = 'italic';
+
+        out.innerHTML = trailingZeros(n);
+        out.style.color = 'green';
+        out.style.fontWeight = 'bold';
+
+        txt2.innerHTML = ' trailing zeros.';
+        txt2.style.fontStyle = 'italic';
+
+
+        row.appendChild(input1);
+        if (temp != -1){
+        row.appendChild(eq);
+        row.appendChild(input2);
+        }
+        row.appendChild(txt1);
+        row.appendChild(out);
+        row.appendChild(txt2);
+
+        return row;
+    }
+
+    function refreshDemo(){
+
+        resultsDiv.innerHTML = '';
+
+        var lim = 21;
+
+        for (var i = 0; i < 6; i ++){
+
+            if (i < 3){
+                var n = Math.floor(Math.random() * (lim - 5)) + 5;
+            }
+            else{
+                var n = Math.floor(Math.random() * (200 - 100)) + 100;
+            }
+
+            var p = newRow(n);
+            resultsDiv.appendChild(p);
+
+
+        }
+
+
+    }
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

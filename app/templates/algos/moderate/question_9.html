@@ -1,0 +1,221 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.7);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Operations
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to implement subtraction, multiplication and division by only using
+    the addition operator. Assume the results of any operation are integers.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+        <p>a = <span id="a">2</span>, b = <span id="b">90</span></p>
+
+        <p>a - b =
+            <span class="box">Flip sign of b</span>
+            <img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:15px;height:15px;">
+            <span class="box">Add result to a</span>
+            :
+            <span id="subtract">-88</span>
+        </p>
+
+        <p>a * b =
+            <span class="box">Add b to itself (a - 1) times</span>
+            :
+            <span id="multiply">000</span>
+        </p>
+
+        <p>a / b =
+            <span class="box">Use</span>
+            <img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:15px;height:15px;">
+            <span class="box">Solve a = bx for x</span>
+            :
+            <span id="divide">000</span>
+        </p>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> ...</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'operations_16.9'
+      {%endblock%}
+
+    function negate(a){
+
+        var neg = 0;
+        var newSign = a < 0 ? 1 : -1;
+        var delta = newSign;
+
+        while(a != 0){
+
+            var difSigns = (a + delta > 0) != (a > 0);
+            if (a + delta != 0 && difSigns){
+                delta = newSign;
+            }
+            neg += delta;
+            a += delta;
+            delta += delta;;
+        }
+        return neg;
+    }
+
+    function abs(a){
+
+        if (a < 0){
+            return negate(a);
+        }
+        else{
+            return a;
+        }
+    }
+
+    function subtract(a, b){
+        return a + negate(b);
+    }
+
+    function multiply(a, b){
+
+        if (a < b){
+            return multiply(b, a);
+        }
+        var sum = 0;
+        for (var i = abs(b); i > 0; i = subtract(i, 1)){
+            sum += a;
+        }
+
+        if (b < 0){
+            var sum = negate(sum);
+        }
+        return sum;
+
+    }
+
+    function divide(a, b){
+
+        if (b == 0){
+            return "CAN\'T DIVIDE BY ZERO";
+        }
+
+        var absA = abs(a);
+        var absB = abs(b);
+
+        var prod = 0, x = 0;
+        while(prod + absB <= absA){
+            prod += absB;
+            x ++;
+        }
+
+        if ((a < 0 && b < 0) || (a > 0 && b > 0)){
+            return x;
+        }
+        else{
+            return negate(x);
+        }
+    }
+
+
+
+
+
+
+    function refreshDemo(){
+
+        var a = Math.floor(Math.random() * 10);
+        var b = Math.floor(Math.random() * 10);
+
+        console.log(a);
+        console.log(b);
+        console.log(subtract(a, b));
+        console.log(multiply(a, b));
+        console.log(divide(a, b));
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

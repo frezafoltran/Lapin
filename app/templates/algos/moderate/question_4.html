@@ -51,25 +51,38 @@
 {%endblock%}
 
 {%block code_intuition%}
-<p>The idea is to describe the lines geometrically and try to find the intersection.</p>
+<p>The idea is to use a <a href="http://mathworld.wolfram.com/MagicSquare.html">magic square</a>.
+A <a href="http://mathworld.wolfram.com/MagicSquare.html">magic square</a> is a square in which all
+rows, columns and diagonals sum to the same value. Since a win in tic tac toe happens when a
+    player fills a row, column or diagonal, it should make sense that such a symmetric structure will
+be useful.</p>
+<p>Further, since we can produce <a href="http://mathworld.wolfram.com/MagicSquare.html">magic squares</a> of
+arbitrary size, this approach allows us to check for wins in arbitrarily large boards.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> We first find the slope and y-intercept for the two lines.
-In case the slopes are equal and the y-intercepts are not, the lines are parallel but not equal,
-    thus we return <span class="code">false</span>.</p>
-    <section>
-        <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/15986dce92a4396b5176ac0cf13c2b7c.js"></script>
-        </div>
-    </section>
+<p><span class="step">Step 1</span> Assume that players <span class="code">A</span> and <span class="code">B</span>
+are playing a game of Tic Tac Toe. We will use a 3 by 3 (change size of
+    <a href="http://mathworld.wolfram.com/MagicSquare.html">magic square</a> to generalize the dimensions) matrix called
+    <span class="code">board</span> to model the game.
 
-<p><span class="step">Step 2</span> Then we assume the lines intersect at a point. We will find what the
-x coordinate of the point must be. Then we check if the point is within the lines bounds. If so, we return
-<span class="code">true</span>, else <span class="code">false</span>.</p>
+    <br><br>Initially, <span class="code">board</span> is filled with zeros.
+    We will assign <span class="code">A</span> positive sign and <span class="code">B</span> negative sign.
+    When <span class="code">A</span> selects position <span class="code">i, j</span>, we change the <span class="code">i, j</span>
+    entry of <span class="code">board</span> toe the <span class="code">i, j</span> entry of the magic square. The case is similar
+    for <span class="code">B</span> by using the negative of the <span class="code">i, j</span> entry of the magic square instead.
+
+    <br><br>
+    Below you can find an example of a 3 by 3 <a href="http://mathworld.wolfram.com/MagicSquare.html">magic square</a>.</p>
+
+    <canvas id="mag-square"></canvas>
+
+<p><span class="step">Step 2</span> Given the construction above, now it suffices to check, after each play, if any row, column or
+diagonal of <span class="code">board</span> sums to 15 (player <span class="code">A</span> wins) or to -15
+    (player <span class="code">B</span> wins):</p>
     <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/62d24c77ff3de171b9005c1d872c6a94.js"></script>
+            <script src="https://gist.github.com/frezafoltran/d1caffbf6fc54cdce0b7ed9b6d837ed8.js"></script>
         </div>
     </section>
 
@@ -83,7 +96,7 @@ x coordinate of the point must be. Then we check if the point is within the line
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/bfc1ed1eb48aeb271e30d9d239a39a10.js"></script>
+    <script src="https://gist.github.com/frezafoltran/30a920d462460f70764499fa1f7ea87f.js"></script>
 {%endblock%}
 
 
@@ -111,11 +124,40 @@ x coordinate of the point must be. Then we check if the point is within the line
         var foundWinner = false;
         var resDiv = document.getElementById('result');
 
+        var magicCanvas = document.getElementById('mag-square');
+        var magicCtx = magicCanvas.getContext('2d');
+
         var c = document.getElementById('canvas');
         var ctx = c.getContext('2d');
+
         c.width = w;
         c.height = h;
         ctx.lineWidth = 3;
+        magicCanvas.width = w;
+        magicCanvas.height = h;
+        magicCtx.lineWidth = 3;
+
+
+        function drawGrid(context){
+
+            context.strokeStyle = 'black';
+            context.setLineDash([1, 1]);
+
+            for (var i = 0; i < 2; i ++){
+
+                var coord = (i + 1)*w/3
+                context.beginPath();
+                context.moveTo(coord, 0);
+                context.lineTo(coord, h);
+                context.stroke();
+                context.beginPath();
+                context.moveTo(0, coord);
+                context.lineTo(w, coord);
+                context.stroke();
+
+            }
+
+        }
 
         function drawCircle(x, yCenter, yBoard){
 
@@ -296,8 +338,7 @@ x coordinate of the point must be. Then we check if the point is within the line
         resDiv.innerHTML = '';
 
         c.addEventListener('click', handleClick);
-        ctx.strokeStyle = 'black';
-        ctx.setLineDash([1, 1]);
+
 
         board = [[0, 0, 0],
                  [0, 0, 0],
@@ -305,25 +346,24 @@ x coordinate of the point must be. Then we check if the point is within the line
 
         console.clear();
 
-        for (var i = 0; i < 2; i ++){
+        drawGrid(ctx);
+      }
 
-            var coord = (i + 1)*w/3
-            ctx.beginPath();
-            ctx.moveTo(coord, 0);
-            ctx.lineTo(coord, h);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(0, coord);
-            ctx.lineTo(w, coord);
-            ctx.stroke();
+      function fillMagicSquare(context){
+        context.font = "20px Georgia";
+        for (var i = 0; i < 3; i ++){
+            for (var j = 0; j < 3; j ++){
 
+                context.fillText(magicSquare[i][j], j * w/3 + w/6, i * w/3 + w/6);
+            }
         }
-
-
 
       }
 
       refreshDemo();
+
+      drawGrid(magicCtx);
+      fillMagicSquare(magicCtx);
 
 
 

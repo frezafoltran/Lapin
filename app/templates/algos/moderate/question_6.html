@@ -1,0 +1,245 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Smallest Difference
+{%endblock%}
+
+{%block question_explanation%}
+    Given two arrays, find the smallest difference between one entry of one array and another
+    of the other.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div id="results" class="container row">
+
+        <div><p>First array:</p>
+            <p id="array1"></p>
+        </div>
+
+        <div><p>Second array:</p>
+            <p id="array2"></p>
+        </div>
+        <p>The smallest difference is: <span id="dif"></span></p>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The key idea is to sort the arrays in increasing order beforehand.
+    We then keep one pointer for each array and only advance them
+if that will allow us to decrease the current minimum difference</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We first will sort the arrays by using the bubble sort method. If you wish to
+read more about bubble sort, click <a href="#">here</a>.</p>
+
+<p><span class="step">Step 2</span> Now we keep one pointer for each array. Assume that at some point we are pointing
+to element <span class="code">x</span> on array <span class="code">A = [... x, y, ...]</span> and to element
+    <span class="code">z</span> on array <span class="code">B = [... z, w, ...]</span>. The current difference is
+    <span class="code">|z - x|</span>.
+
+    <br><br>Since the arrays are sorted, we know <span class="code">z <= w, x <= y</span>. Thus if
+    <span class="code">z < x</span>, advancing the pointer of <span class="code">A</span> will certainly increase
+    the difference as <span class="code">|y - z| > |x - z|</span>. Thus, in this case we advance the pointer of
+    <span class="code">B</span>. Likewise, if <span class="code">z > x</span>, we advance the pointer of
+    <span class="code">A</span>.
+</p>
+
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/231d990911f0fa7f17cb19f83d46a19b.js"></script>
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/07d252b1537ac249202337d4ecfa22a5.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'smallest_difference_16.6'
+      {%endblock%}
+
+    function bubbleSort(array){
+
+        for (var i = 0; i < array.length; i++) {
+
+            var swapped = false;
+            for (var j = 0; j < array.length - i - 1; j ++){
+
+                if (array[j] > array[j + 1]){
+
+                    var temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (swapped == false){
+                break;
+            }
+        }
+    }
+
+    function getSmallestDiff(a1, a2){
+
+        var c1 = 0, c2 = 0;
+        var minIndexes = [-1, -1];
+        var dif = Number.MAX_SAFE_INTEGER;
+
+        while( c1 < a1.length && c2 < a2.length){
+
+            var curDif = Math.abs(a1[c1] - a2[c2]);
+            if (curDif < dif){
+                dif = curDif;
+                minIndexes = [c1, c2];
+            }
+
+            if (dif == 0){
+                break;
+            }
+
+            if (a1[c1] < a2[c2]){
+                c1 ++;
+            }
+            else{
+                c2 ++;
+            }
+
+        }
+        return minIndexes;
+    }
+
+    function getRandArray(){
+
+        var len = Math.floor(Math.random() * (10 - 5)) + 5;
+        var out = [];
+
+        for (var i = 0; i < len; i ++){
+            out.push(Math.floor(Math.random()* (1000)));
+        }
+        return out;
+    }
+
+    var array1Div = document.getElementById('array1');
+    var array2Div = document.getElementById('array2');
+    var difDiv = document.getElementById('dif');
+
+    function refreshDemo(){
+
+        var array1 = getRandArray();
+        var array2 = getRandArray();
+        bubbleSort(array1);
+        bubbleSort(array2);
+
+        var [c1, c2] = getSmallestDiff(array1, array2);
+
+        difDiv.innerHTML = Math.abs(array1[c1] - array2[c2])
+
+        array1Div.innerHTML = '';
+        for (var i = 0; i < array1.length; i ++){
+
+            var num = document.createElement('span');
+            num.innerHTML = array1[i];
+            num.style.padding = '10px';
+            num.style.margin = '5px';
+
+            if (i == c1){
+                num.style.color = 'green';
+                num.style.backgroundColor = 'orange';
+                num.style.fontWeight = 'bold';
+            }
+            else{
+               num.style.color = 'black';
+               num.style.backgroundColor = 'white';
+            }
+            array1Div.appendChild(num);
+        }
+
+        array2Div.innerHTML = '';
+        for (var i = 0; i < array2.length; i ++){
+
+            var num = document.createElement('span');
+            num.innerHTML = array2[i];
+            num.style.padding = '10px';
+            num.style.margin = '5px';
+
+            if (i == c2){
+                num.style.color = 'green';
+                num.style.backgroundColor = 'orange';
+                num.style.fontWeight = 'bold';
+            }
+            else{
+               num.style.color = 'black';
+               num.style.backgroundColor = 'white';
+            }
+            array2Div.appendChild(num);
+        }
+
+
+
+    }
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

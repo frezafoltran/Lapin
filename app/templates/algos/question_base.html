@@ -252,6 +252,7 @@ display:inline;
                   <div class="star-ratings-css-bottom">
                       <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
                 </div>
+
                 <h4 id="num-votes"></h4>
                 <div id="snackbar"></div>
 
@@ -387,7 +388,7 @@ display:inline;
                 }
 
 
-                curRankDiv.style.width = (curRank/5)*100 + '%';
+                curRankDiv.style.width = (curRank/5)*103 + '%';
                 if (numVotes == 0){
                     return;
                 }
@@ -406,7 +407,7 @@ display:inline;
         }
 
         var newRank = (curRank * numVotes + num) / (numVotes + 1);
-        curRankDiv.style.width = (newRank/5) * 100 + '%';
+        curRankDiv.style.width = (newRank/5) * 103 + '%';
         cur_width = curRankDiv.style.width
         numVotesDiv.innerHTML = numVotes > 0 ? (numVotes + 1) + " votes" : (numVotes + 1) + " vote";
 
@@ -422,7 +423,7 @@ display:inline;
         $(".star1").hover(function() {
 
             cur_width = document.getElementById('cur_rank').style.width;
-            document.getElementById('cur_rank').style.width = "20%";
+            document.getElementById('cur_rank').style.width = "20.6%";
 
         }, function() {
             document.getElementById('cur_rank').style.width = cur_width;
@@ -430,7 +431,7 @@ display:inline;
 
         $(".star2").hover(function() {
             cur_width = document.getElementById('cur_rank').style.width;
-            document.getElementById('cur_rank').style.width = "40%";
+            document.getElementById('cur_rank').style.width = "41.2%";
 
         }, function() {
             document.getElementById('cur_rank').style.width = cur_width;
@@ -438,7 +439,7 @@ display:inline;
 
         $(".star3").hover(function() {
             cur_width = document.getElementById('cur_rank').style.width;
-            document.getElementById('cur_rank').style.width = "60%";
+            document.getElementById('cur_rank').style.width = "61.8%";
 
         }, function() {
             document.getElementById('cur_rank').style.width = cur_width;
@@ -446,7 +447,7 @@ display:inline;
 
         $(".star4").hover(function() {
             cur_width = document.getElementById('cur_rank').style.width;
-            document.getElementById('cur_rank').style.width = "80%";
+            document.getElementById('cur_rank').style.width = "82.4%";
 
         }, function() {
             document.getElementById('cur_rank').style.width = cur_width;

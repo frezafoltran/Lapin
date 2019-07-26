@@ -1,0 +1,141 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Num Max
+{%endblock%}
+
+{%block question_explanation%}
+    Find the maximum of two numbers without using any comparison operators
+    or if-else statements.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p>In some kinds of machines, comparison operations and if-else statements might consume too much computing time.
+    Thus, the algorithm in this question comes in handy in some situations of low-level programming where
+    bit shifts are less expensive.</p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div id="results" class="container row">
+
+        <p>Maximum between a = <span style="color:blue;" id="a"></span>
+            and b = <span style="color:red;" id="b"></span> is <span id="max"></span></p>
+        <p>Binary of ((a - b) = <span style="color:gray;" id="minus"></span>) is <span id="intermed"></span></p>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>Try the demo above. The idea is to extract the sign of the binary number representing (a - b) by
+bit shifting (a - b).</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Once we think about bit shifting (a - b), the only question is by how much
+must we bit shift it and in which direction?
+
+    <br><br>Since we the sign is in the most significant digit,
+the shift must be to the right. Since an integer is of length 32 bits and a character has length 8 (in JS),
+the total length of (a - b) is 32 * 8. Thus, we shift the difference by 32 * 8 - 1 as in:</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/007d3f66508fe93966f724a8bb07d1b1.js"></script>
+    </div>
+</section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/36980a6627490deac9ba8462229626e7.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'num_max_16.7'
+      {%endblock%}
+
+
+    function max(a, b){
+        var cond = (a - b) >> (32 * 8 - 1);
+        return a - ((a - b) & cond);
+    }
+
+
+
+    function refreshDemo(){
+
+        var a = Math.floor(Math.random() * 20);
+        var b = Math.floor(Math.random() * 20);
+
+        document.getElementById('a').innerHTML = a;
+        document.getElementById('b').innerHTML = b;
+        document.getElementById('minus').innerHTML = a - b;
+        document.getElementById('max').innerHTML = max(a, b);
+
+        if (max(a, b) == a){
+            document.getElementById('max').style.color =  document.getElementById('a').style.color;
+        }
+        else{
+            document.getElementById('max').style.color =  document.getElementById('b').style.color;
+        }
+
+        document.getElementById('intermed').innerHTML = (a - b).toString(2);
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

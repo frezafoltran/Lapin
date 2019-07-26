@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_5.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_6.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_7.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_8.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_9.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/question_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/question_base.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -13,63 +22,45 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1269">
-              <caret line="145" column="62" selection-start-line="145" selection-start-column="62" selection-end-line="145" selection-end-column="62" />
+            <state relative-caret-position="326">
+              <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_9.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#h4#2;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#img#0;n#a#0;n#h4#4;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h4#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#!!top" expanded="true" />
+                <element signature="e#1265#1296#0" expanded="true" />
+                <element signature="e#1797#1828#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_3.html">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_6.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="158" selection-end-column="38" />
+            <state relative-caret-position="120">
+              <caret line="45" column="132" lean-forward="true" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="132" />
+              <folding>
+                <element signature="e#1189#1207#0" expanded="true" />
+                <element signature="e#1294#1312#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html">
+        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_8.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_4.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="269" column="56" selection-start-line="269" selection-start-column="56" selection-end-line="269" selection-end-column="56" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="318" column="20" selection-start-line="318" selection-start-column="20" selection-end-line="322" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_2.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="109" column="62" selection-start-line="109" selection-start-column="62" selection-end-line="109" selection-end-column="62" />
+            <state relative-caret-position="120">
+              <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
             </state>
           </provider>
         </entry>
@@ -78,9 +69,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>isCon</find>
-      <find>missingChildChecker</find>
-      <find>containsTree</find>
       <find>preO</find>
       <find>reOrder</find>
       <find>preOrder</find>
@@ -108,6 +96,9 @@
       <find>conne</find>
       <find>listene</find>
       <find>circle</find>
+      <find>repla</find>
+      <find>decode</find>
+      <find>%</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -116,11 +107,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_2.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_3.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_5.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_6.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_7.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_8.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_9.html" />
@@ -159,20 +145,25 @@
         <option value="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_8.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/question_base.html" />
         <option value="$PROJECT_DIR$/app/main/routes.py" />
         <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_1.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_2.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_3.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_5.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/question_base.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_6.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_7.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_8.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/algos_main.html" />
         <option value="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" />
-        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" />
+        <option value="$PROJECT_DIR$/app/templates/algos/moderate/question_9.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1204" />
-    <option name="width" value="1686" />
+    <option name="x" value="1428" />
+    <option name="width" value="1462" />
     <option name="height" value="1550" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -183,7 +174,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -206,6 +196,12 @@
               <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
               <item name="Lapin" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="static" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Lapin" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -221,7 +217,7 @@
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="algos" type="462c0819:PsiDirectoryNode" />
-              <item name="moderate" type="462c0819:PsiDirectoryNode" />
+              <item name="bit_manipulation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Lapin" type="b2602c69:ProjectViewProjectNode" />
@@ -235,6 +231,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -299,7 +296,7 @@
     <frame x="-7" y="-7" width="1453" height="783" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17970401" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1726568" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -319,50 +316,6 @@
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="93" column="23" selection-start-line="93" selection-start-column="23" selection-end-line="93" selection-end-column="23" />
-          <folding>
-            <element signature="e#248#298#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="100" column="27" selection-start-line="100" selection-start-column="27" selection-end-line="100" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_7.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="87" column="29" selection-start-line="87" selection-start-column="29" selection-end-line="87" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2320">
-          <caret line="22" column="12" lean-forward="true" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
-          <folding>
-            <element signature="e#1949#1970#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_5.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="297" column="44" lean-forward="true" selection-start-line="297" selection-start-column="44" selection-end-line="297" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -533,17 +486,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_6.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-860">
-          <caret line="43" column="11" lean-forward="true" selection-start-line="43" selection-start-column="11" selection-end-line="43" selection-end-column="100" />
-          <folding>
-            <element signature="e#1189#1207#0" expanded="true" />
-            <element signature="e#1294#1312#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_7.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1048">
@@ -596,39 +538,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/question_base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="321" column="22" selection-start-line="321" selection-start-column="22" selection-end-line="321" selection-end-column="22" />
-          <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#div#1;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#3;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="42" lean-forward="true" selection-end-line="71" />
           <folding>
             <element signature="n#style#0;n#span#0;n#h4#4;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/routes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="826">
-          <caret line="302" column="46" selection-start-line="302" selection-start-column="46" selection-end-line="302" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -681,13 +596,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="166">
-          <caret line="109" column="62" selection-start-line="109" selection-start-column="62" selection-end-line="109" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_4.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="71">
@@ -695,17 +603,84 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_3.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+        <state relative-caret-position="3080">
+          <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="158" selection-end-column="38" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2180">
+          <caret line="109" column="62" selection-start-line="109" selection-start-column="62" selection-end-line="109" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="72" column="14" selection-end-line="373" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="319" column="20" selection-start-line="319" selection-start-column="20" selection-end-line="319" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_5.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="54" column="21" lean-forward="true" selection-end-line="199" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_6.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="72" lean-forward="true" selection-end-line="244" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_7.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="65" column="31" lean-forward="true" selection-end-line="140" selection-end-column="12" />
+          <folding>
+            <element signature="e#1246#1265#0" expanded="true" />
+            <element signature="e#1308#1327#0" expanded="true" />
+            <element signature="e#1409#1428#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/question_base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="425" column="67" selection-start-line="425" selection-start-column="67" selection-end-line="425" selection-end-column="67" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#1;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#1;n#div#0;n#h2#0;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#p#1;n#div#1;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#3;n#div#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/topic_base.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/algos_main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1269">
-          <caret line="145" column="62" selection-start-line="145" selection-start-column="62" selection-end-line="145" selection-end-column="62" />
+        <state relative-caret-position="581">
+          <caret line="274" column="2" selection-start-line="274" selection-start-column="1" selection-end-line="274" selection-end-column="2" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#img#0;n#a#0;n#h4#1;n#div#1;n#div#0;n#div#0;n#body#0;n#!!top" expanded="true" />
@@ -717,24 +692,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html">
+    <entry file="file://$PROJECT_DIR$/app/main/routes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="318" column="20" selection-start-line="318" selection-start-column="20" selection-end-line="322" selection-end-column="33" />
+        <state relative-caret-position="566">
+          <caret line="302" column="46" selection-start-line="302" selection-start-column="46" selection-end-line="302" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_3.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="154" column="12" selection-start-line="154" selection-start-column="12" selection-end-line="158" selection-end-column="38" />
+        <state relative-caret-position="326">
+          <caret line="24" column="30" selection-start-line="24" selection-start-column="30" selection-end-line="24" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_4.html">
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_6.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="269" column="56" selection-start-line="269" selection-start-column="56" selection-end-line="269" selection-end-column="56" />
+        <state relative-caret-position="120">
+          <caret line="45" column="132" lean-forward="true" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="132" />
+          <folding>
+            <element signature="e#1189#1207#0" expanded="true" />
+            <element signature="e#1294#1312#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_8.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_9.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="12" selection-start-line="6" selection-start-column="12" selection-end-line="6" selection-end-column="12" />
+          <folding>
+            <element signature="e#1265#1296#0" expanded="true" />
+            <element signature="e#1797#1828#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
