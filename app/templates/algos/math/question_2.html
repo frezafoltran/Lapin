@@ -59,6 +59,11 @@
 
     <script>
 
+        //to be used in dynamodb
+      {%block q_name%}
+      'heaviest_candy_box_6.2'
+      {%endblock%}
+
         function init (boxes){
 
             var heavyBoxIndex = Math.floor (Math.random() * boxes.length);

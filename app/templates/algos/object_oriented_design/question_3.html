@@ -144,6 +144,11 @@ display:"inline-block";
 
     <script>
 
+    //to be used in dynamodb
+      {%block q_name%}
+      'jukebox_7.3'
+      {%endblock%}
+
     var Player = function() {
       this.songQueue = [];
       this.currentSong = null;

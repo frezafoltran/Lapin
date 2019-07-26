@@ -22,7 +22,9 @@
 {%endblock%}
 
 {%block question_explanation%}
-    ...
+  Given an array of pixels, where each byte of pixel is stored in a sub array, write an algorithm to
+    create a horizontal line from pixel <span class="code">x1</span> to pixel <span class="code">x2</span>
+    at height <span class="code">y</span>
 {%endblock%}
 
 {%block question_source%}
@@ -30,10 +32,10 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>Below you can see the output of the algorithm in this question. Select the range of lines
+    <p>Below you can see the output of the algorithm in this question. Select the range of the line
     you'd like to see in the result canvas:</p>
 
-    <p>x1: <input value="50" id="x1" style="width:50px"> x2: <input value="150" id="x2" style="width:50px"></p>
+    <p>x1: <input value="50" id="x1" style="width:50px"> x2: <input value="200" id="x2" style="width:50px"></p>
     <p>y: <input value="70" id="y" style="width:50px"></p>
     <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
 
@@ -56,33 +58,34 @@
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> We first initialize two bit vectors to keep track of even and odd bits.
-The <span class="code">oddBits</span> is initialized by right-shifting the original vector. That is, the
-bit at the least-significant position of <span class="code">oddBits</span> is the second bit the original string.
+<p><span class="step">Step 1</span> The core part of the function is simple. Given the <span class="code">x1, x2</span>
+    range, we will find, for each pixel, its corresponding byte and bit. Then we set that bit to 1 in the screen mask.
 </p>
 <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/75ffd7d70571d760ad7f5068d1fd7b4b.js"></script>
+            <script src="https://gist.github.com/frezafoltran/da6625bbc6486ae924044156dabbc005.js"></script>
         </div>
 </section>
-<p>Similarly, we initialize <span class="code">evevBits</span> by right-shifting the original vector. This is done so that
-the indexes in these arrays are easier to handle below.</p>
 
 
-<p><span class="step">Step 2</span>  Now if the current bit is odd, we simply store the last bit of the
-    <span class="code">i-th</span> to last bit of <span class="code">oddBits</span> (which corresponds to even bit in
-    the original string) in our answer.
+<p><span class="step">Step 2</span>  To find the byte, we first use the information that the bite must be in the
+    <span class="code">y-th</span> row to find the first byte of that row. Then we move right in the row by using the
+    pixel's x coordinate.
 </p>
 <section>
         <div class="code-lines">
-            <script src="https://gist.github.com/frezafoltran/69e3dfd5b0fa2a300ea90359e33479ad.js"></script>
+            <script src="https://gist.github.com/frezafoltran/6173e02502b1f581405309f8976df560.js"></script>
         </div>
 </section>
-<p>Else, we use <span class="code">evenBits</span>. Note that it's crucial to check if the current bit of
-<span class="code">oddBits</span> is defined. This is because left-shifting reduces the size of the string and we must
-iterate through the entire length of the original string.</p>
 
-
+<p><span class="step">Step 3</span>  Since each byte has size 8, to find the pixel within a byte, we simply need
+    to take the mod 8 value of its x coordinate.
+</p>
+<section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/9658e7405a082949afb63fadda701a8f.js"></script>
+        </div>
+</section>
 
 
 {%endblock%}
@@ -93,7 +96,7 @@ iterate through the entire length of the original string.</p>
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/9e86685fa458882f5ef4a317248c3b23.js"></script>
+    <script src="https://gist.github.com/frezafoltran/f50d06b6937abbfd6878c6e57d7bd2cf.js"></script>
 {%endblock%}
 
 
@@ -110,7 +113,8 @@ iterate through the entire length of the original string.</p>
       'draw_line_5.8'
       {%endblock%}
 
-      var drawLine = function(screen, width, x1, x2, y) {
+
+      function drawLine(screen, width, x1, x2, y) {
           var byte;
           var pixel;
 
@@ -129,7 +133,7 @@ iterate through the entire length of the original string.</p>
             screen[byte][pixel] = 1;
           }
           return screen;
-        };
+        }
 
 
 
@@ -212,7 +216,7 @@ iterate through the entire length of the original string.</p>
 
             var y = parseInt(document.getElementById('y').value);
 
-            var margin = 5;
+            var margin = 1;
 
             var r1 = (y - margin) < 0 ? 0 : y - margin;
             var r2 = (y + margin) > 256 ? 256 : y + margin;
@@ -236,6 +240,9 @@ iterate through the entire length of the original string.</p>
                     }
 
                     if (mask[count][j % 8] == 1){
+                        ctx.fillStyle = 'white';
+                    }
+                    else{
 
                         if (screen[count][j % 8] == 1){
                             ctx.fillStyle = 'black';
@@ -243,9 +250,6 @@ iterate through the entire length of the original string.</p>
                         else{
                             ctx.fillStyle = 'rgb(34,139,34)';
                         }
-                    }
-                    else{
-                        ctx.fillStyle = 'white';
                     }
                     ctx.fillRect(j, i, 1, 1);
 

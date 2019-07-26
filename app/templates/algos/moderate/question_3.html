@@ -1,0 +1,187 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Lines Intersection
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to find whether or not two lines intersect.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p></p>
+
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <canvas id="canvas"></canvas>
+        <p id="result"></p>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to describe the lines geometrically and try to find the intersection.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We first find the slope and y-intercept for the two lines.
+In case the slopes are equal and the y-intercepts are not, the lines are parallel but not equal,
+    thus we return <span class="code">false</span>.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/15986dce92a4396b5176ac0cf13c2b7c.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> Then we assume the lines intersect at a point. We will find what the
+x coordinate of the point must be. Then we check if the point is within the lines bounds. If so, we return
+<span class="code">true</span>, else <span class="code">false</span>.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/62d24c77ff3de171b9005c1d872c6a94.js"></script>
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/bfc1ed1eb48aeb271e30d9d239a39a10.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'lines_intersection_16.3'
+      {%endblock%}
+
+
+      var w = 200;
+      var h = 200;
+
+      var c = document.getElementById('canvas');
+      var ctx = c.getContext('2d');
+      c.width = w;
+      c.height = h;
+
+      function linesIntersect(lines){
+
+        var [l1, l2] = lines;
+
+        var a1 =  (l1[1] - l1[3]) / (l1[0] - l1[2]);
+        var a2 =  (l2[1] - l2[3]) / (l2[0] - l2[2]);
+
+        var b1 = (l1[1] - a1 * l1[0]);
+        var b2 = (l2[1] - a2 * l2[0]);
+
+         if (Math.abs(a1 - a2) < 0.001 && Math.abs(b1 - b2) >= 0.001){
+            return false;
+         }
+
+        //assume a1x + b1 = a2x + b2. then we must have
+        //x = (b2 - b1)/(a1 - a2)
+        //check if corresponding (x, y) point lies in both lines
+
+        var x = (b2 - b1)/(a1 - a2);
+
+        // if intersection is off bounds of lines
+        var bounds1 = x < Math.min(l1[0], l1[2]) || x > Math.max(l1[0], l1[2]);
+        var bounds2 = x < Math.min(l2[0], l2[2]) || x > Math.max(l2[0], l2[2]);
+
+        return !(bounds1 || bounds2);
+
+      }
+
+      function refreshDemo(input){
+
+        console.clear();
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1;
+        var coords = [];
+
+        for (var i = 0; i < 2; i ++){
+
+            var x1 = Math.floor(Math.random() * w);
+            var y1 = Math.floor(Math.random() * h);
+            var x2 = Math.floor(Math.random() * w);
+            var y2 = Math.floor(Math.random() * h);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, h - y1);
+            ctx.lineTo(x2, h - y2);
+            ctx.stroke();
+            ctx.strokeStyle = 'black';
+            coords.push([x1, y1, x2, y2]);
+        }
+
+        var bool = linesIntersect(coords);
+        var resultP = document.getElementById('result');
+
+        if (bool){
+            resultP.style.color = 'green';
+            resultP.innerHTML = 'Lines intersect';
+            c.style.border = 'dotted 1px green';
+        }
+        else{
+            resultP.style.color = 'red';
+            resultP.innerHTML = 'Lines do not intersect';
+            c.style.border = 'dotted 1px red';
+        }
+
+      }
+
+      refreshDemo();
+
+
+
+
+    </script>
+
+
+{%endblock%}

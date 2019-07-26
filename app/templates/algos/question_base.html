@@ -164,6 +164,37 @@ display:inline;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+/*====================== Extra Pop Up  ======*/
+#snackbar_extra {
+  visibility: hidden;
+  min-width: 400px;
+  margin-left: -200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar_extra.show {
+  visibility: visible;
+  opacity:0.95;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+#x {
+    position: absolute;
+    color: white;
+    top: -2px;
+    right: 1px;
+}
+
 @-webkit-keyframes fadein {
   from {bottom: 0; opacity: 0;}
   to {bottom: 30px; opacity: 1;}
@@ -283,7 +314,12 @@ display:inline;
                 {%endblock%}
             </div>
 
-
+        </div>
+        <div id="snackbar_extra">
+            <a style="cursor:pointer;" onclick="hideExtraPop()" id = "x">X</a>
+            <p id="snackbar_extra_txt"></p>
+            {%block sim_questions_bottom%}
+            {%endblock%}
         </div>
 
     </div>
@@ -301,6 +337,21 @@ display:inline;
     <script>
 
 
+        //==== End of page popup
+        window.onscroll = function(ev) {
+            if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+                document.getElementById("snackbar_extra_txt").innerHTML = 'Check out these similar questions!';
+                var x = document.getElementById("snackbar_extra");
+                x.className = "show";
+            }
+        };
+
+        function hideExtraPop(){
+            var x = document.getElementById("snackbar_extra");
+            x.className = x.className.replace("show", "");
+        }
+
+      //====== Voting mechanism
       function votedMsg(msg) {
           var x = document.getElementById("snackbar");
           x.innerHTML = msg;

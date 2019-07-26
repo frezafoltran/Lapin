@@ -293,3 +293,12 @@ def algos_object_oriented_design(q_num):
     else:
         return render_template('algos/object_oriented_design/question_' + str(q_num) + '.html')
 
+@bp.route('/algos/moderate/<q_num>', methods=['GET', 'POST'])
+def algos_moderate(q_num):
+
+    if q_num == '0':
+        return render_template('algos/moderate/moderate_main.html')
+
+    else:
+        return render_template('algos/moderate/question_' + str(q_num) + '.html')
+

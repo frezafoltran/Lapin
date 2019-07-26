@@ -1,0 +1,187 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Word Frequencies
+{%endblock%}
+
+{%block question_explanation%}
+    Write an algorithm to find the frequency of occurrences of multiple words in a book
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Below you can see the output of the algorithm in this question when applied to the text content
+        of this HTML page.
+
+        <br><br>Type a word to check its number of occurrences in this page of simply
+        click <span class="code">random</span> to get the number of occurrences of a word
+        that is present in the page.
+
+    <p><a style="cursor:pointer" onclick="refreshDemo(0)">Random</a></p>
+    <p><input id="to_search" value="" style="width:150px"><a style="cursor:pointer" onclick="refreshDemo(1)">Search</a></p>
+
+    <div class="container row">
+
+        <p>Word <span id="word"></span> appears <span id="freq"></span></p>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to do some pre-processing on the book by creating a hash table for efficient look up.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We create the hash table in the traditional way. We assume that the search
+function is not case sensitive and thus store the words in the hash table converted to lower case.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/5847708cf90f87eaa785d1e775023e30.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> When a request is made, we simply check if the word exists in the hash table.
+    We return 0 if not to account for 0 occurrences.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/dda5a240c8e4a0d0d6918053c4ab2187.js"></script>
+        </div>
+    </section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/ddfcde87b1428d277820ab252ca196a1.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'word_frequencies_16.2'
+      {%endblock%}
+
+      var book = "Word Frequencies Write an algorithm to find the frequency of \
+          occurrences of multiple words in a book Below you can see the output of the \
+          algorithm in this question when applied to the text content of this HTML page \
+          Type a word to check its number of occurrences in this page of simply \
+          click random to get the number of occurrences of a word that is present in the page \
+          Random Word appears The idea is to do some pre-processing on the book by creating a \
+          hash table for efficient look up Step 1 We create the hash table in the traditional way\
+           We assume that the search function is not case sensitive and thus store the words in \
+           the hash table converted to lower case Step 2 When a request is made, we simply check \
+           if the word exists in the hash table We return 0 if not to account for 0 occurrences \
+           Application Intuition of Code Code Digest Time and Space Complexity Click here to see \
+           full code hide Pinla Home Explore Algos Login Tribe Tags Similar Questions Back to Moderate";
+
+
+       function createHash(txt){
+
+            var words = txt.split(' ');
+            var hash = {};
+
+            for (i = 0; i < words.length; i++){
+
+                var lowerStr = words[i].toLowerCase();
+
+                if (!lowerStr){
+                    continue;
+                }
+                if (!hash[lowerStr]){
+                    hash[lowerStr] = 1;
+                }
+                else{
+                    hash[lowerStr] ++;
+                }
+            }
+
+            return hash;
+       }
+
+      function numOccurrences(word, txt){
+
+        var hash = createHash(txt);
+        var lowerStr = word.toLowerCase();
+
+        return !hash[lowerStr] ? 0 : hash[lowerStr];
+      }
+
+      function refreshDemo(input){
+
+        if (input == 0){
+            var temp = book.split(' ');
+
+            var word = '';
+            while(!word){
+                word = temp[Math.floor(Math.random() * temp.length)];
+            }
+        }
+        else{
+            var word = document.getElementById('to_search').value;
+        }
+
+        document.getElementById('word').innerHTML = word;
+        document.getElementById('word').style.color = 'orange';
+        document.getElementById('word').style.fontStyle = 'italic';
+
+        var freq = numOccurrences(word, book);
+
+        document.getElementById('freq').innerHTML = freq == 1 ? 'once.' : freq + ' times.';
+
+
+
+      }
+
+      refreshDemo(0);
+
+
+
+
+    </script>
+
+
+{%endblock%}
