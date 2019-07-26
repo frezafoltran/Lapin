@@ -2,34 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_3.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_8.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/question_8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/math/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/math/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/math/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/math/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/math/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/math/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/question_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/question_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_10.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_10.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_12.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_12.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_2.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_3.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/question_6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/moderate/question_4.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,8 +50,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_4.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="187" column="45" selection-start-line="187" selection-start-column="45" selection-end-line="187" selection-end-column="45" />
+            <state relative-caret-position="246">
+              <caret line="269" column="56" selection-start-line="269" selection-start-column="56" selection-end-line="269" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -760,8 +733,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/moderate/question_4.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="187" column="45" selection-start-line="187" selection-start-column="45" selection-end-line="187" selection-end-column="45" />
+        <state relative-caret-position="246">
+          <caret line="269" column="56" selection-start-line="269" selection-start-column="56" selection-end-line="269" selection-end-column="56" />
         </state>
       </provider>
     </entry>

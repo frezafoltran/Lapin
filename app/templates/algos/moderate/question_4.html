@@ -264,7 +264,10 @@ x coordinate of the point must be. Then we check if the point is within the line
                else{
                     var played = drawCircle(x, 2*w/3 + w/6, 2);
                }
-               if (played != -1 && numPlays < 9){
+
+               foundWinner = checkWinner();
+
+               if (played != -1 && numPlays < 9 && !foundWinner){
                 computerPlay();
                }
 
