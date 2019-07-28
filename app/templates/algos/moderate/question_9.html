@@ -4,7 +4,7 @@
 {%block style%}
 .box{
 padding:10px;
-background-color:rgba(30, 144, 255, 0.7);
+background-color:rgba(30, 144, 255, 0.6);
 color:white;
 margin:3px;
 }
@@ -51,28 +51,30 @@ margin:3px;
     <p></p>
     <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
     <div class="container row">
-        <p>a = <span id="a">2</span>, b = <span id="b">90</span></p>
+        <p><span style="font-weight:bold;color:green">a </span>= <span id="a">2</span>,
+            <span style="font-weight:bold;color:red">b </span>= <span id="b">90</span></p>
 
-        <p>a - b =
-            <span class="box">Flip sign of b</span>
+        <p><span style="font-weight:bold;color:green">a </span> - <span style="font-weight:bold;color:red">b </span> =
+            <span class="box">Flip sign of <span style="font-weight:bold;color:red">b </span></span>
             <img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:15px;height:15px;">
-            <span class="box">Add result to a</span>
+            <span class="box">Add result to <span style="font-weight:bold;color:green">a </span></span>
             :
-            <span id="subtract">-88</span>
+            <span id="subtract"></span>
         </p>
-
-        <p>a * b =
-            <span class="box">Add b to itself (a - 1) times</span>
+        <br>
+        <p><span style="font-weight:bold;color:green">a </span> * <span style="font-weight:bold;color:red">b </span> =
+            <span class="box">Add <span style="font-weight:bold;color:red">b </span> to
+                itself (<span style="font-weight:bold;color:green">a </span> - 1) times</span>
             :
-            <span id="multiply">000</span>
+            <span id="multiply"></span>
         </p>
+        <br>
+        <p><span style="font-weight:bold;color:green">a </span> / <span style="font-weight:bold;color:red">b </span> =
 
-        <p>a / b =
-            <span class="box">Use</span>
-            <img src="{{url_for('static', filename='images/right_arrow.png')}}" style="width:15px;height:15px;">
-            <span class="box">Solve a = bx for x</span>
+            <span class="box">Solve <span style="font-weight:bold;color:green">a </span>
+                = <span style="font-weight:bold;color:red">b </span>x for x</span>
             :
-            <span id="divide">000</span>
+            <span id="divide"></span>
         </p>
 
     </div>
@@ -81,13 +83,36 @@ margin:3px;
 {%endblock%}
 
 {%block code_intuition%}
-<p></p>
+<p>The intuition is displayed in the demo above. Read the digest below for more details.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> ...</p>
+<p><span class="step">Step 1</span> Subtracting <span class="code">b</span> from <span class="code">a</span> is
+the same as adding <span class="code">b</span> to the negation of <span class="code">a</span>. Thus, it suffices
+to implement a method to negate <span class="code">a</span>:</p>
 <section>
     <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/030cc30d0d77a03ed009bb49c3d6c871.js"></script>
+    </div>
+</section>
+
+<p><span class="step">Step 2</span> Multiplying <span class="code">a</span> by <span class="code">b</span> is the
+same as adding <span class="code">b</span>, <span class="code">a</span> times. The code for this is implemented below,
+where the <span class="code">abs()</span> function is implemented by using the <span class="code">negate()</span>
+function discussed in <span class="code">Step 1</span>.</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/07374ef24450a16d649e69cd9cca96f8.js"></script>
+    </div>
+</section>
+
+<p><span class="step">Step 2</span> To divide <span class="code">a</span> by <span class="code">b</span> we simply solve
+    the equation <span class="code">bx = a</span> for x. That is, we keep adding b to a variable
+    until just before the sum exceeds <span class="code">a</span>. The number of times we added <span class="code">b</span>
+    is our result:</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/ad707c9286dbb4a6218c214696181f62.js"></script>
     </div>
 </section>
 
@@ -101,9 +126,8 @@ margin:3px;
 
 
 {%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/c83b4137d436b95e0557a581d85f4804.js"></script>
 {%endblock%}
-
-
 
 
 {%block scripts%}
@@ -191,20 +215,25 @@ margin:3px;
     }
 
 
-
-
-
-
     function refreshDemo(){
 
         var a = Math.floor(Math.random() * 10);
-        var b = Math.floor(Math.random() * 10);
+        var b = Math.floor(Math.random() * (10 - 1)) + 1;
 
-        console.log(a);
-        console.log(b);
-        console.log(subtract(a, b));
-        console.log(multiply(a, b));
-        console.log(divide(a, b));
+        document.getElementById('a').innerHTML = a;
+        document.getElementById('a').style.fontWeight = 'bold';
+
+        document.getElementById('b').innerHTML = b;
+        document.getElementById('b').style.fontWeight = 'bold';
+
+        document.getElementById('subtract').innerHTML = subtract(a, b);
+        document.getElementById('subtract').style.fontWeight = 'bold';
+
+        document.getElementById('multiply').innerHTML = multiply(a, b);
+        document.getElementById('multiply').style.fontWeight = 'bold';
+
+        document.getElementById('divide').innerHTML = divide(a, b);
+        document.getElementById('divide').style.fontWeight = 'bold';
 
     }
 

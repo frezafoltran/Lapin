@@ -1,0 +1,229 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Living People
+{%endblock%}
+
+{%block question_explanation%}
+Given the birth and death dates of multiple people, find out the year that had the most people alive.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <p>Range from <span id="from"></span> to <span id="to"></span></p>
+        <div id="people">
+            <div class="col-md-3" id="col1"></div>
+             <div class="col-md-3" id="col2"></div>
+             <div class="col-md-3" id="col3"></div>
+             <div class="col-md-3" id="col4"></div>
+        </div>
+
+    </div>
+    <br>
+    <div class="container row">
+        <p>Year with most people alive: <span id="best_year"></span>.
+        There were <span id="num_people"></span> people alive that year.</p>
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+<section>
+    <div class="code-lines">
+
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'living_people_16.10'
+      {%endblock%}
+
+
+    var Person = function(birthDate, deathDate){
+        this.birth = birthDate;
+        this.death = deathDate;
+    }
+
+    var col1Div = document.getElementById('col1');
+    var col2Div = document.getElementById('col2');
+    var col3Div = document.getElementById('col3');
+    var col4Div = document.getElementById('col4');
+
+    var bestYearDiv = document.getElementById('best_year');
+    var numPeopleDiv = document.getElementById('num_people');
+
+    function displayPerson(person, index){
+
+        var colName = 'col' + (index % 4 + 1).toString();
+        var curCol =  document.getElementById(colName);
+
+        var s1 = document.createElement('span');
+        s1.innerHTML = 'P' + index + ': ';
+
+        var s2 = document.createElement('span');
+        s2.innerHTML = '(' + person.birth + ' - ' + person.death + ')';
+        s2.style.fontWeight = 'bold';
+        s2.style.color = 'rgb(60, 60, 60)';
+
+
+        var b = document.createElement('br');
+
+        curCol.appendChild(s1);
+        curCol.appendChild(s2);
+        curCol.appendChild(b);
+
+
+    }
+
+    function getPopDeltas(people, min, max){
+
+        var popDeltas = [];
+
+        for (var i = 0; i < max - min + 2; i ++){
+            popDeltas.push(0);
+        }
+
+        for (var i = 0; i < people.length; i ++){
+            var birthDate = people[i].birth - min;
+            popDeltas[birthDate] ++;
+
+            var deathDate = people[i].death - min;
+            popDeltas[deathDate + 1] --;
+
+        }
+        return popDeltas;
+    }
+
+    function getYearMostAlive(deltas){
+
+        var maxAliveYear = 0, maxAlive = 0, currentAlive = 0;
+
+        for (var year = 0; year < deltas.length; year ++){
+            currentAlive += deltas[year];
+            if (currentAlive > maxAlive){
+                maxAliveYear = year;
+                maxAlive = currentAlive;
+            }
+        }
+        return [maxAliveYear, maxAlive];
+    }
+
+    function yearMostAlive(people, min, max){
+
+        var populationDeltas = getPopDeltas(people, min, max);
+        var [maxAliveYear, maxAlive] = getYearMostAlive(populationDeltas);
+        return [maxAliveYear + min, maxAlive];
+
+    }
+
+    function refreshDemo(){
+
+        var earliest = Math.floor(Math.random() * (1900 - 1000)) + 1000;
+        var latest = Math.floor(Math.random() * ((earliest + 150) - (earliest + 100))) + earliest + 100;
+
+        var numPeople = Math.floor(Math.random() * (50 - 30)) + 30;
+        var people = [];
+
+        col1Div.innerHTML = '';
+        col2Div.innerHTML = '';
+        col3Div.innerHTML = '';
+        col4Div.innerHTML = '';
+
+        for (var i = 0; i < numPeople; i ++){
+
+            var birth = Math.floor(Math.random() * (latest + 1 - earliest)) + earliest;
+            var death = Math.floor(Math.random() * (latest + 1 - birth))   + birth;
+            people.push(new Person(birth, death));
+
+            displayPerson(people[i], i);
+        }
+
+        var maxAlive = yearMostAlive(people, earliest, latest);
+        bestYearDiv.innerHTML = maxAlive[0];
+        numPeopleDiv.innerHTML = maxAlive[1];
+
+        document.getElementById('from').innerHTML = earliest;
+        document.getElementById('to').innerHTML = latest;
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
