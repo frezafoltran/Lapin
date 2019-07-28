@@ -1,0 +1,123 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    XML Encoding
+{%endblock%}
+
+{%block question_explanation%}
+Encode XML tags by using a pre-defined mapping between the tags and a set of integers.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'xML_encoding_16.12'
+      {%endblock%}
+
+
+    function encode(){
+
+
+    }
+
+    function refreshDemo(){
+
+
+
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

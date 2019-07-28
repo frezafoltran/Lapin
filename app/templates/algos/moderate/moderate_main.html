@@ -19,11 +19,15 @@
                            ['English Integer (TODO)', 'Convert an int to its corresponding english sentence.'],
                            ['Operations', 'Implement subtraction, multiplication and division',
                                                                         'by using only addition.'],
-                           ['Living People (NE)', 'Find out which year had the most people alive.']
+                           ['Living People (NE)', 'Find out which year had the most people alive.'],
+                           ['Diving Board', 'Find all possible lengths of a board built from smaller',
+                                                                        'boards of two sizes.'],
+                           ['XML Encoding (TODO)', 'Encode XML tags as integers.'],
+                           ['Bisect Rectangles', 'Find a line segment that bisects two rectangles.']
 
         ]%}
 
-        {%for i in range(1, 11)%}
+        {%for i in range(1, 14)%}
        <h3><a href = "{{ url_for('main.algos_moderate', q_num = i) }}">
         {{questions[i - 1][0]}}</a></h3>
         <h4>
@@ -46,7 +50,7 @@
 <script>
 
     var numQuestions = 26;
-    var numCompleted = 8;
+    var numCompleted = 9;
     var numAppCompleted = 1;
 
     //questions completed contribute with 1/numQuestions

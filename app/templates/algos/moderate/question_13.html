@@ -1,0 +1,240 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Bisect Squares
+{%endblock%}
+
+{%block question_explanation%}
+Given two rectangles in a 2d plane, write an algorithm to find a line segment that bisects the two squares.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <canvas id="canvas"></canvas>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'bisect_rectangles_16.13'
+      {%endblock%}
+
+    var c = document.getElementById('canvas');
+    var ctx = c.getContext('2d');
+    var h = 200;
+    var w = 200;
+
+    c.width = w;
+    c.height = h;
+
+    c.style.border = 'solid 1px black';
+
+
+    function generateSquare(context, offSet){
+
+        var x1 = Math.floor(Math.random() * (w / 4)) + offSet;
+        var y1 = Math.floor(Math.random() * (h / 2));
+        var x2 = Math.floor(Math.random() * (w / 2 - w / 4)) + w / 4 + offSet;
+        var y2 = Math.floor(Math.random() * (h - h / 2)) + h / 2;
+
+
+        //top
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y1);
+        context.stroke();
+
+        //right
+        context.beginPath();
+        context.moveTo(x2, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
+
+        //bottom
+        context.beginPath();
+        context.moveTo(x2, y2);
+        context.lineTo(x1, y2);
+        context.stroke();
+
+        //left
+        context.beginPath();
+        context.moveTo(x1, y2);
+        context.lineTo(x1, y1);
+        context.stroke();
+
+        return [x1, x2, y1, y2];
+
+
+    }
+
+    function colorTopHalf(context, y, otherYBound, coord){
+
+        var wid = (coord[1] - coord[0]);
+        context.fillStyle = 'green';
+
+        var hei = Math.min(y - coord[2], otherYBound);
+
+        context.fillRect(coord[0], coord[2], wid, hei);
+
+    }
+
+    function connectSquares(context, coord1, coord2){
+
+        var c1x = (coord1[0] + coord1[1])/2;
+        var c2x = (coord2[0] + coord2[1])/2;
+        var c1y = (coord1[2] + coord1[3])/2;
+        var c2y = (coord2[2] + coord2[3])/2;
+
+        var a = ((h - c1y) - (h - c2y))/(c1x - c2x);
+
+        //make sure line starts before center
+        var w1 = coord1[1] - coord1[0];
+        var w2 = coord2[1] - coord2[0];
+        var h1 = coord1[3] - coord1[2];
+        var h2 = coord2[3] - coord2[2];
+
+        var y1 = a * w1 / 2;
+        var y2 = a * w2 / 2;
+
+        var newY2 = c2y - y2;
+        var newX2 = c2x + w2/2;
+        var newY1 = c1y + y1;
+        var newX1 = c1x - w1/2;
+
+        //avoid leaking from below
+        if (newY2 > coord2[3]){
+            newY2 = coord2[3];
+            newX2 = c2x - (h2/2)/a;
+        }
+        if (newY1 > coord1[3]){
+            newY1 = coord1[3];
+            newX1 = c1x - (h1/2)/a;
+        }
+
+        //avoid leaking from above
+        if (newY2 < coord2[2]){
+            newY2 = coord2[2];
+            newX2 = c2x + (h2/2)/a;
+        }
+        if (newY1 < coord1[2]){
+            newY1 = coord1[2];
+            newX1 = c1x + (h1/2)/a;
+        }
+
+
+        context.strokeStyle = 'black';
+        context.setLineDash([1, 1]);
+        context.beginPath();
+        context.moveTo(newX1, newY1);
+        context.lineTo(newX2, newY2);
+        context.stroke();
+
+        var otherYBound2 = h2/2 + a * w2/2;
+        colorTopHalf(context, newY2, otherYBound2, coord2);
+
+    }
+
+    function refreshDemo(){
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1;
+        ctx.setLineDash([1, 0]);
+
+        ctx.strokeStyle = 'blue';
+        var coord1 = generateSquare(ctx, 0);
+        ctx.strokeStyle = 'green';
+        var coord2 = generateSquare(ctx, w/2);
+
+        connectSquares(ctx, coord1, coord2);
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

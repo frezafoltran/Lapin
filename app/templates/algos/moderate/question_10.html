@@ -92,6 +92,7 @@ Given the birth and death dates of multiple people, find out the year that had t
 
 
 {%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/1aa6e3b2452ba14368cfaac37c518337.js"></script>
 {%endblock%}
 
 
@@ -120,9 +121,19 @@ Given the birth and death dates of multiple people, find out the year that had t
     var bestYearDiv = document.getElementById('best_year');
     var numPeopleDiv = document.getElementById('num_people');
 
-    function displayPerson(person, index){
+    function displayPerson(person, index, len){
 
-        var colName = 'col' + (index % 4 + 1).toString();
+
+        if (index < len/3){
+            var colName = 'col1';
+        }
+        else if (index < 2*len/3){
+            var colName = 'col2';
+        }
+        else{
+           var colName = 'col3';
+        }
+
         var curCol =  document.getElementById(colName);
 
         var s1 = document.createElement('span');
@@ -203,7 +214,7 @@ Given the birth and death dates of multiple people, find out the year that had t
             var death = Math.floor(Math.random() * (latest + 1 - birth))   + birth;
             people.push(new Person(birth, death));
 
-            displayPerson(people[i], i);
+            displayPerson(people[i], i, numPeople);
         }
 
         var maxAlive = yearMostAlive(people, earliest, latest);

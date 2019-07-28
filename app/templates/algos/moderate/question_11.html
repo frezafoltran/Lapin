@@ -1,0 +1,192 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Diving Board
+{%endblock%}
+
+{%block question_explanation%}
+Given an <span class="code">K</span> boards of size <span class="code">A</span> and <span class="code">K</span> boards
+of size <span class="code">B</span>, find all possible lengths of a board built using <span class="code">K</span>
+boards of sizes <span class="code">A</span> or <span class="code">B</span>.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p>This is more of a combinatorics math problem. Possibly a more interesting formulation of this problem
+    would be to check if it's possible to build a board of a given length given the two types of board.
+        <br><br>
+        Of course, if this was our only goal, we could further simplify the algorithm in this question. Below you can
+    test this:</p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <p>Given boards of length <span id="len1" style="color:blue;"></span> and
+            <span id="len2" style="color:red"></span>, using <span id="K" style="font-weight:bold;"></span> boards:</p>
+
+        {%for i in range(1, 4)%}
+        <p>It <span id="is{{i}}">is</span> <span id="r{{i}}" style="color:red;font-weight:bold">not</span>
+            possible to build a board of length <span style="font-weight:bold" id="l{{i}}"></span>.</p>
+        {%endfor%}
+
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The important thing to note is that the order in which we connect the boards does not matter. Thus,
+it suffices to count the number of boards of each type we can possibly have.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We can either have <span class="code">K</span> boards of type
+<span class="code">A</span> and 0 of type <span class="code">B</span> or <span class="code">K - 1</span> boards of type
+<span class="code">A</span> and 1 of type <span class="code">B</span> and so forth. We iterate from
+    <span class="code">i = 0</span> till <span class="code">i = K</span> and calculate:
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/a7b943914f128c5f83350ef651c8fee6.js"></script>
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/fd2451d109d1f86e60957b2b7ca19a4f.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'diving_board_16.11'
+      {%endblock%}
+
+
+    function allLengths(aLen, bLen, K){
+
+        var lens = [];
+
+        for (var i = 0; i <= K; i ++){
+            lens.push(aLen * i + (K - i) * bLen);
+        }
+
+        return lens;
+    }
+
+
+    function refreshDemo(){
+
+        var K = Math.floor(Math.random() * (100 - 10)) + 10;
+        var a = Math.floor(Math.random() * (10 - 5)) + 5;
+        var b = Math.floor(Math.random() * (15 - 10)) + 10;
+
+        document.getElementById('len1').innerHTML = a;
+        document.getElementById('len2').innerHTML = b;
+        document.getElementById('K').innerHTML = K;
+
+        var lens = allLengths(a, b, K);
+
+        var desired1 = Math.floor(Math.random() * (K * b - K * a)) + K * a;
+        var desired2 = desired1;
+        while(desired2 == desired1){
+            desired2 = Math.floor(Math.random() * (K * b - K * a)) + K * a;
+        }
+
+        var desired3 = desired2;
+        while(desired3 == desired2 || desired3 == desired1){
+            desired3 = Math.floor(Math.random() * (K * b - K * a)) + K * a;
+        }
+
+        document.getElementById('l1').innerHTML =  desired1;
+        document.getElementById('l2').innerHTML =  desired2;
+        document.getElementById('l3').innerHTML =  desired3;
+
+        for (var i = 0; i < lens.length; i ++){
+
+            if (lens[i] == desired1){
+                document.getElementById('r1').style.display = 'none';
+                document.getElementById('is1').style.color = 'green';
+                document.getElementById('is1').style.fontWeight = 'bold';
+            }
+            if (lens[i] == desired2){
+                document.getElementById('r2').style.display = 'none';
+                document.getElementById('is2').style.color = 'green';
+                document.getElementById('is2').style.fontWeight = 'bold';
+            }
+            if (lens[i] == desired3){
+                document.getElementById('r3').style.display = 'none';
+                document.getElementById('is3').style.color = 'green';
+                document.getElementById('is3').style.fontWeight = 'bold';
+            }
+
+        }
+
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
