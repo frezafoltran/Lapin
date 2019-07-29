@@ -1,0 +1,304 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.slot{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Best Line
+{%endblock%}
+
+{%block question_explanation%}
+Given a set of points, find the line that crosses the most points.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <p>Enter your guess: <input id="guess" style="width:70px" value="GBRY">
+            <a style="cursor:pointer" onclick="guess()">Go!</a></p>
+        <canvas id="canvas"></canvas>
+
+        <p id="alert" style="display:none;color:red;font-weight:bold">Make sure to guess all four slots!</p>
+        <p id="win_msg" style="font-weight:bold;color:green;display:none">You win!</p>
+        <p id="result" style="display:none">You got <span id="correct" style="font-weight:bold"></span> hits and
+        <span style="font-weight:bold" id="pseudo-correct"></span> pseudo hits.</p>
+        <p id="result2">Number of guesses: <span id="num_guesses"></span></p>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/fc6b5258f45e3042b46b7363e3727b5d.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'master_mind_16.15'
+      {%endblock%}
+
+    var c = document.getElementById('canvas');
+    var ctx = c.getContext('2d');
+    var h = 300;
+    var w = 300;
+
+    c.width = w;
+    c.height = h;
+
+    c.style.border = 'solid 1px black';
+
+    function Result(){
+        this.hits = 0;
+        this.pseudoHits = 0;
+    }
+
+    function code(c){
+        switch(c){
+            case 'B':
+                return 0;
+            case 'G':
+                return 1;
+            case 'R':
+                return 2;
+            case 'Y':
+                return 3;
+            default:
+                return -1;
+        }
+    }
+
+    var MAX_COLORS = 4;
+
+    function estimate(guess, solution){
+
+        if (guess.length != solution.length){
+            return null;
+        }
+
+        var res = new Result();
+
+        var freq = [];
+        for (var i = 0; i < MAX_COLORS; i ++){
+            freq.push(0);
+        }
+
+        for (var i = 0; i < guess.length; i ++){
+
+            if (guess.charAt(i) == solution.charAt(i)){
+                res.hits++;
+            }
+            else{
+                var coded = code(solution.charAt(i));
+                freq[coded]++;
+            }
+        }
+
+        for (var i = 0; i < guess.length; i ++){
+
+            var coded = code(guess.charAt(i));
+            if (coded >= 0 && freq[coded] > 0 && guess.charAt(i) != solution.charAt(i)){
+                res.pseudoHits ++;
+                freq[coded]--;
+            }
+        }
+        return res;
+    }
+
+    String.prototype.shuffle = function () {
+        var a = this.split(""),
+            n = a.length;
+
+        for(var i = n - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
+        return a.join("");
+    }
+
+    function decodeColors(c){
+        switch(c){
+            case 'B':
+                return 'blue';
+            case 'G':
+                return 'green';
+            case 'R':
+                return 'red';
+            case 'Y':
+                return 'yellow';
+            default:
+                return -1;
+        }
+    }
+
+    function fillCanvas(context, str){
+
+        context.fillStyle = decodeColors(str[0]);
+        context.fillRect(0, 0, w/2, h/2);
+
+        context.fillStyle = decodeColors(str[1]);
+        context.fillRect(w/2, 0, w/2, h/2);
+
+        context.fillStyle = decodeColors(str[2]);
+        context.fillRect(0, w/2, w/2, h/2);
+
+        context.fillStyle = decodeColors(str[3]);
+        context.fillRect(w/2, w/2, w/2, h/2);
+    }
+
+    function initializeCanvas(context){
+
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, w, h);
+
+        context.strokeStyle = 'black';
+        context.setLineDash([1, 1]);
+
+        context.beginPath();
+        context.moveTo(w/2, 0);
+        context.lineTo(w/2, h);
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(0, h/2);
+        context.lineTo(w, h/2);
+        context.stroke();
+
+    }
+
+    var test;
+    var numGuesses = 0;
+    var res1 = document.getElementById('result');
+    var res2 = document.getElementById('result2');
+    var winMsg = document.getElementById('win_msg');
+    var alertMsg = document.getElementById('alert');
+
+    function refreshDemo(){
+
+        console.clear();
+
+        res1.style.display = 'none';
+        res2.style.display = 'none';
+        winMsg.style.display = 'none';
+        alertMsg.style.display = 'none';
+
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1;
+
+        test = ("BGYR").shuffle();
+        numGuesses = 0;
+
+        initializeCanvas(ctx);
+
+    }
+
+    function guess(){
+
+        var guess = document.getElementById('guess').value;
+        var res = estimate(guess, test);
+
+        if (!res){
+            alertMsg.style.display = 'block';
+            return;
+        }
+
+        if (res.hits == 4){
+            winMsg.style.display = 'block';
+            res1.style.display = 'none';
+            fillCanvas(ctx, test);
+            return;
+        }
+
+        res1.style.display = 'block';
+        alertMsg.style.display = 'none';
+        document.getElementById('correct').innerHTML = res.hits;
+        document.getElementById('pseudo-correct').innerHTML = res.pseudoHits;
+
+        numGuesses ++;
+        document.getElementById('num_guesses').innerHTML = numGuesses;
+        res2.style.display = 'block';
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

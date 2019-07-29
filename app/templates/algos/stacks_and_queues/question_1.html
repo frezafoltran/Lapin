@@ -259,10 +259,6 @@
                 s.style.margin = '3px';
                 s.innerHTML = mainArray.container[i];
 
-                if (i == 15){
-                    curDiv = arrayDiv2;
-                }
-
                 if (i < mainArray.middleBottom){
                     s.style.backgroundColor = 'orange';
                     curDiv.appendChild(s);
@@ -274,6 +270,12 @@
                 else{
                    s.style.backgroundColor = 'red';
                    curDiv.appendChild(s);
+                }
+
+                if ((i + 1) % 5 == 0){
+                    curDiv.appendChild(document.createElement('br'));
+                    curDiv.appendChild(document.createElement('br'));
+                    curDiv.appendChild(document.createElement('br'));
                 }
 
             }

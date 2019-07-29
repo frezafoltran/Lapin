@@ -13,6 +13,14 @@
     <a href="{{url_for('main.algos_object_oriented_design', q_num=0)}}" >Back to Object Oriented Design</a>
 {%endblock%}
 
+{%block sim_questions%}
+<a href="{{url_for('main.algos_hard', q_num=2)}}">Shuffle</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_hard', q_num=2)}}">Shuffle</a>
+{%endblock%}
+
 {%block question_name%}
     Deck of Cards
 {%endblock%}
@@ -86,11 +94,7 @@
       'deck_of_cards_7.1'
       {%endblock%}
 
-var Card = function(suit, number) {
-  this.suit = suit;
-  this.number = number;
-  this.value = `${this.number} ${this.suit}`;
-};
+
 
 var Deck = function() {
   this.cards = [];

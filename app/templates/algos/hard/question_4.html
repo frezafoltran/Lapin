@@ -1,0 +1,174 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.slot{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_hard', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Hard</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_hard', q_num=0)}}" >Back to Hard</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Missing Number
+{%endblock%}
+
+{%block question_explanation%}
+Given an array of length n which contains all integers from 0 to n, except for exactly one integer,
+find the missing integer. Assume you can only access each bit of a number a a time, which takes O(1) time.
+Find the missing integer in O(n) time.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Shuffle</a></p>
+    <div class="container row">
+
+        <p id="array"></p>
+
+
+    </div>
+
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>We can simply use the idea in <a href="{{url_for('main.algos_hard', q_num=2)}}">this</a> question.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We can apply the same reasoning as in
+    <a href="{{url_for('main.algos_hard', q_num=2)}}">this</a> question. Alternatively,
+    we can simply shuffle the entire array and return <span class="code">m</span> elements of it.
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/5b0dbf3746686706a78f3f96576b3315.js"></script>
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/4c70e9d2866e8eade9df7c203f25dde0.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'missing_number_17.4'
+      {%endblock%}
+
+
+
+    function newSpan(i, val){
+
+        var s = document.createElement('span');
+        s.style.padding = '10px';
+        s.style.color = 'white';
+        s.style.margin = '3px';
+        s.innerHTML = val;
+        s.style.backgroundColor = i % 2 ? 'orange' : 'blue';
+
+        return s;
+    }
+
+    var arrayDiv = document.getElementById('array');
+
+
+    function refreshDemo(){
+
+        arrayDiv.innerHTML = '';
+        console.clear();
+        var array = [];
+        var len = Math.floor(Math.random() * (15 - 10)) + 10;
+        var skip = Math.floor(Math.random() * len);
+
+        for (var i = 0; i < len; i ++){
+            array.push(i);
+        }
+
+        array = array.sort(() => Math.random() > 0.5 ? 1 : -1);
+
+        for (var i = 0; i < len; i ++){
+
+            if (i != skip){
+                array.push(i);
+                var s = newSpan(i, array[i]);
+
+                arrayDiv.appendChild(s);
+            }
+
+
+            if ( (i != 0) && (i % 5) == 0){
+                arrayDiv.appendChild(document.createElement('br'));
+                arrayDiv.appendChild(document.createElement('br'));
+            }
+        }
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

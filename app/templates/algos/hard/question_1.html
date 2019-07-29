@@ -1,0 +1,152 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.slot{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_hard', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Hard</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_hard', q_num=0)}}" >Back to Hard</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Addition Without Plus
+{%endblock%}
+
+{%block question_explanation%}
+Write an algorithm to add two numbers without using any arithmetic operators.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <p>a = <span id="a" style="color:green"></span> or <span id="abin" style="color:gray"></span>
+            , b = <span id="b" style="color:blue"></span> or
+         <span id="bbin" style="color:gray"></span></p>
+
+        <p>a + b = <span id="result" style="color:red"></span> or
+        <span id="resultbin" style="color:gray"></span></p>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to perform the addition without carry and carry parts of addition separately.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> We solve the problem recursively by passing the current sum and
+    the current carry to the stack and returning when the carry is zero:
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/9d3773274d247d204c7bd01378b7f980.js"></script>
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/fed7c6aa66bc88b0032cdfed11cba2ef.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'addition_without_plus_17.1'
+      {%endblock%}
+
+    function add(a, b){
+
+        if (b == 0){
+            return a;
+        }
+        var sum = a ^ b;
+        console.log('sum: ', sum);
+
+        var carry = (a & b) << 1;
+        console.log('carry: ', carry);
+
+        return add (sum, carry);
+    }
+
+
+    function refreshDemo(){
+
+        console.clear()
+
+        var a = Math.floor(Math.random() * 100);
+        var b = Math.floor(Math.random() * 100);
+
+        document.getElementById('a').innerHTML = a;
+        document.getElementById('b').innerHTML = b;
+        document.getElementById('abin').innerHTML = a.toString(2);
+        document.getElementById('bbin').innerHTML = b.toString(2);
+
+        document.getElementById('result').innerHTML = add(a, b);
+        document.getElementById('resultbin').innerHTML = add(a, b).toString(2);
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

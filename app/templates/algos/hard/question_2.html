@@ -1,0 +1,219 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.slot{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_hard', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Hard</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_hard', q_num=0)}}" >Back to Hard</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+<a href="{{url_for('main.algos_object_oriented_design', q_num=1)}}">Deck of Cards</a>
+<a href="{{url_for('main.algos_hard', q_num=3)}}">Random Set</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_object_oriented_design', q_num=1)}}">Deck of Cards</a>
+<a href="{{url_for('main.algos_hard', q_num=3)}}">Random Set</a>
+{%endblock%}
+
+{%block question_name%}
+    Shuffle
+{%endblock%}
+
+{%block question_explanation%}
+Write an algorithm to perfectly shuffle a deck of cards.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Shuffle</a></p>
+    <div class="container row">
+
+        <p id="row0"></p>
+        <p id="row1"></p>
+        <p id="row2"></p>
+        <p id="row3"></p>
+
+        <a onclick="showAnswer(1);" style="cursor:pointer;"><p><img src="{{url_for('static', filename='images/question.png')}}" class="question_img" style="width:50px;height:50px;">
+        <span style="color:rgb(255,56,0);">What about a shortcut method in Javascript?</span>
+    </p></a>
+
+    <div class="row answer-div" style="background-color:rgb(150,228,228);border-radius:35px;">
+    <p id="answer1" style="display:none;color:rgb(300,376,228);"><img style="width:48px; height:60px;" src="{{ url_for('static', filename='images/rabbit.png') }}">
+    In JS, we could simply call:
+        <br><span class="code">cardsArray.sort(() => Math.random() > 0.5 ? 1 : -1)</span>.</p>
+        </div>
+
+    <br>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to iterate through the whole deck. When at index <span class="code">i</span>,
+we assume the deck is shuffled until index <span class="code">i - 1</span>. By induction, we shuffle the entire deck.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Assuming that the deck is shuffled until <span class="code">i - 1</span>, we simply
+    insert the <span class="code">i-th</span> card at a random position in the already shuffled part.
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/0b9c22929213f9892f4cb5a99df010f5.js"></script>
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/d3cd25725abe4b82db3dfb31c5219d41.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'shuffle_17.2'
+      {%endblock%}
+
+    var Card = function(suit, number) {
+      this.suit = suit;
+      this.number = number;
+      this.value = `${this.number} ${this.suit}`;
+    };
+
+    var Deck = function() {
+      this.cards = [];
+
+      this.shuffle();
+      this.newDeck();
+    };
+
+    Deck.prototype.newDeck = function() {
+
+      this.cards = [];
+      var suits = ['\u2660', '\u2663', '\u2665', '\u2666'];
+      var numbers = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+      suits.forEach((suit) => {
+        numbers.forEach((number) => {
+          this.cards.push(new Card(suit, number));
+        });
+      });
+    };
+
+    Deck.prototype.shuffle = function(){
+
+        for (var i = 0; i < this.cards.length; i ++){
+
+            var rand = Math.floor(Math.random() * i);
+            var temp = this.cards[rand];
+            this.cards[rand] = this.cards[i];
+            this.cards[i] = temp;
+        }
+    }
+
+    var deck = new Deck();
+
+    var row0 = document.getElementById('row0');
+    var row1 = document.getElementById('row1');
+    var row2 = document.getElementById('row2');
+    var row3 = document.getElementById('row3');
+
+    function updateDisplay(){
+
+        for (var i = 0; i < deck.cards.length; i ++){
+
+            if (i < 0.25*deck.cards.length){
+                var row = row0;
+            }
+            else if (i < 0.5*deck.cards.length){
+                var row = row1;
+            }
+            else if (i < 0.75*deck.cards.length){
+                var row = row2;
+            }
+            else{
+                var row = row3;
+            }
+
+            var s = document.createElement('span');
+            if (i == deck.cards.length - 1){
+                s.innerHTML = deck.cards[i].value;
+            }
+            else{
+               s.innerHTML = deck.cards[i].value + ', ';
+            }
+
+            row.appendChild(s);
+
+
+        }
+    }
+
+    function refreshDemo(){
+
+        console.clear();
+
+        row0.innerHTML = '';
+        row1.innerHTML = '';
+        row2.innerHTML = '';
+        row3.innerHTML = '';
+
+        deck.shuffle();
+        updateDisplay();
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

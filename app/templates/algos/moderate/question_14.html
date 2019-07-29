@@ -1,0 +1,288 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Best Line
+{%endblock%}
+
+{%block question_explanation%}
+Given a set of points, find the line that crosses the most points.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <canvas id="canvas"></canvas>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'best_line_16.14'
+      {%endblock%}
+
+    var c = document.getElementById('canvas');
+    var ctx = c.getContext('2d');
+    var h = 300;
+    var w = 300;
+
+    c.width = w;
+    c.height = h;
+
+    c.style.border = 'solid 1px black';
+
+    function getBestLine(lines){
+
+        var max = -1, maxKey = [];
+
+        for (key in lines){
+            if (lines[key][0] > max){
+                max = lines[key][0];
+                maxKey = key;
+            }
+        }
+        return maxKey;
+    }
+
+    function linesHash(points){
+
+        var lines = {};
+        var visited = {};
+
+        for (var i = 0; i < points.length; i ++){
+
+            var x1 = points[i][0];
+            var y1 = points[i][1];
+
+            for(var j = 0; j < points.length; j++){
+
+                //the order of the pairs do not matter
+                if (i == j || visited[[j, i]] == 1){
+                    continue;
+                }
+
+
+                var x2 = points[j][0];
+                var y2 = points[j][1];
+
+                if (x1 == x2){
+
+                    if (lines[['vertical', x1]]){
+                        lines[['vertical', x1]][0] ++;
+                        lines[['vertical', x1]][1].push([x1, y1, x2, y2]);
+                    }
+                    else{
+                        lines[['vertical', x1]] = [1, [[x1, y1, x2, y2]]];
+                    }
+                }
+                else{
+
+                    var a = ((h - y1) - (h - y2))/ (x1 - x2);
+                    a = Number(a.toFixed(2));
+                    var b = parseInt((h - y1) - a * x1);
+
+
+                    if (lines[[a, b]]){
+                        lines[[a, b]][0] ++;
+                        lines[[a, b]][1].push([x1, y1, x2, y2]);
+                    }
+                    else{
+                        lines[[a, b]] = [1, [[x1, y1, x2, y2]]];
+                    }
+                }
+
+                visited[[i, j]] = 1;
+
+            }
+        }
+
+        return lines
+
+    }
+
+
+    function generatePoints(context){
+
+        var numPoints = 100;
+        var size = 3;
+
+        context.fillStyle = 'black';
+        var points = [];
+
+        for (var i = 0; i < numPoints; i ++){
+
+            var x1 = Math.floor(Math.random() * (w - 2 * size)) + size;
+            var y1 = Math.floor(Math.random() * (h - 2 * size)) + size;
+
+            points.push([x1, y1]);
+            context.fillRect(x1 - 1.5, y1 - 1.5, size, size);
+        }
+
+
+        return points;
+    }
+
+    function dist(x1, y1, x2, y2){
+
+        return Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+    }
+
+    function plotLine(line, context){
+
+        var d = -1;
+        var index = -1;
+
+        for (var i = 0; i < line.length; i ++){
+
+            var curDist = dist(line[i][0], line[i][1], line[i][2], line[i][3]);
+            if (curDist > d){
+                index = i;
+                d = curDist;
+            }
+        }
+
+        context.strokeStyle = 'black';
+        context.beginPath();
+        context.moveTo(line[index][0], line[index][1]);
+        context.lineTo(line[index][2], line[index][3]);
+        context.stroke();
+
+
+    }
+
+    function colorAlignedPoints(line, context){
+
+        context.fillStyle = 'red';
+        for (var i = 0; i < line.length; i ++){
+
+            context.fillRect(line[i][0] - 1.5, line[i][1] - 1.5, 3, 3);
+            context.fillRect(line[i][2] - 1.5, line[i][3] - 1.5, 3, 3);
+        }
+
+    }
+
+    function refreshDemo(){
+
+        console.clear();
+        ctx.clearRect(0, 0, w, h);
+        ctx.lineWidth = 1;
+
+        var points = generatePoints(ctx);
+
+        var lines = linesHash(points);
+
+
+        var bestKey = getBestLine(lines);
+
+        colorAlignedPoints(lines[bestKey][1], ctx);
+        plotLine(lines[bestKey][1], ctx);
+
+        console.log(bestKey);
+        console.log(lines[bestKey]);
+
+        var temp = bestKey.split(',');
+        var a = parseFloat(temp[0]);
+        var b = parseFloat(temp[1]);
+
+        for (key in lines){
+            var t = key.split(',');
+            var at = parseFloat(t[0]);
+            var bt = parseFloat(t[1]);
+
+            if (Math.abs(a - at) <= 0.1 && Math.abs(b - bt) <= 0.5){
+                console.log(key);
+                console.log(lines[key]);
+            }
+        }
+
+
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

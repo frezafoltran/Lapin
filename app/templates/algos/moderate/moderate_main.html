@@ -23,11 +23,13 @@
                            ['Diving Board', 'Find all possible lengths of a board built from smaller',
                                                                         'boards of two sizes.'],
                            ['XML Encoding (TODO)', 'Encode XML tags as integers.'],
-                           ['Bisect Rectangles (NE)', 'Find a line segment that bisects two rectangles.']
+                           ['Bisect Rectangles (NE)', 'Find a line segment that bisects two rectangles.'],
+                           ['Best Line (NE)', 'Find the line that intersects the most points.'],
+                           ['Master Mind (NE)', 'Design the guessing game Master Mind.']
 
         ]%}
 
-        {%for i in range(1, 14)%}
+        {%for i in range(1, 16)%}
        <h3><a href = "{{ url_for('main.algos_moderate', q_num = i) }}">
         {{questions[i - 1][0]}}</a></h3>
         <h4>
@@ -51,7 +53,7 @@
 
     var numQuestions = 26;
     var numCompleted = 9;
-    var numAppCompleted = 2;
+    var numAppCompleted = 4;
 
     //questions completed contribute with 1/numQuestions
     //questions with app completed contribute 1/(2*numQuestions)

@@ -302,3 +302,12 @@ def algos_moderate(q_num):
     else:
         return render_template('algos/moderate/question_' + str(q_num) + '.html')
 
+@bp.route('/algos/hard/<q_num>', methods=['GET', 'POST'])
+def algos_hard(q_num):
+
+    if q_num == '0':
+        return render_template('algos/hard/hard_main.html')
+
+    else:
+        return render_template('algos/hard/question_' + str(q_num) + '.html')
+
