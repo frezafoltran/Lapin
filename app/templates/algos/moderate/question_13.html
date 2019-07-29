@@ -161,10 +161,12 @@ Given two rectangles in a 2d plane, write an algorithm to find a line segment th
                     if (-i + (coord[2]) >= (j - coord[0]) * a  - height1){
                         context.fillRect(j, i, 1, 1);
                         context.fillRect(j, i, 1, 1);
+                        context.fillRect(j, i, 1, 1);
                     }
                 }
                 else{
                     if (-(i - (height2 + coord[2])) >= (j - coord[0]) * a){
+                        context.fillRect(j, i, 1, 1);
                         context.fillRect(j, i, 1, 1);
                         context.fillRect(j, i, 1, 1);
                     }
