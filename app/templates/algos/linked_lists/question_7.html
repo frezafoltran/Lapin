@@ -274,14 +274,13 @@
             }
           }
 
-
-        function randPlace(len, i){
-
-            var places = [['Wicker Park', 'Millennium Park', 'Loop', 'Spauldy'],
+        var places = [['Wicker Park', 'Millennium Park', 'Loop', 'Spauldy'],
                           ['Inteligentsia', 'Eataly', 'Umbria', 'Lake'],
                           ['Barney\'s', 'Trader Joe\'s', 'Whole Foods', 'Zoo'],
                           ['State St.', 'Michigan Av.', 'Wrap Lady', 'Cavern Club'],
                           ['Witte', 'Beach', 'Caraiva', 'Rio']];
+
+        function randPlace(len, i){
 
             return places[i].sort(() => Math.random() > 0.5 ? 1 : -1).slice(0, len);
         }
@@ -344,7 +343,22 @@
 
         }
 
+        var colors = {};
+        var r = 255, g = 255, b = 255;
+
+        for (var i = 0; i < places.length; i ++){
+
+            for (var j = 0; j < places[i].length; j ++){
+                colors[places[i][j]] = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                r -= 5;
+                g -= 5;
+                b -= 5;
+            }
+        }
+
         function placeSlot(val, arrow){
+
+
 
             var col = document.createElement('div');
             col.class = "col-sm-2";
@@ -352,7 +366,7 @@
             col.style.float = "none";
             col.style.display = "inline-block";
             col.style.padding = arrow ? '' : '10px';
-            col.style.backgroundColor = arrow ? '' : 'white';
+            col.style.backgroundColor = arrow ? '' : colors[val];
             col.innerHTML = val;
 
             return col;
