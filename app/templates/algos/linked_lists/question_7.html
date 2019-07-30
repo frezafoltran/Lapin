@@ -25,11 +25,11 @@
 {%endblock%}
 
 {%block sim_questions%}
-<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+
 {%endblock%}
 
 {%block sim_questions_side%}
-<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+
 {%endblock%}
 
 {%block question_name%}
@@ -429,12 +429,6 @@
             rowDiv.class = "row";
             rowDiv.style.textAlign = "right";
 
-            var driverCol = placeSlot('Driver ' + i, true);
-            driverCol.style.color = 'orange';
-            driverCol.style.float = 'left';
-            driverCol.style.fontSize = '20px';
-            rowDiv.appendChild(driverCol);
-
             for (var j = 0; j < group.length; j ++){
 
                 if (j > 0){
@@ -493,6 +487,17 @@
             var resultsDiv = document.getElementById('results');
 
             for (var i = 0; i < groups.length; i ++){
+
+                var driverCol = document.createElement('div');
+                driverCol.innerHTML = 'Driver ' + i;
+                driverCol.style.color = 'orange';
+                driverCol.style.float = 'left';
+                driverCol.style.fontSize = '20px';
+                driverCol.style.textAlign = 'left';
+
+                resultsDiv.appendChild(driverCol);
+                resultsDiv.appendChild(document.createElement('br'));
+                resultsDiv.appendChild(document.createElement('br'));
 
                 var newRow = combinePaths(groups[i], i);
                 resultsDiv.appendChild(newRow);

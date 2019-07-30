@@ -1,27 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/hard/question_5.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/hard/question_6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/bit_manipulation/bit_manipulation_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/hard/hard_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/hard/hard_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/hard/question_4.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/hard/question_4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/linked_lists_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_5.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_6.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_7.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/linked_lists/question_7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/math/math_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/math/math_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/moderate/moderate_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/object_oriented_design/object_oriented_design_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/stacks_and_queues_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/stacks_and_queues/stacks_and_queues_main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/topic_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/topic_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/trees_and_graphs_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/trees_and_graphs/trees_and_graphs_main.html" afterDir="false" />
-    </list>
+    <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +22,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_7.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="380" column="30" selection-start-line="380" selection-start-column="30" selection-end-line="380" selection-end-column="30" />
+            <state relative-caret-position="331">
+              <caret line="496" column="26" selection-start-line="496" selection-start-column="26" selection-end-line="496" selection-end-column="26" />
               <folding>
                 <element signature="e#1787#1813#0" expanded="true" />
                 <element signature="e#1969#2007#0" expanded="true" />
@@ -77,7 +57,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>preOrder</find>
       <find>isS</find>
       <find>is</find>
       <find>findPa</find>
@@ -107,6 +86,7 @@
       <find>%</find>
       <find>kth-node</find>
       <find>u</find>
+      <find>driv</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -775,8 +755,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/algos/linked_lists/question_7.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="380" column="30" selection-start-line="380" selection-start-column="30" selection-end-line="380" selection-end-column="30" />
+        <state relative-caret-position="331">
+          <caret line="496" column="26" selection-start-line="496" selection-start-column="26" selection-end-line="496" selection-end-column="26" />
           <folding>
             <element signature="e#1787#1813#0" expanded="true" />
             <element signature="e#1969#2007#0" expanded="true" />
