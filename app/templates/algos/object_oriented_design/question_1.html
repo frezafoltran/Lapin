@@ -94,7 +94,11 @@
       'deck_of_cards_7.1'
       {%endblock%}
 
-
+var Card = function(suit, number) {
+      this.suit = suit;
+      this.number = number;
+      this.value = `${this.number} ${this.suit}`;
+    };
 
 var Deck = function() {
   this.cards = [];
