@@ -1,0 +1,535 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+.place{
+
+    background-color:white;
+    padding:20px;
+
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block back_to_top%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block sim_questions%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+{%endblock%}
+
+{%block question_name%}
+    Intersection
+{%endblock%}
+
+{%block question_explanation%}
+    Given two linked lists, find out if the two lists have an intersecting node (by reference).
+    If so, return the intersecting node.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Imagine the stops an Uber driver needs to make are represented by nodes in a linked list. Two stops
+    are in the same location if the respective nodes are the same by reference (not by value).
+    <br><br>
+    Now assume you have a set of routes (i.e. a set of linked lists). The algorithm in this
+        question allows you to figure out the best way to distribute routes among drivers. That is, you should try
+        to give routes that have stops in common to the same driver.</p>
+
+
+    <button onclick="refreshDemo();">Refresh</button>
+    <br><br>
+
+    <div class="container">
+        {%for i in range(1, 6)%}
+        <div id="l{{i}}" class="row" style="text-align:right;">
+        </div>
+        <hr>
+        {%endfor%}
+    </div>
+
+<p>Results: </p>
+    <div id="results" class="container">
+
+        <div id="r{{i}}" class="row" style="text-align:center;">
+        </div>
+        <hr>
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 4</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'intersection_2.7'
+      {%endblock%}
+
+          class Node {
+            constructor(value){
+              this.value = value;
+              this.next = null;
+            }
+          }
+
+          class LinkedList {
+
+            constructor(){
+              this.head = null;
+              this.size = 0;
+            }
+
+            add (value){
+              //Adds node at end of list
+
+              var node = new Node(value);
+              var curr;
+
+              if (this.head == null){
+                this.head = node;
+              }
+              else{
+                curr = this.head;
+
+                while (curr.next){
+                  curr = curr.next;
+                }
+
+                curr.next = node;
+              }
+              this.size ++;
+            }
+
+            insertAt (value, index){
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var toAdd = new Node(value);
+
+              if (index == 0){
+                toAdd.next = this.head;
+                this.head = toAdd;
+              }
+              else{
+                var curr = this.head;
+                var prev;
+
+                for (var i = 0; i < index; i ++){
+
+                  prev = curr;
+                  curr = curr.next;
+                }
+                toAdd.next = curr;
+                prev.next = toAdd;
+              }
+              this.size ++;
+            }
+
+            remove (index){
+
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var curr = this.head;
+
+              if (index == 0){
+                this.head = this.head.next;
+              }
+              else{
+
+                var prev = null;
+
+                for (var i = 0; i < this.size; i ++){
+                  prev = curr;
+                  curr = curr.next;
+                }
+                prev.next = curr.next;
+              }
+              this.size --;
+
+              return curr.value;
+            }
+
+            len(){
+
+                var cur = this.head;
+                var listLen = 0;
+
+                while(cur){
+                    cur = cur.next;
+                    listLen ++;
+                }
+                return listLen;
+
+            }
+
+          }
+ //================================= APPLICATION
+
+          function findIntersect(h1, h2){
+
+            //find lengths and tails
+            var t1 = h1, t2 = h2;
+            var len1 = 1, len2 = 1;
+
+            while(t1.next){
+              len1 ++;
+              t1 = t1.next;
+            }
+
+            while(t2.next){
+              len2 ++;
+              t2 = t2.next;
+            }
+
+            if (t1 != t2){
+              return false;
+            }
+
+            var curr1 = h1, curr2 = h2;
+            // eliminate headstart
+            while (len1 > len2){
+              curr1 = curr1.next;
+              len1 --;
+            }
+            while (len2 > len1){
+              curr2 = curr2.next;
+              len2 --;
+            }
+
+            while (curr1){
+              if (curr1 == curr2){
+                return curr1;
+              }
+              curr1 = curr1.next;
+              curr2 = curr2.next;
+            }
+          }
+
+
+        function randPlace(len, i){
+
+            var places = [['Wicker Park', 'Millennium Park', 'Loop', 'Spauldy'],
+                          ['Inteligentsia', 'Eataly', 'Umbria', 'Lake'],
+                          ['Barney\'s', 'Trader Joe\'s', 'Whole Foods', 'Zoo'],
+                          ['State St.', 'Michigan Av.', 'Wrap Lady', 'Cavern Club'],
+                          ['Witte', 'Beach', 'Caraiva', 'Rio']];
+
+            return places[i].sort(() => Math.random() > 0.5 ? 1 : -1).slice(0, len);
+        }
+
+        function initLists(lists){
+
+            var len = Math.floor(Math.random() * (5 - 3)) + 3;
+
+            for (var i = 0; i < lists.length; i ++){
+
+                var intersects = (i == 0) ? false : Math.random() >= 0.4;
+
+                if (!intersects){
+
+                    var len = Math.floor(Math.random() * (5 - 3)) + 3;
+                    var places = randPlace(len, i);
+
+                    for (var j = 0; j < len; j ++){
+                        lists[i].add(places[j]);
+                    }
+                    continue;
+                }
+
+                console.log('intersect: ', i);
+
+                var toMatchLen = lists[i - 1].len();
+                var intersectAt = Math.floor(Math.random() * ((toMatchLen - 1) - 1)) + 1;
+                var curOld = lists[i - 1].head;
+                var curNew;
+
+                //move pointer till intersection place
+                for (var j = 0; j < intersectAt; j ++){
+                    curOld = curOld.next;
+                }
+
+                var headLen = Math.floor(Math.random() * (3 - 1)) + 1;
+                var places = randPlace(headLen, i);
+
+                for (var j = 0; j < headLen; j ++){
+
+                    lists[i].add(places[j]);
+                    curNew = (j == 0) ? lists[i].head : curNew.next;
+                }
+
+                while(curOld){
+                    curNew.next = curOld;
+                    curOld = curOld.next;
+                    curNew = curNew.next;
+                }
+
+            }
+            for (var i = 0; i < lists.length; i ++){
+                var cur = lists[i].head;
+                while(cur){
+                    console.log(cur.value);
+                    cur = cur.next;
+                }
+                console.log('---');
+            }
+
+        }
+
+        function placeSlot(val, arrow){
+
+            var col = document.createElement('div');
+            col.class = "col-sm-2";
+            col.style.textAlign = "center";
+            col.style.float = "none";
+            col.style.display = "inline-block";
+            col.style.padding = '10px';
+            col.style.backgroundColor = arrow ? '' : 'white';
+            col.innerHTML = val;
+
+            return col;
+        }
+
+        function displayLists(lists){
+
+
+            for (var i = 0; i < lists.length; i++){
+
+                var rowDiv = document.getElementById('l' + (i + 1));
+                var pathName = placeSlot('Path ' + i, true);
+                pathName.style.color = 'green';
+                pathName.style.float = 'left';
+                pathName.style.fontSize = '20px';
+                rowDiv.appendChild(pathName);
+
+                var cur = lists[i].head;
+                while(cur){
+
+                    var col = placeSlot(cur.value, false);
+
+                    rowDiv.appendChild(col);
+
+                    if (cur.next){
+                        var temp = placeSlot(' \u2192 ', true);
+                        rowDiv.appendChild(temp)
+                    }
+
+                    cur = cur.next;
+                }
+            }
+        }
+
+        function alreadyAcc(list, groups){
+
+            for (var i = 0; i < groups.length; i ++){
+
+                for (var j = 0; j < groups[i].length; j ++){
+                    if (list.head == groups[i][j].head){
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        function findIntersections(lists){
+
+            var groups = [];
+            var groupNum = -1;
+
+            for (var i = 0; i < lists.length; i ++){
+
+                if (alreadyAcc(lists[i], groups)){
+                    continue;
+                }
+                groups.push([lists[i]]);
+                groupNum ++;
+
+                for (var j = 0; j < lists.length; j ++){
+                    if (i != j && findIntersect(lists[i].head, lists[j].head)){
+                        groups[groupNum].push(lists[j]);
+                    }
+                }
+            }
+            return groups;
+        }
+
+        function combinePaths(group, i){
+
+            var rowDiv = document.createElement('div');
+            rowDiv.id = 'r' + (i + 1);
+            rowDiv.class = "row";
+            rowDiv.style.textAlign = "right";
+
+            var driverCol = placeSlot('Driver ' + i, true);
+            driverCol.style.color = 'orange';
+            driverCol.style.float = 'left';
+            driverCol.style.fontSize = '20px';
+            rowDiv.appendChild(driverCol);
+
+            for (var j = 0; j < group.length; j ++){
+
+                if (j > 0){
+                    var interNode = findIntersect(group[j - 1].head, group[j].head);
+                }
+                else{
+                    var interNode = null;
+                }
+
+                var cur = group[j].head;
+                while(cur != interNode){
+
+                    var col = placeSlot(cur.value, false);
+                    rowDiv.appendChild(col);
+
+                    if (cur.next){
+
+                        if (cur.next == interNode){
+                            var temp = placeSlot(' \u2197 ', true);
+                        }
+                        else{
+                            var temp = placeSlot(' \u2192 ', true);
+                        }
+                        rowDiv.appendChild(temp);
+                    }
+
+                    cur = cur.next;
+                }
+
+                while (cur){
+                    var placeHolder = placeSlot(cur.value, false);
+                    placeHolder.style.backgroundColor = 'rgb(228,376,228)';
+                    placeHolder.style.color = 'rgb(228,376,228)';
+                    rowDiv.appendChild(placeHolder);
+
+                    if (cur.next){
+                        var temp = placeSlot(' \u2192 ', true);
+                        temp.style.backgroundColor = 'rgb(228,376,228)';
+                        temp.style.color = 'rgb(228,376,228)';
+                        rowDiv.appendChild(temp);
+                    }
+
+                    cur = cur.next;
+                }
+
+                rowDiv.appendChild(document.createElement('br'));
+
+            }
+
+            return rowDiv;
+
+        }
+
+        function displaySimplifiedLists(groups){
+
+            var resultsDiv = document.getElementById('results');
+
+            for (var i = 0; i < groups.length; i ++){
+
+                var newRow = combinePaths(groups[i], i);
+                resultsDiv.appendChild(newRow);
+                resultsDiv.appendChild(document.createElement('hr'));
+
+            }
+
+        }
+
+        function refreshDemo(){
+
+            var lists = [];
+            var num = 5;
+
+            document.getElementById('results').innerHTML = '';
+            console.clear();
+
+            for (var i = 0; i < num; i ++){
+                lists.push( new LinkedList() );
+                document.getElementById('l' + (i + 1)).innerHTML = '';
+            }
+
+            initLists(lists);
+            displayLists(lists);
+
+            var groups = findIntersections(lists);
+
+            console.log(groups);
+
+            displaySimplifiedLists(groups);
+
+
+        }
+
+        refreshDemo();
+
+    </script>
+
+
+{%endblock%}

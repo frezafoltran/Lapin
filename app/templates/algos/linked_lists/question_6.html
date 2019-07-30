@@ -1,0 +1,339 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+.{
+
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block back_to_top%}
+<a href="{{url_for('main.algos_linked_lists', q_num=0)}}" >
+    Back to Linked Lists</a>
+{%endblock%}
+
+{%block sim_questions%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=4)}}">Palindrome Permutation</a>
+{%endblock%}
+
+{%block question_name%}
+    Palindrome
+{%endblock%}
+
+{%block question_explanation%}
+    Given a linked list, check if the list is a palindrome or not.
+{%endblock%}
+
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+    <p>Imagine you are about to meet some Beatles impersonators. There are many impersonators for John, Paul, Ringo and
+        George in line in a street. You need to check if no matter which way you enter the street you
+    will meet the impersonator for each artist in the same order.</p>
+
+    <p> The algorithm below allows you to achieve this goal. </p>
+
+    <button onclick="refreshDemo();">Get Another Array</button>
+    <br><br>
+    <div class="row">
+        {%for i in range(1, 8)%}
+        <img id="img{{i}}" src="" style="width:80px;height:100px;display:none;">
+        {%if i != 7%}
+        <span class="arrow"></span>
+        {%endif%}
+        {%endfor%}
+
+    </div>
+    <p>The linked list <span id="result" style="font-weight:bold"></span> a palindrome</p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to first iterate until half of list, by recursive calls. Then compare
+  the current head with the node returned by previous recursive call in stack.
+  The previous call in stack returns the "next node".</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> To make the code clear and in order to pass both the
+    <span class="code">boolean</span> output and the current node through the recursive calls, we
+will store our output as:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/4a6299edc470a9ad2633b4e1715d97bb.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> The first thing we will do is move a pointer to the middle of the list
+by recursively calling the method with <span class="code">len - 2</span> as input:</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e03f43518fa6d2d00270042985753eb1.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 3</span> If we find that the list is not a palindrome or we reach its end,
+ we pass down our result through the recursive stack.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/963d00b912b88643687dfea599c56fd3.js"></script>
+        </div>
+    </section>
+
+<p><span class="step">Step 4</span> Else, we update the result accordingly (i.e. update it to false if the
+    list is not symmetric, else true). We then increment the current node and return the result.</p>
+    <section>
+        <div class="code-lines">
+            <script src="https://gist.github.com/frezafoltran/e7f8f2faeb4394b59aef6cf474a1b3ab.js"></script>
+        </div>
+    </section>
+{%endblock%}
+
+{%block code_complexity%}
+
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/177067c8bc596ee33d6405e85aeb8fd9.js"></script>
+{%endblock%}
+
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+      //to be used in dynamodb
+      {%block q_name%}
+      'palindrome_2.6'
+      {%endblock%}
+
+          class Node {
+            constructor(value){
+              this.value = value;
+              this.next = null;
+            }
+          }
+
+          class LinkedList {
+
+            constructor(){
+              this.head = null;
+              this.size = 0;
+            }
+
+            add (value){
+              //Adds node at end of list
+
+              var node = new Node(value);
+              var curr;
+
+              if (this.head == null){
+                this.head = node;
+              }
+              else{
+                curr = this.head;
+
+                while (curr.next){
+                  curr = curr.next;
+                }
+
+                curr.next = node;
+              }
+              this.size ++;
+            }
+
+            insertAt (value, index){
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var toAdd = new Node(value);
+
+              if (index == 0){
+                toAdd.next = this.head;
+                this.head = toAdd;
+              }
+              else{
+                var curr = this.head;
+                var prev;
+
+                for (var i = 0; i < index; i ++){
+
+                  prev = curr;
+                  curr = curr.next;
+                }
+                toAdd.next = curr;
+                prev.next = toAdd;
+              }
+              this.size ++;
+            }
+
+            remove (index){
+
+              if (index < 0 || index > this.size){
+                return false;
+              }
+
+              var curr = this.head;
+
+              if (index == 0){
+                this.head = this.head.next;
+              }
+              else{
+
+                var prev = null;
+
+                for (var i = 0; i < this.size; i ++){
+                  prev = curr;
+                  curr = curr.next;
+                }
+                prev.next = curr.next;
+              }
+              this.size --;
+
+              return curr.value;
+            }
+
+          }
+ //================================= APPLICATION
+
+      function listLen(head){
+
+        var len = 0;
+        while(head){
+          len ++;
+          head = head.next;
+        }
+        return len;
+      }
+
+      class Result{
+        constructor(head, flag){
+          this.node = head;
+          this.result = flag;
+        }
+      }
+
+      function isPalindromeHelper(head, len){
+
+        // length is even
+        if (!head || len <= 0){
+          return new Result (head, true);
+        }
+        // length is odd
+        else if (len == 1){
+          return new Result (head.next, true);
+        }
+
+        var res = isPalindromeHelper(head.next, len - 2);
+
+        if (!res.result || !res.node){
+          return res;
+        }
+
+        res.result = (head.value == res.node.value);
+
+        res.node = res.node.next;
+
+        return res;
+
+
+      }
+
+      function isPalindrome(head){
+        var len = listLen(head);
+        return isPalindromeHelper(head, len);
+      }
+
+        var imgs = ['{{url_for('static', filename='images/johnny.png')}}',
+                    '{{url_for('static', filename='images/paul.png')}}',
+                    '{{url_for('static', filename='images/george.png')}}',
+                    '{{url_for('static', filename='images/ringo.png')}}'];
+
+        var len = 7;
+
+        var list = new LinkedList();
+
+        function refreshDemo(){
+
+           list = new LinkedList();
+
+           if (Math.random() >= 0.5){
+                   for (var i = 1; i < len + 1; i ++){
+                       var img = document.getElementById('img' + i.toString());
+
+                       img.style.display = 'inline';
+                       var rand = Math.floor(Math.random() * 4);
+                       img.src = imgs[rand];
+                       list.add(rand);
+                   }
+           }
+           else{
+                   var temp = [-1, -1, -1, -1, -1, -1, -1];
+                   for (var i = 1; i <= (len + 1)/2; i ++){
+
+                        var rand = Math.floor(Math.random() * 4);
+
+                        var img = document.getElementById('img' + i.toString());
+                        img.style.display = 'inline';
+                        img.src = imgs[rand];
+                        temp[i-1] = rand;
+
+                        if (i != (len + 1)/2){
+                           img = document.getElementById('img' + (7 - i + 1).toString());
+                           img.style.display = 'inline';
+                           img.src = imgs[rand];
+                           temp[7-i] = rand;
+                        }
+                   }
+                   for (var i = 0; i < temp.length; i ++){
+                        list.add(temp[i]);
+                   }
+           }
+
+
+           if (isPalindrome(list.head).result){
+                document.getElementById('result').innerHTML = 'is';
+                document.getElementById('result').style.color = 'green';
+           }
+           else{
+               document.getElementById('result').innerHTML = 'is not';
+               document.getElementById('result').style.color = 'red';
+           }
+
+        }
+
+        var arrows = document.getElementsByClassName('arrow');
+        for (var i = 0 ; i < arrows.length; i ++){
+            arrows[i].innerHTML = ' \u2192 ';
+        }
+
+        refreshDemo();
+
+    </script>
+
+
+{%endblock%}

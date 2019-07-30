@@ -1,0 +1,127 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_hard', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Hard</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_hard', q_num=0)}}" >Back to Hard</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Letters and Numbers
+{%endblock%}
+
+{%block question_explanation%}
+    Given an array containing letters and numbers, find the longest sub-array
+containing an equal amount of letters and numbers.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Shuffle</a></p>
+    <div class="container row">
+
+
+
+
+    </div>
+
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+<p><span class="step">Step 2</span>
+</p>
+
+
+<p><span class="step">Step 3</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'letters_and_numbers_17.5'
+      {%endblock%}
+
+
+
+    function refreshDemo(){
+
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

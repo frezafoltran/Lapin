@@ -8,6 +8,14 @@
     Back to Arrays and Strings</a>
 {%endblock%}
 
+{%block sim_questions%}
+<a href="{{url_for('main.algos_linked_lists', q_num=6)}}">Palindrome</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+<a href="{{url_for('main.algos_linked_lists', q_num=6)}}">Palindrome</a>
+{%endblock%}
+
 {%block back_to_top%}
     <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
 {%endblock%}
@@ -39,24 +47,17 @@
     <button onclick="getRandArray();">Get Another Array</button>
     <br><br>
     <div class="row">
-        <img id="img1" src="" style="width:80px;height:80px;display:none;">
-        <img id="img2" src="" style="width:80px;height:80px;display:none;">
-        <img id="img3" src="" style="width:80px;height:80px;display:none;">
-        <img id="img4" src="" style="width:80px;height:80px;display:none;">
-        <img id="img5" src="" style="width:80px;height:80px;display:none;">
-        <img id="img6" src="" style="width:80px;height:80px;display:none;">
-        <img id="img7" src="" style="width:80px;height:80px;display:none;">
+        {%for i in range(1, 8)%}
+        <img id="img{{i}}" src="" style="width:80px;height:100px;display:none;">
+        {%endfor%}
     </div>
 
     <h3 id="result"></h3>
     <div class="row" id="result_imgs">
-        <img id="res1" src="" style="width:80px;height:80px;display:none;">
-        <img id="res2" src="" style="width:80px;height:80px;display:none;">
-        <img id="res3" src="" style="width:80px;height:80px;display:none;">
-        <img id="res4" src="" style="width:80px;height:80px;display:none;">
-        <img id="res5" src="" style="width:80px;height:80px;display:none;">
-        <img id="res6" src="" style="width:80px;height:80px;display:none;">
-        <img id="res7" src="" style="width:80px;height:80px;display:none;">
+        {%for i in range(1, 8)%}
+        <img id="res{{i}}" src="" style="width:80px;height:100px;display:none;">
+        {%endfor%}
+
     </div>
 
 {%endblock%}

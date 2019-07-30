@@ -57,6 +57,14 @@
 
             }
 
+            .question:hover{
+            -webkit-transform: scale(1.05);
+             color:rgb(255, 165, 0);
+            }
+
+            {%block style%}
+            {%endblock%}
+
 
         </style>
     </head>
@@ -86,7 +94,12 @@
         <div class="right-col">
 
             <div  class="sidenav">
-              <h4 style="cursor:context-menu">What</h4>
+              <h4 style="cursor:context-menu">Top rated questions</h4>
+                <h4 style="cursor:context-menu">in this topic</h4>
+                <div id="popular_questions">
+
+
+                        </div>
 
                 <hr class="side-hr">
                 <h4 style="cursor:context-menu">Now</h4>
@@ -113,6 +126,151 @@
     {{moment.include_moment()}}
     {{moment.lang(g.locale)}}
     <script>
+
+    var chapterNum = {%block chapter_num%}{%endblock%};
+
+    function buildStars(w){
+
+        var mainDiv = document.createElement('div');
+        mainDiv.style.unicodeBidi = "bidi-override";
+        mainDiv.style.color =  "#c5c5c5";
+        mainDiv.style.fontSize = "18px";
+        mainDiv.style.height = "18px";
+        mainDiv.style.width = "70px";
+        mainDiv.style.margin = "0 auto";
+        mainDiv.style.position = "relative";
+        mainDiv.style.padding = "0";
+        mainDiv.style.textShadow = "0px 1px 0 #a2a2a2";
+
+        var firstRow = document.createElement('div');
+        firstRow.style.color = "#e7711b";
+        firstRow.style.padding = "0";
+        firstRow.style.position = "absolute";
+        firstRow.style.zIndex = "1";
+        firstRow.style.display = "block";
+        firstRow.style.top = "0";
+        firstRow.style.left = "0";
+        firstRow.style.overflow = "hidden";
+        firstRow.style.width = ((w / 5) * 103) + '%';
+
+        var secRow = document.createElement('div');
+        secRow.style.padding = "0";
+        secRow.style.display = "block";
+        secRow.style.zIndex = "0";
+
+        for (var i = 0; i < 5; i ++){
+
+            var star1 = document.createElement('span');
+            star1.innerHTML = "★";
+            var star2 = document.createElement('span');
+            star2.innerHTML = "★";
+
+            firstRow.appendChild(star1);
+            secRow.appendChild(star2);
+        }
+
+        mainDiv.appendChild(firstRow);
+        mainDiv.appendChild(secRow);
+
+        return mainDiv;
+    }
+
+
+    function decodeURL(encoded){
+
+        var parts = encoded.split('.');
+        if (parts[0] == 1){
+            var temp = "{{url_for('main.algos_arrays_and_strings', q_num=-1)}}";
+        }
+        else if (parts[0] == 2){
+            var temp = "{{url_for('main.algos_linked_lists', q_num=-1)}}";
+        }
+        else if (parts[0] == 3){
+            var temp = "{{url_for('main.algos_stacks_and_queues', q_num=-1)}}";
+        }
+        else if (parts[0] == 4){
+            var temp = "{{url_for('main.algos_trees_and_graphs', q_num=-1)}}";
+        }
+        else if (parts[0] == 5){
+            var temp = "{{url_for('main.algos_bit_manipulation', q_num=-1)}}";
+        }
+        else if (parts[0] == 6){
+            var temp = "{{url_for('main.algos_math', q_num=-1)}}";
+        }
+        else if (parts[0] == 7){
+            var temp = "{{url_for('main.algos_object_oriented_design', q_num=-1)}}";
+        }
+        else if (parts[0] == 16){
+            var temp = "{{url_for('main.algos_moderate', q_num=-1)}}";
+        }
+        else if (parts[0] == 17){
+            var temp = "{{url_for('main.algos_hard', q_num=-1)}}";
+        }
+
+        return temp.replace("-1", parts[1].toString());
+    }
+
+    function decodeQuestionDynamo(entry){
+
+        var parts = entry.split('_');
+        var qURL = decodeURL(parts[parts.length - 1]);
+
+        var qName = '';
+        for (var i = 0; i < parts.length - 1; i ++){
+            qName += parts[i].charAt(0).toUpperCase() + parts[i].slice(1);
+            qName += ' ';
+        }
+
+        return [qName, qURL];
+    }
+
+    //checks which chapter dynamodb question is from
+    function questionChapter(entry){
+
+        var parts = entry.split('_');
+        var temp = parts[parts.length - 1].split('.');
+        return temp[0];
+
+    }
+
+
+    var popDiv = document.getElementById('popular_questions');
+
+    //get top rated questions
+    var num_questions = 3;
+    fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/best_ranked')
+          .then(function(response) {
+
+            return response.json();
+          })
+          .then(function(json) {
+
+            if (json.length >= num_questions){
+
+                var k = 0, i = 0;
+                while(k < num_questions){
+
+                    if (questionChapter(json[i]['id']) != chapterNum){
+                        i++;
+                        continue;
+                    }
+
+                    var item = decodeQuestionDynamo(json[i]['id']);
+                    var qItem = document.createElement('a');
+
+                    qItem.href = item[1];
+                    qItem.innerHTML = item[0];
+                    qItem.style.cursor = "pointer";
+                    popDiv.appendChild(buildStars(json[i]['cur_rank']));
+                    popDiv.appendChild(qItem);
+
+                    i++;
+                    k++;
+
+                }
+            }
+
+          });
 
 
 

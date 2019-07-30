@@ -57,6 +57,10 @@
               .main-col {width:60%}
             }
 
+            .topic:hover{
+                -webkit-transform: scale(1.1);
+                }
+
 
         </style>
 
@@ -81,34 +85,63 @@
 
                 <h2>Topics<br></h2>
 
-                <h4><a href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}"> Arrays and Strings<img
-                        style="width:110px; height:50px;" src="{{ url_for('static', filename='images/array.png') }}">
-                </a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}"> Arrays and Strings<img
+                            style="width:110px; height:50px;" src="{{ url_for('static', filename='images/array.png') }}">
+                    </a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_linked_lists', q_num=0) }}"> LinkedLists<img
-                        style="margin:10px;width:120px; height:50px;" src="{{ url_for('static', filename='images/linked_list.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_linked_lists', q_num=0) }}"> LinkedLists<img
+                            style="margin:10px;width:120px; height:50px;"
+                            src="{{ url_for('static', filename='images/linked_list.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}"> Stacks and Queues<img
-                        style="width:50px; height:100px;" src="{{ url_for('static', filename='images/stack.png') }}">
-                </a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}"> Stacks and Queues<img
+                            style="width:50px; height:100px;" src="{{ url_for('static', filename='images/stack.png') }}">
+                    </a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}"> Trees and Graphs<img
-                        style="width:120px; height:100px;" src="{{ url_for('static', filename='images/binary_tree.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}"> Trees and Graphs<img
+                            style="width:120px; height:100px;" src="{{ url_for('static', filename='images/binary_tree.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}"> Bit Manipulation<img
-                        style="margin:10px;width:80px; height:80px;" src="{{ url_for('static', filename='images/bits.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}"> Bit Manipulation<img
+                            style="margin:10px;width:80px; height:80px;"
+                            src="{{ url_for('static', filename='images/bits.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_math', q_num=0) }}"> Math<img
-                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_math', q_num=0) }}"> Math<img
+                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}"> Object Oriented Design<img
-                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}"> Object Oriented Design<img
+                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_moderate', q_num=0) }}"> Moderate<img
-                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_moderate', q_num=0) }}"> Moderate<img
+                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
+                    </h4>
+                </div>
 
-                <h4><a href = "{{ url_for('main.algos_hard', q_num=0) }}"> Hard<img
-                        style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a></h4>
+                <div class="topic">
+                    <h4><a href = "{{ url_for('main.algos_hard', q_num=0) }}"> Hard<img
+                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
+                    </h4>
+                </div>
 
             </div>
 
@@ -146,7 +179,7 @@
     <script>
 
     var progressBar = document.getElementById('progress_bar');
-    var currProgress = (88 + 62 + 58 + 38 + 100 + 30 + 16 + 42 + 11) / 9;
+    var currProgress = (88 + 62 + 58 + 38 + 100 + 30 + 16 + 42 + 17) / 9;
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
@@ -178,6 +211,9 @@
         }
         else if (parts[0] == 16){
             var temp = "{{url_for('main.algos_moderate', q_num=-1)}}";
+        }
+        else if (parts[0] == 17){
+            var temp = "{{url_for('main.algos_hard', q_num=-1)}}";
         }
 
         return temp.replace("-1", parts[1].toString());

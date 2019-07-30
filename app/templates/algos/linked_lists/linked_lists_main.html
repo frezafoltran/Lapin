@@ -1,4 +1,3 @@
-
 {%extends "algos/topic_base.html"%}
 {%import 'bootstrap/wtf.html' as wtf%}
 
@@ -6,37 +5,29 @@
 {%block topic_name%}linked lists{%endblock%}
 
 {%block question_list%}
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 1) }}">
-        Remove Duplicates</a></h3>
-        <h4>Remove duplicate values from linkedList</h4>
 
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 2) }}">
-        k-th to last element</a></h3>
-        <h4>Return the k-th to last element in linkedList</h4>
+        {%set questions = [['Remove Duplicates', 'Remove duplicate values from linked list.'],
+                          ['k-th to last element', 'Return the k-th to last element in linkedList.'],
+                          ['Delete middle node', 'Remove a middle node from linked list.'],
+                          ['Partition Linked List', 'Partition linked list around a given value.'],
+                          ['Sum Lists', 'Sum two numbers. Each represented by a linked list.'],
+                          ['Palindrome', 'Check if a linked list is a palindrome.'],
+                          ['Intersection', 'Find the intersecting node (if any) between two linked lists.'],
+                          ['TODO', 'TODO']
+               ]%}
 
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 3) }}">
-        Delete middle node</a></h3>
-        <h4>Remove a middle node from linkedList</h4>
-
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 4) }}">
-        Partition Linked List</a></h3>
-        <h4>Partition linked list around a given value</h4>
-
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 5) }}">
-        Sum Lists</a></h3>
-        <h4>Sum two numbers. Each represented by a linked list.</h4>
-
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 0) }}">
-        TODO</a></h3>
-        <h4>---</h4>
-
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 0) }}">
-        TODO</a></h3>
-        <h4>---</h4>
-
-        <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = 0) }}">
-        TODO</a></h3>
-        <h4>---</h4>
+        {%for i in range(1, 9)%}
+       <div class="question">
+         <h3><a href = "{{ url_for('main.algos_linked_lists', q_num = i) }}">
+          {{questions[i - 1][0]}}</a></h3>
+          <h4>
+              {%for j in questions[i - 1][1:]%}
+              {{j}}
+              <br>
+              {%endfor%}
+          </h4>
+        </div>
+        {%endfor%}
 
 
 {%endblock%}
@@ -61,6 +52,9 @@
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
 
+    {%block chapter_num%}
+    2
+    {%endblock%}
 
 
 </script>

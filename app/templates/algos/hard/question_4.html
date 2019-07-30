@@ -54,6 +54,7 @@ Find the missing integer in O(n) time.
     <div class="container row">
 
         <p id="array"></p>
+        <p>The missing number is <span id="result" style="color:red"></span></p>
 
 
     </div>
@@ -63,17 +64,36 @@ Find the missing integer in O(n) time.
 {%endblock%}
 
 {%block code_intuition%}
-<p>We can simply use the idea in <a href="{{url_for('main.algos_hard', q_num=2)}}">this</a> question.</p>
+<p>The idea is to construct the missing number bit by bit by analysing each bit of the numbers present in the array.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span> We can apply the same reasoning as in
-    <a href="{{url_for('main.algos_hard', q_num=2)}}">this</a> question. Alternatively,
-    we can simply shuffle the entire array and return <span class="code">m</span> elements of it.
+<p><span class="step">Step 1</span> We solve this problem recursively.
+    Starting from the least significant bit (column 0) of the current input, we will separate the input into two arrays.
+    One has the numbers ending in one and the other the numbers ending in zero.
 </p>
 <section>
     <div class="code-lines">
-        <script src="https://gist.github.com/frezafoltran/5b0dbf3746686706a78f3f96576b3315.js"></script>
+        <script src="https://gist.github.com/frezafoltran/e270932ad8928e9c618b85ef38838488.js"></script>
+    </div>
+</section>
+
+<p><span class="step">Step 2</span> Now notice that if we have the binary numbers from 0 to
+    <span class="code">n</span> (including <span class="code">n</span>), the sum
+    of the zeros in the least significant bit (LSB) equals the sum of ones in the LSB if
+    <span class="code">n</span> is odd. If <span class="code">n</span> is even, the sum
+    of the zeros in the LSB equals one plus the sum of ones in the LSB.
+</p>
+
+
+<p><span class="step">Step 3</span> Thus, if the sum
+    of the zeros in the LSB is less than or equal to the sum of ones in the LSB,
+    the missing number has LSB equal to 0. Else its LSB is 1. This reasoning applies recursively. Thus, we update the
+    each column of the output:
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/8d1df8ecd1357ceba84adc5f4473b9b9.js"></script>
     </div>
 </section>
 
@@ -88,7 +108,7 @@ Find the missing integer in O(n) time.
 
 
 {%block full_code_gist%}
-    <script src="https://gist.github.com/frezafoltran/4c70e9d2866e8eade9df7c203f25dde0.js"></script>
+    <script src="https://gist.github.com/frezafoltran/1bed848ce1614e92517b74cece70bea4.js"></script>
 {%endblock%}
 
 
@@ -104,6 +124,38 @@ Find the missing integer in O(n) time.
       {%endblock%}
 
 
+    function findMissing(array){
+        return findMissingHelper(array, 0);
+    }
+
+    function findMissingHelper(input, column){
+
+        if (column >= 32 || input.length == 0){
+            return 0;
+        }
+
+        var oneBits = [], zeroBits = [];
+
+        for (var i = 0; i < input.length; i ++){
+
+            var cur = input[i].toString(2);
+            if (column > cur.length - 1 ||cur.charAt(cur.length - 1 - column) == "0"){
+                zeroBits.push(input[i]);
+            }
+            else{
+                oneBits.push(input[i]);
+            }
+        }
+
+        if (zeroBits.length <= oneBits.length){
+            var v = findMissingHelper(zeroBits, column + 1);
+            return (v << 1) | 0;
+        }
+        else{
+            var v = findMissingHelper(oneBits, column + 1);
+            return (v << 1) | 1;
+        }
+    }
 
     function newSpan(i, val){
 
@@ -133,16 +185,12 @@ Find the missing integer in O(n) time.
         }
 
         array = array.sort(() => Math.random() > 0.5 ? 1 : -1);
+        array = array.slice(0, skip).concat(array.slice(skip + 1, array.length));
 
-        for (var i = 0; i < len; i ++){
+        for (var i = 0; i < array.length; i ++){
 
-            if (i != skip){
-                array.push(i);
-                var s = newSpan(i, array[i]);
-
-                arrayDiv.appendChild(s);
-            }
-
+            var s = newSpan(i, array[i]);
+            arrayDiv.appendChild(s);
 
             if ( (i != 0) && (i % 5) == 0){
                 arrayDiv.appendChild(document.createElement('br'));
@@ -151,11 +199,14 @@ Find the missing integer in O(n) time.
         }
 
 
+        for (var i = 0; i < array.length; i ++){
+
+            console.log(array[i]);
+        }
+        console.log('------');
 
 
-
-
-
+        document.getElementById('result').innerHTML = findMissing(array);
 
     }
 

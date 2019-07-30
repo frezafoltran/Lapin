@@ -1,0 +1,166 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_hard', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Hard</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_hard', q_num=0)}}" >Back to Hard</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Count of 2s
+{%endblock%}
+
+{%block question_explanation%}
+    Count the number of times the digit 2 appears in the numbers in the range
+    1 through n.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+    <p>The digit 2 occurs <span id="result" style="color:green"></span> times between
+        <span style="font-weight:bold">1</span> and <span id="n" style="font-weight:bold"></span></p>
+
+
+    </div>
+
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+<p><span class="step">Step 2</span>
+</p>
+
+
+<p><span class="step">Step 3</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/d27f9a98a7296c7901c46f04ad1bf944.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'count_of_2s_17.6'
+      {%endblock%}
+
+    function count2sInRangeAtDigit(number, d){
+
+        var powerOf10 = Math.pow(10, d);
+        var nextPowerOf10 = powerOf10 * 10;
+        var right = number % powerOf10;
+
+        var roundDown = number - number % nextPowerOf10;
+        var roundUp = roundDown + nextPowerOf10;
+
+        var digit = (number / powerOf10) % 10;
+        if (digit < 2){
+            return roundDown/10;
+        }
+        else if (digit == 2){
+            return roundDown / 10 + right + 1;
+        }
+        else{
+            return roundUp / 10;
+        }
+    }
+
+    function count2sInRange(number){
+        var count = 0;
+        var len = number.toString().length;
+
+        for (var digit = 0; digit < len; digit ++){
+            count += count2sInRangeAtDigit(number, digit);
+        }
+        return count
+    }
+
+
+
+
+    function refreshDemo(){
+
+        var n = Math.floor(Math.random() * (1000 - 5)) + 5;
+
+        document.getElementById('n').innerHTML = n;
+        document.getElementById('result').innerHTML = count2sInRange(n);
+
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
