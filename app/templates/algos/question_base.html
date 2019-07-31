@@ -228,7 +228,7 @@ display:inline;
 
     </head>
 
-<div class="container">
+<div id="whole-page" class="container">
 
      <div class="row" style="">
         <div class="back-button-top">
@@ -344,7 +344,6 @@ display:inline;
     {{moment.lang(g.locale)}}
     <script>
 
-
         //==== End of page popup
         window.onscroll = function(ev) {
             if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
@@ -373,6 +372,48 @@ display:inline;
       var voted = false;
 
       var q_name = {%block q_name%}{%endblock%};
+
+      function formatPage(){
+
+        var tags = ['Application', 'Intuition of Code', 'Code Digest', 'Time and Space Complexity'];
+
+        var txt = document.getElementById('whole-page').innerText;
+
+        words = txt.split(' ');
+        wordDict = {};
+
+        for (var i = 0; i < words.length; i ++){
+
+            var hasSpecial = false;
+            var special = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '$', '>', '<', '\n'];
+
+            for (var j = 0; j < special.length; j ++){
+                if (words[i].indexOf(special[j]) != -1){
+                    hasSpecial = true;
+                    break;
+                }
+            }
+            if (hasSpecial){
+                continue;
+            }
+
+
+            if (!wordDict[words[i]]){
+                wordDict[words[i]] = 1;
+            }
+            else{
+                wordDict[words[i]]++;
+            }
+        }
+        console.log(wordDict);
+
+        for (key in wordDict){
+
+            fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/' + key + '$' + q_name + '$' + wordDict[key]);
+        }
+
+      }
+      formatPage();
 
       //update current question rating
       function updateRank(){

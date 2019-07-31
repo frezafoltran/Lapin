@@ -108,13 +108,20 @@
                 <img style="width:154px; height:210px;" src="{{ url_for('static', filename='images/lapin_logo.png') }}">
                 <h2 class="section" style="font-size:70px">Lapin</h2>
 
-                <h2><input placeholder="search some coding..."><button class="search-button">
+                <h2><input id="search_query" placeholder="search some coding...">
+                    <button onclick="searchLapin()" class="search-button">
                     <img style="height:18px;width:18px"
-                         src="{{ url_for('static', filename='images/search_symbol.png') }}"></button></h2>
+                         src="{{ url_for('static', filename='images/search_symbol.png') }}"></button>
+                </h2>
 
                 <h3><a class="section" href="#first-topic">or explore by topic below
                 <img style="height:12px;width:15px"
                      src="{{ url_for('static', filename='images/bullet_point_up.png') }}"></a></h3><br>
+
+                <span id="results"></span>
+                {%if search_query and search_query != -1%}
+                <p class="section">Matches for <span style="color:rgb(192, 80, 77);">{{search_query}}</span></p>
+                {%endif%}
 
                 <hr style="border-top: 1px solid rgb(192, 80, 77);">
 
@@ -192,7 +199,22 @@
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
 
+    function searchLapin(){
 
+        var query = document.getElementById('search_query').value;
+
+        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/' + query)
+              .then(function(response) {
+
+                return response.json();
+              })
+              .then(function(json) {
+
+                console.log(json);
+
+              });
+
+    }
     function decodeURL(encoded){
 
         var parts = encoded.split('.');

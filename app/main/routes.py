@@ -13,6 +13,8 @@ from app.main import bp
 from app.main.helpers import path_exists, \
     random_edges, build_graph
 
+
+
 @bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
@@ -311,3 +313,10 @@ def algos_hard(q_num):
     else:
         return render_template('algos/hard/question_' + str(q_num) + '.html')
 
+
+@bp.route('/algos/', methods=['GET', 'POST'])
+@bp.route('/algos/<search_query>', methods=['GET', 'POST'])
+def search_clean(search_query):
+
+
+    return render_template('algos/algos_main.html', search_query=search_query)
