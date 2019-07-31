@@ -47,12 +47,9 @@
 {%endblock%}
 
 {%block code_application%}
-    <p>Imagine the stops an Uber driver needs to make are represented by nodes in a linked list. Two stops
-    are in the same location if the respective nodes are the same by reference (not by value).
-    <br><br>
-    Now assume you have a set of routes (i.e. a set of linked lists). The algorithm in this
-        question allows you to figure out the best way to distribute routes among drivers. That is, you should try
-        to give routes that have stops in common to the same driver.</p>
+    <p>Imagine we use linked lists to represent paths people are walking. Each node in the linked list
+        represent places that the people have to pass by. The algorithm in this
+        question allows you to figure out whether different people have overlapping paths.</p>
 
 
     <button onclick="refreshDemo();">Refresh</button>
@@ -474,14 +471,14 @@
 
                 while (cur){
                     var placeHolder = placeSlot(cur.value, false);
-                    placeHolder.style.backgroundColor = 'rgb(228,376,228)';
-                    placeHolder.style.color = 'rgb(228,376,228)';
+                    placeHolder.style.backgroundColor = 'rgb(238,236,225)';
+                    placeHolder.style.color = 'rgb(238,236,225)';
                     rowDiv.appendChild(placeHolder);
 
                     if (cur.next){
                         var temp = placeSlot(' \u2192 ', true);
-                        temp.style.backgroundColor = 'rgb(228,376,228)';
-                        temp.style.color = 'rgb(228,376,228)';
+                        temp.style.backgroundColor = 'rgb(238,236,225)';
+                        temp.style.color = 'rgb(238,236,225)';
                         rowDiv.appendChild(temp);
                     }
 
@@ -503,7 +500,7 @@
             for (var i = 0; i < groups.length; i ++){
 
                 var driverCol = document.createElement('div');
-                driverCol.innerHTML = 'Driver ' + i;
+                driverCol.innerHTML = 'Combination ' + i;
                 driverCol.style.color = 'orange';
                 driverCol.style.float = 'left';
                 driverCol.style.fontSize = '20px';

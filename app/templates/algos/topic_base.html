@@ -5,6 +5,12 @@
    <head>
         <style>
 
+            .side-hr {
+            display: block; height: 1px;
+            border: 0; border-top: 5px solid rgb(238,236,225);
+            margin: 1em 0; padding: 0;
+            }
+
             .section{
              color:rgb(31,73,125);
              font-family:verdana;
@@ -74,7 +80,10 @@
             }
             .question:hover{
             -webkit-transform: scale(1.05);
-             color:rgb(192, 80, 77);
+            }
+
+            .question:hover h4{
+                color:rgb(192, 80, 77);
             }
 
             {%block style%}

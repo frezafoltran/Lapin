@@ -7,39 +7,32 @@
 
 {%block question_list%}
 
-       <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 1) }}">
-        Bit Insertion</a></h3>
-        <h4>Insert a binary number into another one between two given bits.</h4>
+        {%set questions = [['Bit Insertion', 'Insert a binary number into another one between two given bits.'],
+                          ['Real To Binary', 'Convert a real number to its binary representation.'],
+                          ['Flip Bit To Win', 'Find longest sequence of ones in binary number.'],
+                          ['Next Number', 'Find the next smallest and next largest number with',
+                                                       'the same number of ones.'],
+                          ['Powers Of Two', 'Find what the code <span style="font-style:italic">(n & (n - 1)) == 0</span> does.'],
+                          ['Conversion', 'Find how many bits need to be flipped to convert one',
+                                                       'binary number to another.'],
+                          ['Pairwise Swap', 'Swap every consecutive even and odd bits in string.'],
+                          ['Draw Line', '?']
 
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 2) }}">
-        Real To Binary</a></h3>
-        <h4>Convert a real number to its binary representation.</h4>
+               ]%}
 
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 3) }}">
-        Flip Bit To Win</a></h3>
-        <h4>Find longest sequence of ones in binary number.</h4>
+        {%for i in range(1, 9)%}
+       <div class="question">
+         <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = i) }}">
+          {{questions[i - 1][0]}}</a></h3>
+          <h4>
+              {%for j in questions[i - 1][1:]%}
+              {{j}}
+              <br>
+              {%endfor%}
+          </h4>
+        </div>
+        {%endfor%}
 
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 4) }}">
-        Next Number</a></h3>
-        <h4>Find the next smallest and next largest number with<br>
-        the same number of ones.</h4>
-
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 5) }}">
-        Powers Of Two</a></h3>
-        <h4>Find what the code <span style="font-style:italic">(n & (n - 1)) == 0</span> does.</h4>
-
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 6) }}">
-        Conversion</a></h3>
-        <h4>Find how many bits need to be flipped to convert one<br>
-        binary number to another.</h4>
-
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 7) }}">
-        Pairwise Swap</a></h3>
-        <h4>Swap every consecutive even and odd bits in string.</h4>
-
-        <h3><a href = "{{ url_for('main.algos_bit_manipulation', q_num = 8) }}">
-        Draw Line</a></h3>
-        <h4>---</h4>
 
 {%endblock%}
 

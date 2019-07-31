@@ -6,16 +6,20 @@
 
         <style>
 
+            .side-hr {
+            display: block; height: 1px;
+            border: 0; border-top: 5px solid rgb(238,236,225);
+            margin: 1em 0; padding: 0;
+            }
+
             .topic-icon{
              width:110px;
              height:100px;
              }
             .search-button{
-             color:rgb(31,73,125);
-             font-family:verdana;
-             font-weight:bold;
-             background-color:rgb(192, 80, 77);
-             font-size:20px;
+
+             background-color:rgb(238,236,225);
+             border:none;
              }
 
             .section{
@@ -104,90 +108,48 @@
                 <img style="width:154px; height:210px;" src="{{ url_for('static', filename='images/lapin_logo.png') }}">
                 <h2 class="section" style="font-size:70px">Lapin</h2>
 
-                <h2><input value="Search for an algorithm"><button class="search-button">Search</button></h2>
+                <h2><input placeholder="search some coding..."><button class="search-button">
+                    <img style="height:18px;width:18px"
+                         src="{{ url_for('static', filename='images/search_symbol.png') }}"></button></h2>
 
                 <h3><a class="section" href="#first-topic">or explore by topic below
                 <img style="height:12px;width:15px"
                      src="{{ url_for('static', filename='images/bullet_point_up.png') }}"></a></h3><br>
 
+                <hr style="border-top: 1px solid rgb(192, 80, 77);">
 
-                <div class="row">
-                    <div id="first-topic" class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}">
-                            <img class="topic-icon" src="{{ url_for('static', filename='images/array.png') }}">
-                            <h4>Arrays and Strings</h4>
-                            </a>
+                {%set topics = [
+                                [['Arrays and Strings', 'main.algos_arrays_and_strings', 'array.png'],
+                                 ['Linked Lists', 'main.algos_linked_lists', 'linked_list.png'],
+                                 ['Stacks and Queues', 'main.algos_stacks_and_queues', 'book_stack.png']],
+
+                                [['Trees and Graphs', 'main.algos_trees_and_graphs', 'binary_tree.png'],
+                                 ['Bit Manipulation', 'main.algos_bit_manipulation', 'bits.png'],
+                                 ['Math', 'main.algos_math', 'lapin_logo.png']],
+
+                                [['Object Oriented Design', 'main.algos_object_oriented_design', 'lapin_logo.png'],
+                                 ['Moderate', 'main.algos_moderate', 'lapin_logo.png'],
+                                 ['Hard', 'main.algos_hard', 'lapin_logo.png']],
+                                ]
+
+                %}
+
+                <span id="first-topic"></span>
+                {% for i in range(3)%}
+                    <div class="row">
+                        {%for j in range(3)%}
+                        <div class="topic col-md-4">
+                            <a class="section" href = "{{ url_for(topics[i][j][1], q_num=0) }}">
+                                <img class="topic-icon" src="{{ url_for('static', filename='images/' + topics[i][j][2]) }}">
+                                <h4>{{topics[i][j][0]}}</h4>
+                                </a>
+                        </div>
+                        {%endfor%}
                     </div>
+                    <br><br>
+                {%endfor%}
 
-                    <div class="topic col-md-4">
-                        <a class="section"  href = "{{ url_for('main.algos_linked_lists', q_num=0) }}">
-                                <img class="topic-icon"
-                                     src="{{ url_for('static', filename='images/linked_list.png') }}">
-                            <h4>LinkedLists</h4>
-                        </a>
-                    </div>
 
-                    <div class="topic">
-                        <a class="section" href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}">
-                            <img class="topic-icon" src="{{ url_for('static', filename='images/book_stack.png') }}">
-                            <h4>Stacks and Queues</h4>
-                        </a>
-                    </div>
-                </div>
-
-                <br><br>
-                <div class="row">
-
-                    <div class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}">
-                                <img class="topic-icon" src="{{ url_for('static', filename='images/binary_tree.png') }}">
-                            <h4>Trees and Graphs</h4>
-                        </a>
-                    </div>
-
-                    <div class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}">
-                            <img class="topic-icon"
-                                src="{{ url_for('static', filename='images/bits.png') }}">
-                        <h4> Bit Manipulation</h4>
-                            </a>
-                    </div>
-
-                    <div class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_math', q_num=0) }}">
-                            <img class="topic-icon"
-                                  src="{{ url_for('static', filename='images/lapin_logo.png') }}">
-                        <h4>Math</h4>
-                            </a>
-                    </div>
-
-                </div>
-                <br><br>
-                <div class="row">
-                    <div class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}">
-                                <img class="topic-icon"
-                                     src="{{ url_for('static', filename='images/lapin_logo.png') }}">
-                            <h4>Object Oriented Design</h4>
-                        </a>
-                    </div>
-
-                    <div class="topic col-md-4">
-                        <a class="section" href = "{{ url_for('main.algos_moderate', q_num=0) }}">
-                                <img class="topic-icon"
-                                    src="{{ url_for('static', filename='images/lapin_logo.png') }}">
-                            <h4>Moderate</h4>
-                        </a>
-                    </div>
-
-                    <div class="topic col-md-4">
-                        <a class="section" href="{{ url_for('main.algos_hard', q_num=0) }}">
-                                <img class="topic-icon"
-                                    src="{{ url_for('static', filename='images/lapin_logo.png') }}">
-                            <h4>Hard</h4>
-                        </a>
-                    </div>
-                </div>
 
             </div>
 
@@ -225,7 +187,7 @@
     <script>
 
     var progressBar = document.getElementById('progress_bar');
-    var currProgress = (88 + 62 + 58 + 38 + 100 + 30 + 16 + 42 + 17) / 9;
+    var currProgress = (88 + 81 + 58 + 38 + 100 + 30 + 16 + 42 + 17) / 9;
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
