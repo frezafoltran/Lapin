@@ -6,12 +6,29 @@
 
         <style>
 
+            .topic-icon{
+             width:110px;
+             height:100px;
+             }
+            .search-button{
+             color:rgb(31,73,125);
+             font-family:verdana;
+             font-weight:bold;
+             background-color:rgb(192, 80, 77);
+             font-size:20px;
+             }
+
+            .section{
+             color:rgb(31,73,125);
+             font-family:verdana;
+             }
+
             .sidenav {
               width: 16%;
               position: fixed;
               z-index: 1;
-              background: rgb(300,250,204);
-              opacity:0.7;
+              background: rgb(192, 80, 77);
+              opacity:0.9;
               overflow: hidden;
               margin-left: 5px;
               border-radius:15px;
@@ -22,7 +39,7 @@
               padding: 6px 8px 6px 16px;
               text-decoration: none;
               font-size: 20px;
-              color: #2196F3;
+              color:rgb(31,73,125);
               display: block;
             }
 
@@ -31,7 +48,7 @@
             }
 
             .sidenav a:hover {
-              color: #064579;
+              color:rgb(79,129,189);
             }
 
             .left-col{
@@ -83,71 +100,100 @@
 
             <div class="main-col">
 
-                <h2>Topics<br></h2>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}"> Arrays and Strings<img
-                            style="width:110px; height:50px;" src="{{ url_for('static', filename='images/array.png') }}">
-                    </a>
-                    </h4>
+                <img style="width:154px; height:210px;" src="{{ url_for('static', filename='images/lapin_logo.png') }}">
+                <h2 class="section" style="font-size:70px">Lapin</h2>
+
+                <h2><input value="Search for an algorithm"><button class="search-button">Search</button></h2>
+
+                <h3><a class="section" href="#first-topic">or explore by topic below
+                <img style="height:12px;width:15px"
+                     src="{{ url_for('static', filename='images/bullet_point_up.png') }}"></a></h3><br>
+
+
+                <div class="row">
+                    <div id="first-topic" class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_arrays_and_strings', q_num=0) }}">
+                            <img class="topic-icon" src="{{ url_for('static', filename='images/array.png') }}">
+                            <h4>Arrays and Strings</h4>
+                            </a>
+                    </div>
+
+                    <div class="topic col-md-4">
+                        <a class="section"  href = "{{ url_for('main.algos_linked_lists', q_num=0) }}">
+                                <img class="topic-icon"
+                                     src="{{ url_for('static', filename='images/linked_list.png') }}">
+                            <h4>LinkedLists</h4>
+                        </a>
+                    </div>
+
+                    <div class="topic">
+                        <a class="section" href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}">
+                            <img class="topic-icon" src="{{ url_for('static', filename='images/book_stack.png') }}">
+                            <h4>Stacks and Queues</h4>
+                        </a>
+                    </div>
                 </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_linked_lists', q_num=0) }}"> LinkedLists<img
-                            style="margin:10px;width:120px; height:50px;"
-                            src="{{ url_for('static', filename='images/linked_list.png') }}"></a>
-                    </h4>
-                </div>
+                <br><br>
+                <div class="row">
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_stacks_and_queues', q_num=0) }}"> Stacks and Queues<img
-                            style="width:50px; height:100px;" src="{{ url_for('static', filename='images/stack.png') }}">
-                    </a>
-                    </h4>
-                </div>
+                    <div class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}">
+                                <img class="topic-icon" src="{{ url_for('static', filename='images/binary_tree.png') }}">
+                            <h4>Trees and Graphs</h4>
+                        </a>
+                    </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_trees_and_graphs', q_num=0) }}"> Trees and Graphs<img
-                            style="width:120px; height:100px;" src="{{ url_for('static', filename='images/binary_tree.png') }}"></a>
-                    </h4>
-                </div>
+                    <div class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}">
+                            <img class="topic-icon"
+                                src="{{ url_for('static', filename='images/bits.png') }}">
+                        <h4> Bit Manipulation</h4>
+                            </a>
+                    </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_bit_manipulation', q_num=0) }}"> Bit Manipulation<img
-                            style="margin:10px;width:80px; height:80px;"
-                            src="{{ url_for('static', filename='images/bits.png') }}"></a>
-                    </h4>
-                </div>
+                    <div class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_math', q_num=0) }}">
+                            <img class="topic-icon"
+                                  src="{{ url_for('static', filename='images/lapin_logo.png') }}">
+                        <h4>Math</h4>
+                            </a>
+                    </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_math', q_num=0) }}"> Math<img
-                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
-                    </h4>
                 </div>
+                <br><br>
+                <div class="row">
+                    <div class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}">
+                                <img class="topic-icon"
+                                     src="{{ url_for('static', filename='images/lapin_logo.png') }}">
+                            <h4>Object Oriented Design</h4>
+                        </a>
+                    </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_object_oriented_design', q_num=0) }}"> Object Oriented Design<img
-                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
-                    </h4>
-                </div>
+                    <div class="topic col-md-4">
+                        <a class="section" href = "{{ url_for('main.algos_moderate', q_num=0) }}">
+                                <img class="topic-icon"
+                                    src="{{ url_for('static', filename='images/lapin_logo.png') }}">
+                            <h4>Moderate</h4>
+                        </a>
+                    </div>
 
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_moderate', q_num=0) }}"> Moderate<img
-                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
-                    </h4>
-                </div>
-
-                <div class="topic">
-                    <h4><a href = "{{ url_for('main.algos_hard', q_num=0) }}"> Hard<img
-                            style="width:80px; height:100px;" src="{{ url_for('static', filename='images/rabbit.png') }}"></a>
-                    </h4>
+                    <div class="topic col-md-4">
+                        <a class="section" href="{{ url_for('main.algos_hard', q_num=0) }}">
+                                <img class="topic-icon"
+                                    src="{{ url_for('static', filename='images/lapin_logo.png') }}">
+                            <h4>Hard</h4>
+                        </a>
+                    </div>
                 </div>
 
             </div>
 
             <div class="right-col">
                 <div  class="sidenav">
-              <h4 style="cursor:context-menu">Top rated questions</h4>
+              <h4 style="cursor:context-menu" class="section">Top Rated Questions</h4>
                     <div id="popular_questions">
 
 
@@ -160,7 +206,7 @@
             </div>
 
         </div>
-        <br>
+        <br><br>
         <div class="row" style="display:flex;justify-content:left">
             <div id="progress_bar" class="progress-bar progress-bar-info progress-bar-striped"
                     role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="">

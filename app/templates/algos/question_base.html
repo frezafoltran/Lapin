@@ -6,6 +6,11 @@
 
         <style>
 
+.section{
+color:rgb(31,73,125);
+font-family:verdana;
+}
+
 .code {
 color:rgb(169,169,169);
 font-style:italic;
@@ -44,8 +49,8 @@ border-radius:25px;
   width: 11%;
   position: fixed;
   z-index: 1;
-  background: rgb(300,250,204);
-  opacity:0.7;
+  background: rgb(192, 80, 77);
+  opacity:0.9;
   //overflow: hidden;
   margin-left: 20px;
   border-radius:15px;
@@ -244,8 +249,10 @@ display:inline;
         <div class="main-col">
 
             <!-- QUESTION STATEMENT -->
-            <h2><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point.png')}}">
-            {%block question_name%} {%endblock%}
+            <div>
+                <h2 class="section" style="font-size:50px">
+                {%block question_name%} {%endblock%}
+                </h2>
                 <div class="star-ratings-css">
                   <div id="cur_rank" class="star-ratings-css-top" style="width:0%">
                       <span class="star1" style="cursor:pointer;" onclick="vote(1)">★</span><span class="star2" style="cursor:pointer;" onclick="vote(2)">★</span><span class="star3" style="cursor:pointer;" onclick="vote(3)">★</span><span class="star4" style="cursor:pointer;" onclick="vote(4)">★</span><span class="star5" style="cursor:pointer;" onclick="vote(5)">★</span></div>
@@ -256,7 +263,7 @@ display:inline;
                 <h4 id="num-votes"></h4>
                 <div id="snackbar"></div>
 
-            </h2>
+            </div>
 
             <h3 style="color:rgb(169,169,169)">
                 {%block question_explanation%}{%endblock%}
@@ -266,21 +273,21 @@ display:inline;
             <hr style="border-color:rgb(150,150,150);">
 
             <!-- APPLICATION -->
-            <h3 id="app"><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Application</h3>
+            <h2 id="app" class="section">Application</h2>
             {%block code_application%}{%endblock%}
 
             <!-- QUICK INTUITION -->
-            <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Intuition of Code</h3>
+            <h2 class="section">Intuition of Code</h2>
             {%block code_intuition%}{%endblock%}
 
             <!-- CODE DIGEST -->
-            <h3 id="coding_digest"><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Code Digest</h3>
+            <h2 id="coding_digest" class="section">Code Digest</h2>
             {%block code_digest%}{%endblock%}
 
 
 
             <!-- COMPLEXITY -->
-            <h3><img style="width:35px;height:35px; margin:5px;" src="{{url_for('static', filename='images/bullet_point_up.png')}}">Time and Space Complexity</h3>
+            <h2 class="section">Time and Space Complexity</h2>
             <p>{%block code_complexity%}{%endblock%}</p>
 
             <!-- SIMILAR QUESTIONS -->
