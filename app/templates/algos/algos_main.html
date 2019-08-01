@@ -6,6 +6,20 @@
 
         <style>
 
+            .single-result{
+                padding:5px;
+                background-color:rgb(250.05,248.05,236);
+                border-radius:10px;
+                padding:5px;
+                margin-bottom:10px;
+
+            }
+
+            .single-result h4{
+                font-style:italic;
+                color:rgb(79,129,189);
+            }
+
             .side-hr {
             display: block; height: 1px;
             border: 0; border-top: 5px solid rgb(238,236,225);
@@ -17,7 +31,6 @@
              height:100px;
              }
             .search-button{
-
              background-color:rgb(238,236,225);
              border:none;
              }
@@ -34,7 +47,7 @@
               background: rgb(192, 80, 77);
               opacity:0.9;
               overflow: hidden;
-              margin-left: 5px;
+              margin-left: 15px;
               border-radius:15px;
 
             }
@@ -43,8 +56,13 @@
               padding: 6px 8px 6px 16px;
               text-decoration: none;
               font-size: 20px;
-              color:rgb(31,73,125);
+              color:black;
               display: block;
+            }
+
+            .sidenav h4{
+                color:black;
+                font-weight:bold;
             }
 
             .sidenav:hover{
@@ -52,7 +70,7 @@
             }
 
             .sidenav a:hover {
-              color:rgb(79,129,189);
+              color:rgb(240,230,140);
             }
 
             .left-col{
@@ -93,7 +111,7 @@
         <div class="row" style="display:flex;justify-content:left">
 
             <div class="left-col">
-                <div  class="sidenav">
+                <div  class="sidenav" style="margin-left:5px;">
               <h4 style="cursor:context-menu">What</h4>
 
                 <hr class="side-hr">
@@ -118,10 +136,8 @@
                 <img style="height:12px;width:15px"
                      src="{{ url_for('static', filename='images/bullet_point_up.png') }}"></a></h3><br>
 
-                <span id="results"></span>
-                {%if search_query and search_query != -1%}
-                <p class="section">Matches for <span style="color:rgb(192, 80, 77);">{{search_query}}</span></p>
-                {%endif%}
+
+                <div id="results" class="row"></div>
 
                 <hr style="border-top: 1px solid rgb(192, 80, 77);">
 
@@ -199,18 +215,120 @@
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
 
+
+    function orderResults(json){
+
+        // Create items array
+        var items = Object.keys(json).map(function(key) {
+          return [key, json[key]];
+        });
+
+        // Sort the array based on the second element
+        items.sort(function(first, second) {
+          return second[1] - first[1];
+        });
+
+        return items;
+    }
+
+    function addEachResult(sortedResults, resultsDiv,  i){
+
+            if (i >= sortedResults.length){
+                return null;
+            }
+            var decodedResult = decodeQuestionDynamo(sortedResults[i][0]);
+
+            var wrapper = document.createElement('div');
+            wrapper.className = 'single-result';
+
+            var resultWrapper = document.createElement('p');
+            var result = document.createElement('a');
+            var descriptionDiv = document.createElement('h4');
+
+
+            result.className = 'section';
+            result.href = decodedResult[1];
+            result.innerHTML = decodedResult[0];
+            resultWrapper.appendChild(result);
+
+            wrapper.appendChild(resultWrapper);
+
+            //get question description
+            fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/!' + sortedResults[i][0])
+                  .then(function(response) {
+
+                    return response.json();
+                  })
+                  .then(function(json) {
+
+                    //entry does not exist. create one
+                    if (json['out'] != -1){
+
+                        description = json['description'];
+                        description = description.replace(/%20/g, ' ');
+                        console.log(description);
+
+                        descriptionDiv.innerHTML = description;
+                        wrapper.appendChild(descriptionDiv);
+                        resultsDiv.appendChild(wrapper);
+
+                    }
+                    return (i + 1);
+                  })
+                  .then(function(index){
+                        addEachResult(sortedResults, resultsDiv,  index);
+                  });
+
+    }
+
+    function displayResults(sortedResults, query){
+
+        var resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = '';
+
+        var resultFor = document.createElement('p');
+        resultFor.className = 'section';
+
+        if (sortedResults.length == 0){
+            resultFor.innerHTML = 'No matches for ';
+        }
+        else{
+            resultFor.innerHTML = 'Matches for ';
+        }
+
+        var s = document.createElement('span');
+        s.innerHTML = query;
+        s.style.color = 'rgb(192, 80, 77)';
+
+        resultFor.appendChild(s);
+        resultsDiv.appendChild(resultFor);
+
+        addEachResult(sortedResults, resultsDiv, 0);
+
+    }
+
     function searchLapin(){
 
-        var query = document.getElementById('search_query').value;
+        var originalQuery = document.getElementById('search_query').value;
+        var query = originalQuery.toLowerCase();
 
-        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/' + query)
+        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/!' + query)
               .then(function(response) {
 
                 return response.json();
               })
               .then(function(json) {
 
-                console.log(json);
+                if (json['out'] == - 1){
+                    displayResults([], originalQuery);
+                    return;
+                }
+
+                delete json["word"];
+                var sortedResults = orderResults(json);
+
+                displayResults(sortedResults, originalQuery);
+
 
               });
 
