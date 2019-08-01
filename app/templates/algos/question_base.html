@@ -408,8 +408,9 @@ display:inline;
         console.log(wordDict);
 
         for (key in wordDict){
-
-            fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/' + key + '$' + q_name + '$' + wordDict[key]);
+            if (key){
+                fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/' + key + '$' + q_name + '$' + wordDict[key]);
+            }
         }
 
       }
