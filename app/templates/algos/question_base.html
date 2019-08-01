@@ -403,7 +403,7 @@ display:inline;
 
             for (var j = 0; j < breaks.length; j ++){
                 if (words[i].indexOf(breaks[j]) != -1){
-                    words[i] = words[i].replace(/breaks[j]/g, '');
+                    words[i] = words[i].replace(breaks[j], '');
                 }
             }
 

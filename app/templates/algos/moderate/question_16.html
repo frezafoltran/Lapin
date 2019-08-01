@@ -1,0 +1,167 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.array-element{
+    padding:10px;
+    margin:5px;
+    color:black;
+    background-color:white;
+}
+.array-element-highlight{
+    padding:10px;
+    margin:5px;
+    color:green;
+    background-color:orange;
+    font-weight:bold;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Sub Sort
+{%endblock%}
+
+{%block quick_explanation%}Find smallest sub-array that needs to be sorted to sort array.{%endblock%}
+
+{%block question_explanation%}
+Given an array of numbers, find the smallest range of elements that need to be sorted in order
+to sort the entire array.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <div><p>First array:</p>
+            <p id="array"></p>
+        </div>
+
+        <div><p>Need to be sorted:</p>
+            <p id="range_array"></p>
+        </div>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'sub_sort_16.16'
+      {%endblock%}
+
+    var arrayDiv = document.getElementById('array');
+    var arrayRange = document.getElementById('array_range');
+
+    function getRandomishArray(){
+
+        var len = 5;
+        var out = [Math.floor(Math.random() * 10)];
+
+        for (var i = 1; i < len; i++){
+
+            var min = Math.floor(out[i - 1] - 10);
+            var max = Math.floor(out[i - 1] + 20);
+
+            out.push(Math.floor( Math.random() * (max - min)) + min);
+        }
+        return out;
+    }
+
+    function displayArray(array, className){
+
+        arrayDiv.innerHTML = '';
+        for (var i = 0; i < array.length; i ++){
+
+            var s = document.createElement('span');
+            s.className = className;
+            s.innerHTML = array[i];
+
+            arrayDiv.appendChild(s);
+        }
+    }
+
+    function refreshDemo(){
+
+        var array = getRandomishArray();
+        displayArray(array, 'array-element');
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
