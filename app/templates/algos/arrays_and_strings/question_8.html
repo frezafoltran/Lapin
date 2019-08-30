@@ -211,6 +211,8 @@ by storing a zero at the respective row and column indexes in the first row and 
 
 //===========================
 
+        var mat;
+
         function resetImg(){
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -222,6 +224,8 @@ by storing a zero at the respective row and column indexes in the first row and 
 
           ctx.drawImage(img,0,0,w,h,0,0,w*sizer,h*sizer);
 
+          mat = buildMat();
+
         }
 
         function scalePreserveAspectRatio(imgW,imgH,maxW,maxH){
@@ -230,25 +234,23 @@ by storing a zero at the respective row and column indexes in the first row and 
 
         function buildMat(){
 
-            var mat = [];
+            var out = [];
 
             for (var i = 0; i < canvas.height; i ++){
 
-                mat.push([]);
+                out.push([]);
                 for (var j = 0; j < canvas.width; j ++){
 
                     var pixel = ctx.getImageData(j, i, 1, 1);
                     var data = pixel.data;
                     var rgb = [data[0], data[1], data[2]];
-                    mat[i].push(rgb);
+                    out[i].push(rgb);
                 }
             }
-            return mat;
+            return out;
         }
 
         function zero(){
-
-            var mat = buildMat();
 
             var r = parseInt(document.getElementById('r').value);
             var g = parseInt(document.getElementById('g').value);
@@ -258,7 +260,6 @@ by storing a zero at the respective row and column indexes in the first row and 
             ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
 
             zeroMat(mat);
-
 
         }
 
