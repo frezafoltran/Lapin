@@ -61,12 +61,12 @@ to sort the entire array.
     <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
     <div class="container row">
 
-        <div><p>First array:</p>
+        <div><p>Array:</p>
             <p id="array"></p>
         </div>
 
         <div><p>Need to be sorted:</p>
-            <p id="range_array"></p>
+            <p id="array_range"></p>
         </div>
 
 
@@ -76,15 +76,43 @@ to sort the entire array.
 {%endblock%}
 
 {%block code_intuition%}
-<p></p>
+<p>The idea is to split the array into three parts <span class="code">(A, B, C)</span> while satisfying
+    some constraints: <span class="code">A, C</span> must be sorted and every element of
+<span class="code">A</span> must be smaller than any element of <span class="code">B, C</span> and every
+element of <span class="code">C</span> must be larger than any element of <span class="code">A, B</span>.</p>
 {%endblock%}
 
 {%block code_digest%}
-<p><span class="step">Step 1</span>
+<p><span class="step">Step 1</span> To satisfy the first constraint (i.e. find sorted tail and head of the array) we
+    simply go through the array and return when the sorted condition is not satisfied. Below we show the method for
+    the end tail, but the method for the head is very similar and included in the
+    <a href="#full-code-scroll">full code</a> below.
 </p>
 <section>
     <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/ca1b26b50e24047ecf09b8730a5c4df6.js"></script>
+    </div>
+</section>
 
+<p><span class="step">Step 2</span> For the second constraint, we simply reduce the size of the sorted tail and head
+    of the arrays until all elements of the head are smaller than any element in the middle and tail and all
+    elements of the tail are larger than any element in the middle and head. By the way we constructed them,
+    the tail and head are already sorted. Thus to pick the part of the tail that satisfies this constraint,
+    it suffices to iterate from the end until we find some element that is smaller than the minimum element of the reminaing
+    of the array. A very similar reasoning allows us to finish building the head as shown
+    <a href="#full-code-scroll">here</a>.
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/6cf38c9544226a01d14f311deb421007.js"></script>
+    </div>
+</section>
+
+<p><span class="step">Step 3</span> The main method of our algorithm will then look like this:
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/9e32daae95f535aaf8a9a3c291583204.js"></script>
     </div>
 </section>
 
@@ -99,6 +127,7 @@ to sort the entire array.
 
 
 {%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/65368060e46580683faa1c8a8205e328.js"></script>
 {%endblock%}
 
 
@@ -112,6 +141,75 @@ to sort the entire array.
       {%block q_name%}
       'sub_sort_16.16'
       {%endblock%}
+
+
+    function findUnsortedSeq(array){
+
+        var endLeft = findEndLeftSubSeq(array);
+        if (endLeft >= array.length - 1){
+            return 1;
+        }
+
+        var startRight = findStartRightSubSeq(array);
+
+        var maxIndex = endLeft;
+        var minIndex = startRight;
+
+        for(var i = endLeft + 1; i < startRight; i ++){
+
+            minIndex = array[i] < array[minIndex] ? i : minIndex;
+            maxIndex = array[i] > array[maxIndex] ? i : maxIndex;
+        }
+
+        var leftIndex = shrinkLeft(array, minIndex, endLeft);
+        var rightIndex = shrinkRight(array, maxIndex, startRight);
+
+        return [leftIndex, rightIndex];
+    }
+
+    function findEndLeftSubSeq(array){
+        for (var i = 1; i < array.length; i ++){
+            if (array[i] < array[i - 1]){
+                return (i - 1);
+            }
+        }
+        return (array.length - 1);
+    }
+
+    function findStartRightSubSeq(array){
+
+        for (var i = array.length - 2; i >= 0; i --){
+
+            if (array[i] > array[i + 1]){
+                return (i + 1);
+            }
+        }
+        return 0;
+    }
+
+
+    function shrinkLeft(array, minIndex, start){
+
+        var comp = array[minIndex];
+        for(var i = start - 1; i >= 0; i --){
+            if (array[i] <= comp){
+                return (i + 1);
+            }
+        }
+        return 0;
+    }
+
+    function shrinkRight(array, maxIndex, start){
+
+        var comp = array[maxIndex];
+        for(var i = start; i < array.length; i ++){
+            if (array[i] >= comp){
+                return (i - 1);
+            }
+        }
+        return array.length - 1;
+    }
+
 
     var arrayDiv = document.getElementById('array');
     var arrayRange = document.getElementById('array_range');
@@ -131,23 +229,35 @@ to sort the entire array.
         return out;
     }
 
-    function displayArray(array, className){
+    function displayArray(array, className, divName){
 
-        arrayDiv.innerHTML = '';
+        var div = document.getElementById(divName);
+        div.innerHTML = '';
+
         for (var i = 0; i < array.length; i ++){
 
             var s = document.createElement('span');
             s.className = className;
             s.innerHTML = array[i];
 
-            arrayDiv.appendChild(s);
+            div.appendChild(s);
         }
     }
 
     function refreshDemo(){
 
         var array = getRandomishArray();
-        displayArray(array, 'array-element');
+        displayArray(array, 'array-element', 'array');
+
+        var indexes = findUnsortedSeq(array);
+
+        if (indexes == 1){
+            document.getElementById('array_range').style.color = 'green';
+            document.getElementById('array_range').innerHTML = 'Array already sorted!';
+            return;
+        }
+
+        displayArray(array.slice(indexes[0], indexes[1] + 1), 'array-element-highlight', 'array_range');
 
 
     }

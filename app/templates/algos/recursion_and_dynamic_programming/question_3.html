@@ -1,0 +1,170 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_recursion_and_dynamic_programming', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Recursion</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_recursion_and_dynamic_programming', q_num=0)}}" >Back to Recursion</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Magic Index
+{%endblock%}
+
+{%block quick_explanation%}Find an element in an array equal to its index value.{%endblock%}
+
+{%block question_explanation%}
+
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p>...</p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>...</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+<p><span class="step">Step 2</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+    {%block q_name%}
+    'magic_index_8.3'
+    {%endblock%}
+
+
+    function magicIndex(array){
+        return magicIndexHelper(array, 0, array.length - 1);
+    }
+
+    function magicIndexHelper(array, start, end){
+
+        if (end < start){
+            return -1;
+        }
+        var midIndex = (start + end) / 2;
+        var midValue = array[midIndex];
+
+        if (midValue == midIndex){
+            return midIndex;
+        }
+
+        var leftIndex = Math.min(midIndex - 1, midValue);
+        var left = magicIndexHelper(array, start, leftIndex);
+        if (left >= 0){
+            return left;
+        }
+
+        var rightIndex = Math.max(midIndex + 1, midValue);
+        var right = magicIndexHelper(array, rightIndex, end);
+
+        return right;
+    }
+
+    function randArray(){
+
+        var size = 10, max = 10, min = 0;
+        var out = [];
+        for (var i = 0; i < size; i ++){
+            var val = Math.floor(Math.random() * (max - min)) + min;
+            out.push(val);
+            min = val + 1;
+            max = min + 10;
+        }
+        return out;
+    }
+
+    function refreshDemo(){
+
+        console.clear();
+        var array = randArray();
+        console.log(array);
+
+        var mIndex = magicIndex(array);
+        console.log(mIndex);
+
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

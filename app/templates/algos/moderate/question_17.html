@@ -1,0 +1,194 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.array-element{
+    padding:10px;
+    margin:5px;
+    color:black;
+    background-color:white;
+}
+.array-element-highlight{
+    padding:10px;
+    margin:5px;
+    color:green;
+    background-color:orange;
+    font-weight:bold;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_moderate', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Moderate</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_moderate', q_num=0)}}" >Back to Moderate</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Contiguous Sequence
+{%endblock%}
+
+{%block quick_explanation%}Find the sub-array that sums to largest number.{%endblock%}
+
+{%block question_explanation%}
+Given an array of positive and negative numbers, find the sub-array that sums to the largest number.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p></p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <div><p>Array:</p>
+            <p id="array"></p>
+        </div>
+
+        <div><p>Maximum sum: <span style="font-weight:bold;color:green;" id="max_sum"></span></p>
+            <p id="sub_array"></p>
+        </div>
+
+
+    </div>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>The idea is to note that we would never include a sub-section of a sub-sequence of positive or negative numbers in the
+    sub-array that gives the largest sum.</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span> Since we would never include a sub-section of a sub-sequence of only positive or negative numbers
+    in the sub-array that give the largest sum, a helpful way to think about the array is to group positive and negative sub-sequences.
+    For example, the array <span class="code">[-2, -4, 2, 3, -5, 3]</span> becomes <span class="code">[{-6}, {5}, {-5}, {3}]</span>.
+</p>
+
+<p><span class="step">Step 2</span> Then we simply iterate through the array updating the maximum sum whenever the
+    current sum exceeds the maximum and zeroing the sum whenever it goes negative (i.e. it is not worth it to include the elements
+    adding up to the current sum). By construction, this idea applies to the original array and can be implemented as:
+</p>
+<section>
+    <div class="code-lines">
+        <script src="https://gist.github.com/frezafoltran/68b8975e35415b909c6106474f73a35e.js"></script>
+    </div>
+</section>
+
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/fcfb2dd0181e48ff23ba14f6fe6358ea.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+      {%block q_name%}
+      'contiguous_sequence_16.17'
+      {%endblock%}
+
+
+    function getMaxSum(array){
+
+        var maxSum = 0;
+        var sum = 0;
+        var start, end;
+        for (var i = 0; i < array.length; i ++){
+            sum += array[i];
+            if (maxSum < sum){
+                end = i;
+                maxSum = sum;
+            }
+            else if (sum < 0){
+                start = i;
+                sum = 0;
+            }
+        }
+        return maxSum;
+    }
+
+    var arrayDiv = document.getElementById('array');
+    var arrayRange = document.getElementById('array_range');
+
+    function getRandomArray(){
+
+        var len = 5, out = [];
+        for (var i = 0; i < len; i++){
+            out.push(Math.floor( Math.random() * (50 - (-50))) - 50);
+        }
+        return out;
+    }
+
+    function displayArray(array, className1, className2, divName){
+
+        var div = document.getElementById(divName);
+        div.innerHTML = '';
+
+        for (var i = 0; i < array.length; i ++){
+
+            var s = document.createElement('span');
+            s.className = (array[i] < 0) ? className2 : className1;
+            s.innerHTML = array[i];
+
+            div.appendChild(s);
+        }
+    }
+
+    function refreshDemo(){
+
+        var array = getRandomArray();
+        displayArray(array, 'array-element', 'array-element-highlight', 'array');
+
+        document.getElementById('max_sum').innerHTML = getMaxSum(array);
+
+
+    }
+
+
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

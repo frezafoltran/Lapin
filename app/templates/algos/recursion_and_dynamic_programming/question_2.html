@@ -1,0 +1,243 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block style%}
+.box{
+padding:10px;
+background-color:rgba(30, 144, 255, 0.6);
+color:white;
+margin:3px;
+}
+{%endblock%}
+
+{%block back_to%}
+<a href="{{url_for('main.algos_recursion_and_dynamic_programming', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Recursion</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_recursion_and_dynamic_programming', q_num=0)}}" >Back to Recursion</a>
+{%endblock%}
+
+{%block tags%}
+
+{%endblock%}
+
+{%block sim_questions%}
+
+{%endblock%}
+
+{%block sim_questions_side%}
+
+{%endblock%}
+
+{%block question_name%}
+    Robot In Grid
+{%endblock%}
+
+{%block quick_explanation%}Guide a robot through a mined field.{%endblock%}
+
+{%block question_explanation%}
+Assume a 2 dimensional N by N matrix represents a mined field. A robot starts at position (0, 0) and must traverse
+to position (N- 1, N -1). The robot can only walk to its right and downwards and cannot step on a mine. Write an
+algorithm to find a path (if any) between the beginning and end of the robot's journey.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+
+    <p>This algorithm has some cool applications in game designs. Similar ideas could, for example, be used to design levels
+    of difficulty in a game.</p>
+    <p><a style="cursor:pointer" onclick="refreshDemo()">Refresh</a></p>
+    <div class="container row">
+
+        <canvas id="canvas"></canvas>
+    </div>
+    <p id="no-path" style="color:red"></p>
+
+
+{%endblock%}
+
+{%block code_intuition%}
+<p>...</p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+<p><span class="step">Step 2</span>
+</p>
+<section>
+    <div class="code-lines">
+    </div>
+</section>
+
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+    <p>---</p>
+{%endblock%}
+
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/3ec6d7db02ff2911bea419fdba039c14.js"></script>
+{%endblock%}
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+    //to be used in dynamodb
+    {%block q_name%}
+    'robot_in_grid_8.2'
+    {%endblock%}
+
+    function Point(x, y){
+      this.x = x;
+      this.y = y;
+    }
+
+    function getPath(maze){
+
+      if (!maze || maze.length == 0){
+        return null;
+      }
+
+      var path = [];
+      var failedPoints = {};
+
+      if (getPathHelper(maze, maze.length - 1, maze[0].length - 1, path, failedPoints)){
+        return path;
+      }
+
+      return null;
+    }
+
+    function getPathHelper(maze, row, col, path, failedPoints){
+
+
+      if (col < 0 || row < 0 || !maze[row][col]){
+        return false;
+      }
+      var p = new Point(row, col);
+
+      if (failedPoints[[p.x, p.y]]){
+        return false;
+      }
+
+      var isAtOrigin = (row == 0) && (col == 0);
+
+      if (isAtOrigin || getPathHelper(maze, row, col - 1, path, failedPoints) ||
+         getPathHelper(maze, row - 1, col, path, failedPoints)){
+        path.push(p);
+        return true;
+      }
+
+      failedPoints[[p.x, p.y]] = 1;
+      return false;
+    }
+
+    function getRandField(){
+
+        var size = 10;
+        var field = [];
+
+        for (var i = 0; i < size; i ++){
+            field.push([]);
+            for (var j = 0; j < size; j ++){
+
+                if ((i == 0 && j == 0) || (i == size - 1 && j == size - 1)){
+                    field[i].push(true);
+                    continue;
+                }
+                field[i].push(Math.random() >= 0.2);
+            }
+        }
+
+        return field;
+    }
+
+    function printPath(path, divide){
+
+        var noPathMsg = document.getElementById('no-path');
+        if (!path){
+            noPathMsg.innerHTML = 'There is no path!';
+            return;
+        }
+
+        noPathMsg.innerHTML = '';
+        ctx.strokeStyle = 'green';
+        ctx.fillStyle = 'green';
+
+
+        for (var i = 0; i < path.length; i ++){
+            ctx.beginPath();
+            ctx.arc(path[i].x * divide + 0.5 * divide, path[i].y * divide + 0.5 * divide, divide / 2, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+        }
+
+    }
+
+    function printField(field){
+
+        var divide = c.width / field.length;
+
+        for (var i = 0; i < field.length; i ++){
+
+            for (var j = 0; j < field.length; j ++){
+
+                ctx.fillStyle = field[i][j] ? 'white' : 'red';
+                ctx.fillRect(i * divide, j * divide, divide, divide);
+            }
+        }
+
+    }
+
+    var c = document.getElementById('canvas');
+    var ctx = c.getContext('2d');
+
+    c.width = 200;
+    c.height = 200;
+    c.style.border = 'solid 1px black';
+
+    function refreshDemo(){
+
+        console.clear();
+        ctx.clearRect(0, 0, c.width, c.height);
+
+        var randomField = getRandField();
+        printField(randomField);
+
+        var path = getPath(randomField);
+        printPath(path, c.width / randomField.length);
+
+    }
+
+
+    refreshDemo();
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

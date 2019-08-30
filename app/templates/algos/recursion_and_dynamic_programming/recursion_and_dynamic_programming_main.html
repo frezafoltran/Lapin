@@ -1,0 +1,59 @@
+{%extends "algos/topic_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block topic_name%}dynamic programming questions{%endblock%}
+
+{%block question_list%}
+
+        {%set questions = [['Triple Step', 'Find how many different ways you can climb up a staircase.'],
+                           ['Robot in Grid (NE)', 'Guide a robot through a mined field.'],
+                           ['Magic Index', 'Find an element in an array equal to its index value.']
+
+        ]%}
+
+        {%for i in range(1, 4)%}
+        <div class="question">
+           <h3><a href = "{{ url_for('main.algos_recursion_and_dynamic_programming', q_num = i) }}">
+            {{questions[i - 1][0]}}</a></h3>
+            <h4>
+                {%for j in questions[i - 1][1:]%}
+                {{j}}
+                <br>
+                {%endfor%}
+            </h4>
+        </div>
+        {%endfor%}
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+<script>
+
+    var numQuestions = 26;
+    var numCompleted = 0;
+    var numAppCompleted = 0;
+
+    //questions completed contribute with 1/numQuestions
+    //questions with app completed contribute 1/(2*numQuestions)
+    var progressBar = document.getElementById('progress_bar');
+
+    var currProgress = (numCompleted / numQuestions + numAppCompleted / (2*numQuestions)) * 100;
+
+    progressBar.style.width = currProgress.toString() + '%';
+    progressBar.innerHTML = parseInt(currProgress).toString() + '%';
+
+    {%block chapter_num%}
+    8
+    {%endblock%}
+
+
+</script>
+
+
+{%endblock%}

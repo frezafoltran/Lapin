@@ -314,6 +314,16 @@ def algos_hard(q_num):
         return render_template('algos/hard/question_' + str(q_num) + '.html')
 
 
+@bp.route('/algos/recursion_and_dynamic_programming/<q_num>', methods=['GET', 'POST'])
+def algos_recursion_and_dynamic_programming(q_num):
+
+    if q_num == '0':
+        return render_template('algos/recursion_and_dynamic_programming/recursion_and_dynamic_programming_main.html')
+
+    else:
+        return render_template('algos/recursion_and_dynamic_programming/question_' + str(q_num) + '.html')
+
+
 @bp.route('/algos/', methods=['GET', 'POST'])
 @bp.route('/algos/<search_query>', methods=['GET', 'POST'])
 def search_clean(search_query):

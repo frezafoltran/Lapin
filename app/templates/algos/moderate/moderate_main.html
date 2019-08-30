@@ -24,11 +24,12 @@
                            ['Bisect Rectangles (NE)', 'Find a line segment that bisects two rectangles.'],
                            ['Best Line (NE)', 'Find the line that intersects the most points.'],
                            ['Master Mind (NE)', 'Design the guessing game Master Mind.'],
-                           ['Sub Sort', 'Find smallest sub-array that needs to be sorted to sort array.']
+                           ['Sub Sort', 'Find smallest sub-array that needs to be sorted to sort array.'],
+                           ['Contiguous Sequence', 'Find the sub-array that sums to largest number.']
 
         ]%}
 
-        {%for i in range(1, 17)%}
+        {%for i in range(1, 18)%}
         <div class="question">
            <h3><a href = "{{ url_for('main.algos_moderate', q_num = i) }}">
             {{questions[i - 1][0]}}</a></h3>
@@ -53,7 +54,7 @@
 <script>
 
     var numQuestions = 26;
-    var numCompleted = 9;
+    var numCompleted = 11;
     var numAppCompleted = 4;
 
     //questions completed contribute with 1/numQuestions

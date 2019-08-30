@@ -127,7 +127,7 @@
                 <h2 class="section" style="font-size:70px">Lapin</h2>
 
                 <h2><input id="search_query" placeholder="search some coding...">
-                    <button onclick="searchLapin()" class="search-button">
+                    <button id="search_button" onclick="searchLapin()" class="search-button">
                     <img style="height:18px;width:18px"
                          src="{{ url_for('static', filename='images/search_symbol.png') }}"></button>
                 </h2>
@@ -153,20 +153,26 @@
                                 [['Object Oriented Design', 'main.algos_object_oriented_design', 'lapin_logo.png'],
                                  ['Moderate', 'main.algos_moderate', 'lapin_logo.png'],
                                  ['Hard', 'main.algos_hard', 'lapin_logo.png']],
+
+                                [['Recursion and Dynamic Programming', 'main.algos_recursion_and_dynamic_programming', 'lapin_logo.png'],
+                                 [],
+                                 []]
                                 ]
 
                 %}
 
                 <span id="first-topic"></span>
-                {% for i in range(3)%}
+                {% for i in range(4)%}
                     <div class="row">
                         {%for j in range(3)%}
+                        {%if topics[i][j]%}
                         <div class="topic col-md-4">
                             <a class="section" href = "{{ url_for(topics[i][j][1], q_num=0) }}">
                                 <img class="topic-icon" src="{{ url_for('static', filename='images/' + topics[i][j][2]) }}">
                                 <h4>{{topics[i][j][0]}}</h4>
                                 </a>
                         </div>
+                        {%endif%}
                         {%endfor%}
                     </div>
                     <br><br>
@@ -210,7 +216,7 @@
     <script>
 
     var progressBar = document.getElementById('progress_bar');
-    var currProgress = (88 + 81 + 58 + 38 + 100 + 30 + 16 + 42 + 17) / 9;
+    var currProgress = (88 + 81 + 58 + 38 + 100 + 30 + 16 + 50 + 17) / 9;
 
     progressBar.style.width = currProgress.toString() + '%';
     progressBar.innerHTML = parseInt(currProgress).toString() + '%';
@@ -266,7 +272,6 @@
 
                         description = json['description'];
                         description = description.replace(/%20/g, ' ');
-                        console.log(description);
 
                         descriptionDiv.innerHTML = description;
                         wrapper.appendChild(descriptionDiv);
@@ -281,38 +286,48 @@
 
     }
 
-    function displayResults(sortedResults, query){
+    var resultsDiv = document.getElementById('results');
 
-        var resultsDiv = document.getElementById('results');
-        resultsDiv.innerHTML = '';
+    function displayResults(sortedResults, query, showHeader){
 
-        var resultFor = document.createElement('p');
-        resultFor.className = 'section';
+        if (showHeader){
+            var resultFor = document.createElement('p');
+            resultFor.className = 'section';
 
-        if (sortedResults.length == 0){
-            resultFor.innerHTML = 'No matches for ';
+            if (sortedResults.length == 0){
+                resultFor.innerHTML = 'No matches for ';
+            }
+            else{
+                resultFor.innerHTML = 'Matches for ';
+            }
+
+            var s = document.createElement('span');
+            s.innerHTML = query;
+            s.style.color = 'rgb(192, 80, 77)';
+
+            resultFor.appendChild(s);
+            resultsDiv.appendChild(resultFor);
         }
-        else{
-            resultFor.innerHTML = 'Matches for ';
-        }
 
-        var s = document.createElement('span');
-        s.innerHTML = query;
-        s.style.color = 'rgb(192, 80, 77)';
-
-        resultFor.appendChild(s);
-        resultsDiv.appendChild(resultFor);
 
         addEachResult(sortedResults, resultsDiv, 0);
 
     }
 
-    function searchLapin(){
+    $(document).ready(function(){
+        $('#search_query').keypress(function(e){
+          if(e.keyCode==13)
+          $('#search_button').click();
+        });
+    });
 
-        var originalQuery = document.getElementById('search_query').value;
-        var query = originalQuery.toLowerCase();
+    function searchEachWord(queryList, originalQuery,  i){
 
-        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/!' + query)
+        if (i > queryList.length - 1){
+            return null;
+        }
+
+        fetch('https://ixhfi1trf3.execute-api.us-east-2.amazonaws.com/firstAPI/update-search/!' + queryList[i])
               .then(function(response) {
 
                 return response.json();
@@ -320,17 +335,62 @@
               .then(function(json) {
 
                 if (json['out'] == - 1){
-                    displayResults([], originalQuery);
-                    return;
+                    displayResults([], originalQuery, i == 0);
+                    return (i + 1);
                 }
 
                 delete json["word"];
                 var sortedResults = orderResults(json);
 
-                displayResults(sortedResults, originalQuery);
+                displayResults(sortedResults, originalQuery, i == 0);
 
+                return (i + 1);
+              })
+              .then(function(index){
+
+                searchEachWord(queryList, originalQuery, index);
 
               });
+    }
+
+    function preProcessQuery(queryList){
+
+        var notRelevant = ['in', 'a', 'to', 'on'];
+        var out = [];
+        var toAdd = true;
+
+        for (var i = 0; i < queryList.length; i ++){
+
+            for (var j = 0; j < notRelevant.length; j ++){
+                if (queryList[i] == notRelevant[j]){
+                    toAdd = false;
+                    break;
+                }
+            }
+
+            if (toAdd && queryList[i]){
+                out.push(queryList[i]);
+            }
+            toAdd = true;
+        }
+
+        return out;
+    }
+
+    function searchLapin(){
+
+        resultsDiv.innerHTML = '';
+
+        var originalQuery = document.getElementById('search_query').value;
+        var query = originalQuery.toLowerCase();
+        var queryList = query.split(' ');
+
+        //get rid of not so relevant words
+        queryList = preProcessQuery(queryList);
+
+        console.log(queryList);
+        searchEachWord(queryList, originalQuery, 0);
+
 
     }
     function decodeURL(encoded){
