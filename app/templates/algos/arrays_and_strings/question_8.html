@@ -114,7 +114,7 @@ by storing a zero at the respective row and column indexes in the first row and 
 
     <script>
 
-        {%block q_name%}
+      {%block q_name%}
       'zero_matrix_1.8'
       {%endblock%}
 
@@ -228,6 +228,8 @@ by storing a zero at the respective row and column indexes in the first row and 
 
         }
 
+        resetImg();
+
         function scalePreserveAspectRatio(imgW,imgH,maxW,maxH){
           return(Math.min((maxW/imgW),(maxH/imgH)));
         }
@@ -290,8 +292,6 @@ by storing a zero at the respective row and column indexes in the first row and 
         }
         canvas.addEventListener('mousemove', pick);
         canvas.addEventListener('click', select);
-
-        resetImg();
 
     </script>
 
