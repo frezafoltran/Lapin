@@ -26,7 +26,7 @@ def before_request():
 
 @bp.route('/', methods = ['GET', 'POST'])
 def main():
-    return render_template('main.html')
+    return render_template('algos/algos_main.html')
 
 @bp.route('/index', methods=['GET','POST'])
 @login_required
