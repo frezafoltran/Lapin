@@ -1,0 +1,108 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+{%endblock%}
+
+{%block tags%}
+<a href="#">concat</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+{%endblock%}
+
+{%block question_name%}
+    Jump The Lake
+{%endblock%}
+
+{%block quick_explanation%}Check how fast a frog can jump a lake{%endblock%}
+
+{%block question_explanation%}
+    Consider an array a, where a[i] = j indicates that a leaf falls at time i at position j. Assume a frog starts at
+    position 0 and needs to get to x. Assume further that the array a only contains elements in the range 1 through x.
+    If the frog can only jump to positions that have leafs on, what's the minimal time for the frog to cross the lake?
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>Rien is here for now.</p>
+
+
+<div class="container">
+
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span></p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p></p>
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/3d8b1738b7996bfdec68c8450d79ea0b.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+    {%block q_name%}
+      'jump_the_lake_1.15'
+      {%endblock%}
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

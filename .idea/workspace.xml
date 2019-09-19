@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_10.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_11.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_12.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_13.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/sorting/question_1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/sorting/sorting_main.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_14.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/question_15.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/algos_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/algos_main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/arrays_and_strings/arrays_and_strings_main.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
