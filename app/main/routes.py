@@ -323,6 +323,15 @@ def algos_recursion_and_dynamic_programming(q_num):
     else:
         return render_template('algos/recursion_and_dynamic_programming/question_' + str(q_num) + '.html')
 
+@bp.route('/algos/sorting/<q_num>', methods=['GET', 'POST'])
+def algos_sorting(q_num):
+
+    if q_num == '0':
+        return render_template('algos/sorting/sorting_main.html')
+
+    else:
+        return render_template('algos/sorting/question_' + str(q_num) + '.html')
+
 
 @bp.route('/algos/', methods=['GET', 'POST'])
 @bp.route('/algos/<search_query>', methods=['GET', 'POST'])

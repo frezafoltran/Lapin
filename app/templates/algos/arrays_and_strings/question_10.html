@@ -1,0 +1,126 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+{%endblock%}
+
+{%block tags%}
+<a href="#">concat</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+{%endblock%}
+
+{%block question_name%}
+    Binary Gap
+{%endblock%}
+
+{%block quick_explanation%}Find the longest binary gap in a number{%endblock%}
+
+{%block question_explanation%}
+    Define a binary gap as a sequence of continuous zeros surrounded to the left and to the right by ones in a binary number.
+Given an int, find the length of the longest binary gap in the number. If there are none, return zero.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>Rien is here for now.</p>
+
+
+<div class="container">
+
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span></p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p>The algorithm has both time and space complexity <span class="code">O(1)</span>.</p>
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/52e7cd74c2a39801fc6aaa2fef63bb99.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+    {%block q_name%}
+      'binary_gap_1.10'
+      {%endblock%}
+
+    function largestGap(N){
+
+        var maxLen = 0, curLen = 0, insideGap = false;
+        var binaryN = N.toString(2);
+
+        for (var i = 0; i < binaryN.length; i ++){
+            if (binaryN[i] == '1'){
+                if (maxLen < curLen){
+                    maxLen = curLen;
+                }
+                curLen = 0;
+                insideGap = true;
+            }
+            else if (insideGap){
+                curLen ++;
+            }
+        }
+
+        return maxLen;
+    }
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
