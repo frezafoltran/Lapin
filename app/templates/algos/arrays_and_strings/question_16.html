@@ -1,0 +1,108 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+{%endblock%}
+
+{%block tags%}
+<a href="#">concat</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+{%endblock%}
+
+{%block question_name%}
+    Counter Updates
+{%endblock%}
+
+{%block quick_explanation%}Find the latest status of a number of counters{%endblock%}
+
+{%block question_explanation%}
+    Consider k counters. Given an array a such that a[i] = j indicates that counter j must be incremented at the i-th
+stage if 1 =< j <= k and that all counters must be updated to be equal to the largest valued counter at the i-th stage if
+j = k + 1, find the latest status of all k counters.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>Rien is here for now.</p>
+
+
+<div class="container">
+
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span></p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p></p>
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/3e927e77e9ee11dca4c706316c3735d9.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+    {%block q_name%}
+     'counter_updates_1.16'
+    {%endblock%}
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}

@@ -1,0 +1,107 @@
+{%extends "algos/question_base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+
+{%block style%}
+
+{%endblock%}
+
+
+{%block back_to%}
+<a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >
+<img src="{{url_for('static', filename='images/back_arrow.png')}}"
+                 style="width:80px; height:50px;padding-left:10px;"><br>
+    Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block back_to_top%}
+    <a href="{{url_for('main.algos_arrays_and_strings', q_num=0)}}" >Back to Arrays and Strings</a>
+{%endblock%}
+
+{%block sim_questions%}
+{%endblock%}
+
+{%block tags%}
+<a href="#">concat</a>
+{%endblock%}
+
+{%block sim_questions_side%}
+{%endblock%}
+
+{%block question_name%}
+    Passing Cars
+{%endblock%}
+
+{%block quick_explanation%}Calculate how many cars pass each other{%endblock%}
+
+{%block question_explanation%}
+    Given an array A such that A[i] = 1 means that the i-th car is going left and
+    A[i] = 0 means that the i-th car is going right, calculate how many crossing between cars there are.
+{%endblock%}
+
+{%block question_source%}
+
+{%endblock%}
+
+{%block code_application%}
+<p>Rien is here for now.</p>
+
+
+<div class="container">
+
+
+</div>
+{%endblock%}
+
+{%block code_intuition%}
+<p></p>
+{%endblock%}
+
+{%block code_digest%}
+<p><span class="step">Step 1</span></p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+<p><span class="step">Step 2</span> </p>
+    <section>
+        <div class="code-lines">
+        </div>
+    </section>
+
+
+
+{%endblock%}
+
+{%block code_complexity%}
+<p></p>
+{%endblock%}
+
+{%block full_code_gist%}
+    <script src="https://gist.github.com/frezafoltran/83f69155c3af039e1047a6e084b43986.js"></script>
+{%endblock%}
+
+
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+
+    <script>
+
+    {%block q_name%}
+      'passing_cars_1.18'
+      {%endblock%}
+
+
+
+
+
+
+
+    </script>
+
+
+{%endblock%}
