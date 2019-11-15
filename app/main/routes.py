@@ -339,3 +339,8 @@ def search_clean(search_query):
 
 
     return render_template('algos/algos_main.html', search_query=search_query)
+
+
+@bp.route('/aaa/', methods=['GET', 'POST'])
+def open_chef_ganz():
+    return render_template('chefGanz.html')
