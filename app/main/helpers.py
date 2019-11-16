@@ -211,4 +211,134 @@ def build_graph(edges_vec):
 
     return graph
 
+import boto3
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table("Recipes")
+
+def getRecipe(id):
+
+
+    response = table.get_item(
+        Key={
+            'recipe_id': str(id)
+        }
+    )
+
+    return response['Item']
+
+
+def writeRecipe(field_edited, val, id):
+
+    try:
+        response = table.get_item(
+            Key={
+                'recipe_id': str(id)
+            }
+        )
+
+        new_item = response['Item']
+
+    except KeyError:
+        new_item = {'recipe_id': str(id)}
+        table.put_item(
+            Item={
+                'recipe_id': "-1",
+                'num_recipes': int(id)
+            }
+        )
+
+    if field_edited == 'recipe_name':
+        new_item['recipe_name'] = val
+        new_item['query_name'] = val.lower()
+        new_item['edited'] = 1
+
+    else:
+        info = field_edited.split('-')
+        field_edited = info[0]
+
+        # indicates change in instructions
+        if field_edited == 'to_be_read':
+            step_changed = str(int(info[1]) + 1)
+
+            if new_item.get('cooking_instructions', 0) == 0:
+                new_item['cooking_instructions'] = {step_changed: {'to_be_read': val}}
+            else:
+                new_item['cooking_instructions'][step_changed] = {'to_be_read': val}
+
+            new_item['edited'] = 1
+
+        elif field_edited == 'recipe_ingredients':
+
+            val_info = val.split('-')
+            temp = new_item.get('recipe_ingredients', {})
+
+            temp[val_info[0]] = {'quantity': {'count': val_info[1], 'unit': val_info[2]}}
+            new_item['recipe_ingredients'] = temp
+
+    table.put_item(
+        Item=new_item
+    )
+
+
+def nextRecipeId():
+
+    response = table.get_item(
+        Key={
+            'recipe_id': "-1"
+        }
+    )
+
+    return int(response['Item']['num_recipes']) + 1
+
+
+
+
+def updateRecipe(field_edited, val, id):
+
+    response = table.get_item(
+        Key={
+            'recipe_id': str(id)
+        }
+    )
+
+    new_item = response['Item']
+
+    if field_edited == 'recipe_name':
+        new_item['recipe_name'] = val
+        new_item['query_name'] = val.lower()
+        new_item['edited'] = 1
+
+    else:
+        info = field_edited.split('-')
+        field_edited = info[0]
+
+        # indicates change in instructions
+        if field_edited == 'to_be_read':
+            step_changed = str(int(info[1]) + 1)
+            new_item['cooking_instructions'][step_changed]['to_be_read'] = val
+
+
+            new_item['edited'] = 1
+
+        elif field_edited == 'recipe_ingredients':
+
+            val_info = val.split('-')
+            temp = new_item['recipe_ingredients']
+
+            # delete old entry
+            del temp[val_info[0]]
+
+
+            # make sure to delete entry that was deleted by user
+            if val_info[1] != '':
+                temp[val_info[1]] = {'quantity': {'count': val_info[2], 'unit': val_info[3]}}
+
+            new_item['recipe_ingredients'] = temp
+
+    table.put_item(
+        Item=new_item
+    )
+
+
+
 

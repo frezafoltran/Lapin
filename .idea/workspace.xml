@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6724288e-98be-4f46-b87f-065abb625a19" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/templates/algos/sorting/question_2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/ganz_loading.gif" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/algos/sorting/sorting_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/algos/sorting/sorting_main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/helpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/chefGanz.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/chefGanz.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +25,13 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/static" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PyCharm_Projects\Lapin\app\static" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

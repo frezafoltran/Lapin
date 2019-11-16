@@ -1,0 +1,193 @@
+{%extends "base.html"%}
+{%import 'bootstrap/wtf.html' as wtf%}
+
+{%block app_content%}
+
+    <p style="color:gray">Hello chef! Ready to create some masterpieces?</p>
+
+    <hr>
+
+    <h4>
+        <a href = "{{ url_for('main.open_chef_ganz', recipe_id = 1) }}">Existing recipe</a>
+    </h4>
+    <h4>
+        <a style="color:green; cursor:pointer; padding:10px" onclick="saveChanges()">Save recipe (id: <span>{{recipe_id}}</span>)</a>
+    </h4>
+
+    <br>
+    <h3 id="edit_flag"></h3>
+    <h3><span style="color:blue">Name: </span>
+        <input type="text" placeholder="Recipe name" id="recipe_name">
+    </h3>
+
+    <div id="loading" style="display:none">
+        <img style="width:300px; height:300px;" src="{{ url_for('static', filename='ganz_loading.gif') }}">
+        <h3>Pushing to database!</h3>
+    </div>
+
+    <div style="padding-left:50px; padding-right:50px" id="not-loading">
+        <div class="col-md-7">
+            <h3 style="color:blue">Steps:</h3>
+            <div id="all_steps">
+
+            </div>
+            <a style="cursor:pointer; color:green" onclick="addStep()">Add a step</a>
+        </div>
+
+        <div class="col-md-2">
+            <h3 style="color:blue">Ingredients:</h3>
+
+            <div id="all_ingredients">
+                <div style="display:table">
+
+                </div>
+            </div>
+
+            <a style="cursor:pointer; color:green" onclick="addIngredient()">Add an ingredient</a>
+
+        </div>
+    </div>
+
+
+
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+        var numSteps = 1;
+        var numIngredients = 1;
+
+        var allStepsDiv = document.getElementById("all_steps");
+        var allIngsDiv = document.getElementById("all_ingredients");
+
+
+        function addStep(){
+
+        if ((numSteps == 2) && document.getElementById('step_' + (numSteps-1)).value == ''){
+                window.alert('Fill the existing step field before adding a new one!');
+                return;
+        }
+
+            var newStep = document.createElement('textarea');
+            newStep.id = "step_" + numSteps;
+            newStep.placeholder = "instructions for step " + numSteps;
+            newStep.rows = 3;
+            newStep.cols = 50;
+
+            allStepsDiv.appendChild(newStep);
+            numSteps += 1;
+        }
+
+
+        function addIngredient(){
+
+
+            if ((numIngredients == 2) && (document.getElementById('ing_name_' + (numIngredients-1)).value == '' ||
+                document.getElementById('ing_count_' + (numIngredients-1)).value == '' ||
+                document.getElementById('ing_unit_' + (numIngredients-1)).value == '' )){
+
+                window.alert('Fill the existing ingredient field before adding a new one!');
+                return;
+            }
+
+
+            var newTable = document.createElement('div');
+            newTable.style.display = 'table';
+
+            var nameWrapper = document.createElement('div');
+            nameWrapper.style.display = 'table-cell';
+
+            var ingName = document.createElement('input');
+            ingName.id = 'ing_name_' + numIngredients;
+            ingName.style.width = '200px';
+            ingName.type = 'text';
+            ingName.placeholder = 'name';
+            nameWrapper.appendChild(ingName);
+
+            var quantWrapper = document.createElement('div');
+            quantWrapper.style.display = 'table-cell';
+
+            var ingQuant = document.createElement('input');
+            ingQuant.id = 'ing_count_' + numIngredients;
+            ingQuant.style.width = '50px';
+            ingQuant.type = 'text';
+            ingQuant.placeholder = 'quantity';
+            quantWrapper.appendChild(ingQuant);
+
+
+            var unitWrapper = document.createElement('div');
+            unitWrapper.style.display = 'table-cell';
+
+            var ingUnit = document.createElement('input');
+            ingUnit.id = 'ing_unit_' + numIngredients;
+            ingUnit.style.width = '50px';
+            ingUnit.type = 'text';
+            ingUnit.placeholder = 'unit';
+            unitWrapper.appendChild(ingUnit);
+
+
+            newTable.appendChild(nameWrapper);
+            newTable.appendChild(quantWrapper);
+            newTable.appendChild(unitWrapper);
+
+            allIngsDiv.appendChild(newTable);
+            numIngredients += 1;
+
+        }
+
+        addStep();
+        addIngredient();
+
+        function saveChanges(){
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('not-loading').style.display = 'none';
+
+
+            if (document.getElementById('recipe_name').value == '' ||
+                document.getElementById('step_1').value == '' ||
+                document.getElementById('ing_name_1').value == '' ||
+                document.getElementById('ing_count_1').value == '' ||
+                document.getElementById('ing_unit_1').value == '' ){
+
+                window.alert('You must fill out all fields!')
+                return;
+            }
+
+            //add name
+            var field_edited = 'recipe_name'
+            var val = document.getElementById('recipe_name').value;
+            $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+
+            //add instructions
+            for (var i = 1; i < numSteps; i++){
+                field_edited = 'to_be_read-' + (i - 1);
+                val = document.getElementById('step_' + i).value;
+
+                $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+            }
+
+            //add ingredients
+            for (var i = 1; i < numIngredients; i ++){
+                field_edited = 'recipe_ingredients-' + i;
+
+                val = document.getElementById('ing_name_' + i).value + '-';
+                val = val + document.getElementById('ing_count_' + i).value+ '-'
+                val = val + document.getElementById('ing_unit_' + i).value;
+
+                $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+            }
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('not-loading').style.display = 'block';
+
+        }
+
+
+    </script>
+
+{%endblock%}

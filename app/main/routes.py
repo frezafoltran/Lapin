@@ -11,7 +11,7 @@ from app.models import User, Post
 from app.translate import translate
 from app.main import bp
 from app.main.helpers import path_exists, \
-    random_edges, build_graph
+    random_edges, build_graph, getRecipe, updateRecipe, writeRecipe, nextRecipeId
 
 
 
@@ -341,6 +341,63 @@ def search_clean(search_query):
     return render_template('algos/algos_main.html', search_query=search_query)
 
 
-@bp.route('/aaa/', methods=['GET', 'POST'])
-def open_chef_ganz():
-    return render_template('chefGanz.html')
+@bp.route('/jAIby19111/<recipe_id>', methods=['GET', 'POST'])
+def open_chef_ganz(recipe_id):
+
+    #make sure recipe exists
+    numRecipes = nextRecipeId() - 1
+    if int(recipe_id) > numRecipes or int(recipe_id) <= 0:
+        recipe_id = "1"
+
+    recipe_id = str(recipe_id)
+
+    json = getRecipe(recipe_id)
+    recipe_name = json['recipe_name']
+
+    # convert to list of jsons since flask does not handle jsons too well
+    temp = json['cooking_instructions']
+    recipe_instructions = []
+    for key, elem in temp.items():
+        recipe_instructions.append(elem)
+
+    temp = json['recipe_ingredients']
+    recipe_ingredients = []
+    for key, elem in temp.items():
+        count = elem['quantity']['count'] if elem['quantity']['count'] else 'None'
+        unit = elem['quantity']['unit'] if elem['quantity']['unit'] else 'None'
+
+        recipe_ingredients.append({'name': key, 'count': count, 'unit': unit})
+
+    edited_flag = json.get('edited', 0)
+
+    return render_template('chefGanz.html', recipe_name=recipe_name,
+                           recipe_ingredients=recipe_ingredients,
+                           recipe_instructions=recipe_instructions,
+                           recipe_id=int(recipe_id),
+                           num_instructions=len(recipe_instructions),
+                           num_ingredients=len(recipe_ingredients),
+                           edited_flag=edited_flag)
+
+
+@bp.route('/commit/<field_edited>/<val>/<recipe_id>', methods=['GET', 'POST'])
+def commit_ganz_changes(field_edited, val, recipe_id):
+
+    updateRecipe(field_edited, val, recipe_id)
+
+    return redirect(url_for('main.open_chef_ganz', recipe_id=recipe_id))
+
+@bp.route('/jAIby19111/new_recipe', methods=['GET', 'POST'])
+def new_chef_ganz():
+
+    return render_template('chefGanz_blank.html', recipe_id=nextRecipeId())
+
+@bp.route('/new_recipe/<field_edited>/<val>/<recipe_id>', methods=['GET', 'POST'])
+def commit_ganz_new_recipes(field_edited, val, recipe_id):
+
+    print(field_edited)
+    print(val)
+    writeRecipe(field_edited, val, recipe_id)
+
+    return render_template('chefGanz_blank.html')
+
+

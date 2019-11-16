@@ -3,8 +3,122 @@
 
 {%block app_content%}
 
-    <h1>Hello chef!</h1>
+    <p style="color:gray">Hello chef! Ready to create some masterpieces?</p>
+
+    <hr>
+
+    <h4><a style="color:red; cursor:pointer; padding:10px" onclick="saveChanges()">Commit changes</a>
+        <a href = "{{ url_for('main.open_chef_ganz', recipe_id = recipe_id + 1) }}">Another recipe</a>
+        <a style="color:blue;padding:10px" href = "{{ url_for('main.new_chef_ganz') }}">Write a recipe</a>
+    </h4>
+
+    <br>
+    <h3 id="edit_flag"></h3>
+    <h3><span style="color:blue">Name: </span>
+        <span contenteditable="true" id="recipe_name">{{recipe_name}}</span>
+    </h3>
+
+    <div id="loading" style="display:none">
+        <img style="width:300px; height:300px;" src="{{ url_for('static', filename='ganz_loading.gif') }}">
+        <h3>Pushing to database!</h3>
+    </div>
+
+    <div style="padding-left:50px; padding-right:50px" id="not-loading">
+        <div class="col-md-8">
+            <h3 style="color:blue">Steps:</h3>
+            {% for i in range(num_instructions)%}
+                <h4 contenteditable="true" id="step_{{i}}">{{recipe_instructions[i]['to_be_read']}}</h4>
+            {%endfor%}
+        </div>
+
+        <div class="col-md-4">
+            <h3 style="color:blue">Ingredients:</h3>
+            {% for i in range(num_ingredients)%}
+            <h4>
+                <span contenteditable="true" id="ing_name_{{i}}">{{recipe_ingredients[i]['name']}}</span>
+                <span contenteditable="true" id="ing_count_{{i}}">{{recipe_ingredients[i]['count']}}</span>
+                <span contenteditable="true" id="ing_unit_{{i}}">{{recipe_ingredients[i]['unit']}}</span>
+                <a style="cursor:pointer; color:red" onclick="deleteIngredient({{i}})" id="del_{{i}}">delete</a>
+            </h4>
+            {%endfor%}
+        </div>
+    </div>
+
+    {%for i in range(num_ingredients)%}
+    <span id="previous_ing_name_{{i}}" style="display:none">{{recipe_ingredients[i]['name']}}</span>
+    {%endfor%}
 
 
+{%endblock%}
+
+{%block scripts%}
+    {{super()}}
+    {{moment.include_moment()}}
+    {{moment.lang(g.locale)}}
+    <script>
+
+        var edit_flag = document.getElementById('edit_flag');
+        edit_flag.innerHTML = {{edited_flag|safe}} == 0 ? '(not yet edited)' : '(already edited)';
+        edit_flag.style.color = {{edited_flag|safe}} == 0 ? 'red' : 'green';
+
+        function deleteIngredient(i){
+
+            var name = document.getElementById('ing_name_' + i);
+            var count = document.getElementById('ing_count_' + i);
+            var unit = document.getElementById('ing_unit_' + i);
+            var del = document.getElementById('del_' + i);
+
+            name.innerHTML = '';
+            count.innerHTML = '';
+            unit.innerHTML = '';
+            del.innerHTML = '';
+
+        }
+
+        function saveChanges(){
+
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('not-loading').style.display = 'none';
+
+            edit_flag.innerHTML = '(changes saved)'
+            edit_flag.style.color = 'green';
+
+            var field_edited = '';
+            var val = ''
+
+            //check for change in name
+            field_edited = 'recipe_name'
+            val = document.getElementById('recipe_name').innerHTML;
+            $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+
+            //check for change in  instructions
+            for (var i = 0; i < {{num_instructions|safe}}; i++){
+                field_edited = 'to_be_read-' + i;
+                val = document.getElementById('step_' + i).innerHTML;
+
+                $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+            }
+
+            //check for change in ingredients
+            for (var i = 0; i < {{num_ingredients|safe}}; i ++){
+
+                field_edited = 'recipe_ingredients-' + i;
+
+                old_key = document.getElementById('previous_ing_name_' + i).innerHTML;
+                val = old_key + '-';
+                val = val + document.getElementById('ing_name_' + i).innerHTML + '-';
+                val = val + document.getElementById('ing_count_' + i).innerHTML + '-'
+                val = val + document.getElementById('ing_unit_' + i).innerHTML;
+
+
+
+                $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+            }
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('not-loading').style.display = 'block';
+        }
+
+    </script>
 
 {%endblock%}
