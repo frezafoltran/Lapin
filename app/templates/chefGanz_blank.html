@@ -20,6 +20,10 @@
         <input type="text" placeholder="Recipe name" id="recipe_name">
     </h3>
 
+    <h4><span style="color:blue">Time in minutes: </span>
+        <input type="text" placeholder="Recipe time" id="recipe_time">
+    </h4>
+
     <div id="loading" style="display:none">
         <img style="width:300px; height:300px;" src="{{ url_for('static', filename='ganz_loading.gif') }}">
         <h3>Pushing to database!</h3>
@@ -152,7 +156,8 @@
                 document.getElementById('step_1').value == '' ||
                 document.getElementById('ing_name_1').value == '' ||
                 document.getElementById('ing_count_1').value == '' ||
-                document.getElementById('ing_unit_1').value == '' ){
+                document.getElementById('ing_unit_1').value == '' ||
+                document.getElementById('recipe_time').value == ''){
 
                 window.alert('You must fill out all fields!')
                 return;
@@ -161,6 +166,11 @@
             //add name
             var field_edited = 'recipe_name'
             var val = document.getElementById('recipe_name').value;
+            $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+
+            //add time
+            var field_edited = 'recipe_time'
+            var val = document.getElementById('recipe_time').value;
             $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
 
             //add instructions
@@ -181,6 +191,7 @@
 
                 $.ajax({url: '/new_recipe/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
             }
+
 
             document.getElementById('loading').style.display = 'none';
             document.getElementById('not-loading').style.display = 'block';

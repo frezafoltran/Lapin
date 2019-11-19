@@ -252,6 +252,9 @@ def writeRecipe(field_edited, val, id):
         new_item['query_name'] = val.lower()
         new_item['edited'] = 1
 
+    elif field_edited == 'recipe_time':
+        new_item['recipe_time'] = int(val)
+
     else:
         info = field_edited.split('-')
         field_edited = info[0]
