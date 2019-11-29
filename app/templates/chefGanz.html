@@ -24,25 +24,60 @@
     </div>
 
     <div style="padding-left:50px; padding-right:50px" id="not-loading">
-        <div class="col-md-8">
-            <h3 style="color:blue">Steps:</h3>
-            {% for i in range(num_instructions)%}
-                <h4 contenteditable="true" id="step_{{i}}">{{recipe_instructions[i]['to_be_read']}}</h4>
-            {%endfor%}
+        <div class="row">
+            <div class="col-md-8">
+                <h3 style="color:blue">Steps:</h3>
+                {% for i in range(num_instructions)%}
+                    <h4 contenteditable="true" id="step_{{i}}_wrapper">
+                        <span id="step_{{i}}">{{recipe_instructions[i]['to_be_read']}}</span>
+                    <a style="cursor:pointer; color:red" onclick="deleteStep({{i}})" id="del_step_{{i}}">delete</a>
+                    </h4>
+                {%endfor%}
+            </div>
+
+            <div class="col-md-4">
+                <h3 style="color:blue">Ingredients:</h3>
+                {% for i in range(num_ingredients)%}
+                <h4>
+                    <span contenteditable="true" id="ing_name_{{i}}">{{recipe_ingredients[i]['name']}}</span>
+                    <span contenteditable="true" id="ing_count_{{i}}">{{recipe_ingredients[i]['count']}}</span>
+                    <span contenteditable="true" id="ing_unit_{{i}}">{{recipe_ingredients[i]['unit']}}</span>
+                    <a style="cursor:pointer; color:red" onclick="deleteIngredient({{i}})" id="del_{{i}}">delete</a>
+                </h4>
+                {%endfor%}
+            </div>
         </div>
 
-        <div class="col-md-4">
-            <h3 style="color:blue">Ingredients:</h3>
-            {% for i in range(num_ingredients)%}
-            <h4>
-                <span contenteditable="true" id="ing_name_{{i}}">{{recipe_ingredients[i]['name']}}</span>
-                <span contenteditable="true" id="ing_count_{{i}}">{{recipe_ingredients[i]['count']}}</span>
-                <span contenteditable="true" id="ing_unit_{{i}}">{{recipe_ingredients[i]['unit']}}</span>
-                <a style="cursor:pointer; color:red" onclick="deleteIngredient({{i}})" id="del_{{i}}">delete</a>
-            </h4>
-            {%endfor%}
+        <h3>Difference: <span>{{difference}}%</span></h3>
+        <br>
+        <hr>
+        <h2 style="color:yellow">Original below</h2>
+
+        <h3>
+            <span style="color:blue">Name: </span>
+            <span id="og_recipe_name">{{og_recipe_name}}</span>
+        </h3>
+        <div class="row">
+                <div class="col-md-8">
+                    <h3 style="color:blue">Steps:</h3>
+                    {% for i in range(og_num_instructions)%}
+                        <h4>{{og_recipe_instructions[i]['to_be_read']}}</h4>
+                    {%endfor%}
+                </div>
+
+                <div class="col-md-4">
+                    <h3 style="color:blue">Ingredients:</h3>
+                    {% for i in range(og_num_ingredients)%}
+                    <h4>
+                        <span>{{og_recipe_ingredients[i]['name']}}</span>
+                        <span>{{og_recipe_ingredients[i]['count']}}</span>
+                        <span>{{og_recipe_ingredients[i]['unit']}}</span>
+                    </h4>
+                    {%endfor%}
+                </div>
         </div>
     </div>
+
 
     {%for i in range(num_ingredients)%}
     <span id="previous_ing_name_{{i}}" style="display:none">{{recipe_ingredients[i]['name']}}</span>
@@ -60,6 +95,18 @@
         var edit_flag = document.getElementById('edit_flag');
         edit_flag.innerHTML = {{edited_flag|safe}} == 0 ? '(not yet edited)' : '(already edited)';
         edit_flag.style.color = {{edited_flag|safe}} == 0 ? 'red' : 'green';
+
+        function deleteStep(i){
+
+            var step = document.getElementById('step_' + i);
+            var step_wrapper = document.getElementById("step_" + i + "_wrapper");
+            var del = document.getElementById('del_step_' + i);
+
+            step.style.display = 'none';
+            step.innerHTML = '';
+            del.innerHTML = '';
+            step_wrapper.style.display = 'none';
+        }
 
         function deleteIngredient(i){
 
@@ -92,11 +139,18 @@
             $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
 
             //check for change in  instructions
+            var cur_step = 0;
             for (var i = 0; i < {{num_instructions|safe}}; i++){
-                field_edited = 'to_be_read-' + i;
-                val = document.getElementById('step_' + i).innerHTML;
 
-                $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+                val = document.getElementById('step_' + i).innerHTML;
+                val = val.split('/').join('frac_sym');
+                console.log(val);
+
+                if (val != ''){
+                    field_edited = 'to_be_read-' + cur_step;
+                    $.ajax({url: '/commit/' + field_edited + '/' + val + '/' + {{recipe_id|safe}}, async:false});
+                    cur_step += 1;
+                }
             }
 
             //check for change in ingredients
@@ -105,9 +159,22 @@
                 field_edited = 'recipe_ingredients-' + i;
 
                 old_key = document.getElementById('previous_ing_name_' + i).innerHTML;
+                old_key = old_key.split('/').join('frac_sym');
+                old_key = old_key.split('-').join('dash_sym');
+
                 val = old_key + '-';
-                val = val + document.getElementById('ing_name_' + i).innerHTML + '-';
-                val = val + document.getElementById('ing_count_' + i).innerHTML + '-'
+
+                ing_name = document.getElementById('ing_name_' + i).innerHTML;
+                ing_name = ing_name.split('/').join('frac_sym');
+                ing_name = ing_name.split('-').join('dash_sym');
+
+                val = val + ing_name + '-';
+
+                ing_count = document.getElementById('ing_count_' + i).innerHTML;
+                ing_count = ing_count.split('/').join('frac_sym');
+                ing_count = ing_count.split('-').join('dash_sym');
+
+                val = val + ing_count + '-'
                 val = val + document.getElementById('ing_unit_' + i).innerHTML;
 
 

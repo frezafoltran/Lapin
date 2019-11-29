@@ -215,8 +215,10 @@ import boto3
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table("Recipes")
 
-def getRecipe(id):
 
+def getRecipe(id, tableName="Recipes"):
+
+    table = dynamodb.Table(tableName)
 
     response = table.get_item(
         Key={
@@ -294,8 +296,6 @@ def nextRecipeId():
     return int(response['Item']['num_recipes']) + 1
 
 
-
-
 def updateRecipe(field_edited, val, id):
 
     response = table.get_item(
@@ -318,8 +318,14 @@ def updateRecipe(field_edited, val, id):
         # indicates change in instructions
         if field_edited == 'to_be_read':
             step_changed = str(int(info[1]) + 1)
-            new_item['cooking_instructions'][step_changed]['to_be_read'] = val
 
+            # ensure that on the first call, all steps are cleared
+            if step_changed == '1':
+                new_item['cooking_instructions'] = {}
+
+            val = val.replace('frac_sym', '/')
+            new_step = {step_changed: {'to_be_read': val}}
+            new_item['cooking_instructions'].update(new_step)
 
             new_item['edited'] = 1
 
@@ -329,12 +335,22 @@ def updateRecipe(field_edited, val, id):
             temp = new_item['recipe_ingredients']
 
             # delete old entry
-            del temp[val_info[0]]
+            old_ing_name = val_info[0].replace('frac_sym', '/')
+            old_ing_name = old_ing_name.replace('dash_sym', '-')
 
+            try:
+                del temp[old_ing_name]
+            except KeyError:
+                print('could not delete entry')
 
-            # make sure to delete entry that was deleted by user
-            if val_info[1] != '':
-                temp[val_info[1]] = {'quantity': {'count': val_info[2], 'unit': val_info[3]}}
+            ing_count = val_info[2].replace('frac_sym', '/')
+            ing_count = ing_count.replace('dash_sym', '-')
+
+            ing_name = val_info[1].replace('frac_sym', '/')
+            ing_name = ing_name.replace('dash_sym', '-')
+
+            if ing_name != '':
+                temp[ing_name] = {'quantity': {'count': ing_count, 'unit': val_info[3]}}
 
             new_item['recipe_ingredients'] = temp
 
@@ -343,5 +359,44 @@ def updateRecipe(field_edited, val, id):
     )
 
 
+def sentence_difference(a, b):
+
+    words_a = set([elem for elem in a.lower().split(' ') if elem is not ""])
+    words_b = set([elem for elem in b.lower().split(' ') if elem is not ""])
+
+    avg_size = (len(words_a) + len(words_b)) / 2
+
+    if avg_size == 0:
+        return 0
+
+    return 1 - (len(words_a.intersection(words_b)) / avg_size)
+
+
+def diff_between_instructions(instruction1, instruction2):
+    """Measures the difference (scaled from 0 to 1) between a set of sentences"""
+
+    parsed_instruction_1 = ''
+    for elem in instruction1.values():
+        parsed_instruction_1 += elem['to_be_read']
+
+    parsed_instruction_2 = ''
+    for elem in instruction2.values():
+        parsed_instruction_2 += elem['to_be_read']
+
+    sents1 = [elem for elem in parsed_instruction_1.split('.') if elem is not ""]
+    sents2 = [elem for elem in parsed_instruction_2.split('.') if elem is not ""]
+
+    # stores the differences between each sentences. We will take the min of each row (or col)
+    differences = [[0 for i in range(len(sents2))] for j in range(len(sents1))]
+
+    for row, a in enumerate(sents1):
+        for col, b in enumerate(sents2):
+            differences[row][col] = round(sentence_difference(a, b), 5)
+
+    out = 0
+    for row in differences:
+        out += min(row)
+
+    return out / len(differences)
 
 

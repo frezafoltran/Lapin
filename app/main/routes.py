@@ -11,7 +11,7 @@ from app.models import User, Post
 from app.translate import translate
 from app.main import bp
 from app.main.helpers import path_exists, \
-    random_edges, build_graph, getRecipe, updateRecipe, writeRecipe, nextRecipeId
+    random_edges, build_graph, getRecipe, updateRecipe, writeRecipe, nextRecipeId, diff_between_instructions
 
 
 
@@ -344,21 +344,24 @@ def search_clean(search_query):
 @bp.route('/jAIby19111/<recipe_id>', methods=['GET', 'POST'])
 def open_chef_ganz(recipe_id):
 
-    #make sure recipe exists
+    # make sure recipe exists
     numRecipes = nextRecipeId() - 1
     if int(recipe_id) > numRecipes or int(recipe_id) <= 0:
         recipe_id = "1"
 
     recipe_id = str(recipe_id)
 
+    # get recipe that's displayed in app
     json = getRecipe(recipe_id)
     recipe_name = json['recipe_name']
 
     # convert to list of jsons since flask does not handle jsons too well
     temp = json['cooking_instructions']
     recipe_instructions = []
-    for key, elem in temp.items():
-        recipe_instructions.append(elem)
+
+    sorted_keys = sorted([int(elem) for elem in list(temp.keys())])
+    for key in sorted_keys:
+        recipe_instructions.append(temp[str(key)])
 
     temp = json['recipe_ingredients']
     recipe_ingredients = []
@@ -370,13 +373,44 @@ def open_chef_ganz(recipe_id):
 
     edited_flag = json.get('edited', 0)
 
+    # ----------------------------------get original recipe
+    og_json = getRecipe(recipe_id, tableName="RecipeOriginals")
+
+    difference = diff_between_instructions(og_json['cooking_instructions'], json['cooking_instructions'])
+
+    og_recipe_name = og_json['recipe_name']
+
+    # convert to list of jsons since flask does not handle jsons too well
+    og_temp = og_json['cooking_instructions']
+    og_recipe_instructions = []
+
+    sorted_keys = sorted([int(elem) for elem in list(og_temp.keys())])
+
+    for key in sorted_keys:
+        og_recipe_instructions.append(og_temp[str(key)])
+
+    og_temp = json['recipe_ingredients']
+    og_recipe_ingredients = []
+    for key, elem in og_temp.items():
+        count = elem['quantity']['count'] if elem['quantity']['count'] else 'None'
+        unit = elem['quantity']['unit'] if elem['quantity']['unit'] else 'None'
+
+        og_recipe_ingredients.append({'name': key, 'count': count, 'unit': unit})
+
     return render_template('chefGanz.html', recipe_name=recipe_name,
                            recipe_ingredients=recipe_ingredients,
                            recipe_instructions=recipe_instructions,
                            recipe_id=int(recipe_id),
                            num_instructions=len(recipe_instructions),
                            num_ingredients=len(recipe_ingredients),
-                           edited_flag=edited_flag)
+                           difference=difference * 100,
+                           edited_flag=edited_flag,
+                           og_recipe_name=og_recipe_name,
+                           og_recipe_ingredients=og_recipe_ingredients,
+                           og_recipe_instructions=og_recipe_instructions,
+                           og_num_instructions=len(og_recipe_instructions),
+                           og_num_ingredients=len(og_recipe_ingredients),
+                           )
 
 
 @bp.route('/commit/<field_edited>/<val>/<recipe_id>', methods=['GET', 'POST'])
