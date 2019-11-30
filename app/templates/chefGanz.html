@@ -28,8 +28,8 @@
             <div class="col-md-8">
                 <h3 style="color:blue">Steps:</h3>
                 {% for i in range(num_instructions)%}
-                    <h4 contenteditable="true" id="step_{{i}}_wrapper">
-                        <span id="step_{{i}}">{{recipe_instructions[i]['to_be_read']}}</span>
+                    <h4 id="step_{{i}}_wrapper">
+                        <span id="step_{{i}}" contenteditable="true">{{recipe_instructions[i]['to_be_read']}}</span>
                     <a style="cursor:pointer; color:red" onclick="deleteStep({{i}})" id="del_step_{{i}}">delete</a>
                     </h4>
                 {%endfor%}
